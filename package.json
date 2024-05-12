@@ -1,0 +1,52 @@
+{
+	"name": "react-device-mockup",
+	"version": "0.0.1",
+	"description": "react-device-mockup",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"lint": "eslint --ext .tsx --ext .ts src/",
+		"format": "prettier --check ./src",
+		"start": "run-script-os",
+		"start:win32": "rmdir /s /q develop\\src\\dist && tsc -w --outDir develop\\src\\dist",
+		"start:default": "rm -rf develop/src/dist && tsc -w --outDir develop/src/dist",
+		"prepare": "run-script-os",
+		"prepare:win32": "rmdir /s /q dist && tsc",
+		"prepare:default": "rm -rf dist && tsc",
+		"start-dev": "cd develop && npm start"
+	},
+	"peerDependencies": {
+		"react": "*"
+	},
+	"devDependencies": {
+		"@testing-library/jest-dom": "^5.17.0",
+		"@testing-library/react": "^13.4.0",
+		"@testing-library/user-event": "^13.5.0",
+		"@types/jest": "^27.5.2",
+		"@types/node": "^16.18.97",
+		"@types/react": "^18.3.2",
+		"@types/react-dom": "^18.3.0",
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1",
+		"react-scripts": "5.0.1",
+		"typescript": "^4.9.5",
+		"web-vitals": "^2.1.4",
+		"eslint": "^8.19.0",
+		"prettier": "2.8.8",
+		"run-script-os": "^1.1.6"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/jung-youngmin/react-device-mockup.git"
+	},
+	"keywords": [
+		"react",
+		"mockup"
+	],
+	"author": "Jung-YoungMin <duddud311@gmail.com>",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/jung-youngmin/react-device-mockup/issues"
+	},
+	"homepage": "https://github.com/jung-youngmin/react-device-mockup#readme"
+}

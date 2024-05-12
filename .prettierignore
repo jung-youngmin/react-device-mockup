@@ -1,0 +1,4 @@
+node_modules
+dist
+develop/src/dist
+README.md
