@@ -1,0 +1,7 @@
+.myInput::placeholder {
+	color: lightgray;
+}
+
+input.myInput:focus {
+	outline: 1px solid dodgerblue;
+}
