@@ -1,0 +1,64 @@
+.card {
+	background-color: white;
+	border-radius: 16px;
+	padding: 16px;
+}
+
+.cardTitle {
+	color: "#444444";
+	margin: 8px;
+	margin-top: 0px;
+}
+
+.subLabel {
+	font-size: 14px;
+	color: slategray;
+	margin-left: 4px;
+}
+
+.screenContainer {
+	display: flex;
+	flex-direction: row;
+	flex: 1;
+	background-color: wheat;
+}
+
+.screenContainer:hover {
+	background-color: orange;
+	opacity: 0.6;
+}
+
+.appRow {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+
+.transparent {
+	background-color: transparent;
+}
+
+.colorSample {
+	width: 20px;
+	height: 20px;
+	border-radius: 20px;
+	margin-bottom: 6px;
+	margin-left: 8px;
+	background-color: white;
+}
+
+.flexRowWrap {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.flexColWrap {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+}
+
+.flexAlignEnd {
+	display: flex;
+	align-items: flex-end;
+}

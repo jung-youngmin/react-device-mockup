@@ -15,8 +15,8 @@ export default function InputButton(props: IInputButtonProps) {
 
 	return (
 		<div style={props.style}>
-			<span style={{ fontSize: 14, color: "slategray", marginLeft: 8 }}>{props.label}</span>
-			<div style={{ display: "flex", flexDirection: "row" /* border: "1px solid red" */ }}>
+			<span className={styles.subLabel}>{props.label}</span>
+			<div style={{ display: "flex", flexDirection: "row" }}>
 				<input
 					type={props.inputType}
 					value={text}

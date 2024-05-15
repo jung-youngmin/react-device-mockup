@@ -1,6 +1,6 @@
 .App {
-	/* text-align: center; */
-	min-width: 400;
+	min-width: 400px;
+	padding: 16px;
 }
 
 .App-logo {
@@ -38,38 +38,9 @@
 	}
 }
 
-.screenContainer {
-	display: flex;
-	flex: 1;
-	background-color: wheat;
-	padding-left: 8px;
-	padding-right: 8px;
-	margin: 0px;
-	border-style: none;
-	border-width: 0;
-	border-color: transparent;
-}
-
-.screenContainer:hover {
-	background-color: red;
-	opacity: 0.6;
-}
-
-.appRow {
-	/* border: 1px solid red; */
-	margin-top: 16px;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-around;
-}
-
-.appIcon {
-	width: 36px;
-	height: 36px;
-	background-color: #777777;
-	border-radius: 8px;
-}
-
-.transparent {
-	background-color: transparent;
+h1,
+h2,
+h3,
+h4 {
+	color: #333333;
 }

@@ -24,7 +24,7 @@ export default function ColorkButton(props: ICheckButtonProps) {
 	return (
 		<button
 			style={{
-				backgroundColor: props.isActive ? "dodgerblue" : "lightgray",
+				backgroundColor: props.isActive ? "dodgerblue" : "#e0e0e0e0",
 				color: props.isActive ? "white" : "slategray",
 				border: "none",
 				padding: 8,

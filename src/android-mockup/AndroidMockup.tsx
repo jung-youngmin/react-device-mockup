@@ -1,6 +1,7 @@
+import { Property } from "csstype";
 import { CSSProperties, PropsWithChildren, useMemo } from "react";
 import AndroidPortrait from "./variants/phone/AndroidPortrait";
-import { Property } from "csstype";
+import AndroidLandscape from "./variants/phone/AndroidLandscape";
 
 interface IAndroidMockupProps {
 	readonly screenWidth: number;
@@ -72,21 +73,20 @@ export default function AndroidMockup(props: AndroidMockupProps) {
 	return (
 		<div style={props.containerStlye}>
 			{isLandscape ? (
-				<></>
+				<AndroidLandscape
+					screenWidth={props.screenWidth}
+					screenRounded={!noRoundedScreen}
+					frameColor={frameColor}
+					statusbarColor={statusbarColor}
+					navigationBar={navigationBar}
+					navigationBarcolor={navigationBarcolor}
+					hideStatusBar={hideStatusBar}
+					transparentCamArea={transparentCamArea}
+					transparentNavigationBar={transparentNavigationBar}
+					hideNavigationBar={hideNavigationBar}>
+					{props.children}
+				</AndroidLandscape>
 			) : (
-				// <AndroidLandscape
-				// 	screenWidth={props.screenWidth}
-				// 	screenRounded={!noRoundedScreen}
-				// 	frameColor={frameColor}
-				// 	statusbarColor={statusbarColor}
-				// 	navigationBar={navigationBar}
-				// 	navigationBarcolor={navigationBarcolor}
-				// 	hideStatusBar={hideStatusBar}
-				// 	transparentCamArea={transparentCamArea}
-				// 	transparentNavigationBar={transparentNavigationBar}
-				// 	hideNavigationBar={hideNavigationBar}>
-				// 	{props.children}
-				// </AndroidLandscape>
 				<AndroidPortrait
 					screenWidth={props.screenWidth}
 					screenRounded={!noRoundedScreen}

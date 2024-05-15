@@ -5,3 +5,13 @@
 input.myInput:focus {
 	outline: 1px solid dodgerblue;
 }
+
+.subLabel {
+	font-size: 14px;
+	color: slategray;
+	margin-left: 4px;
+}
+
+.title:hover {
+	opacity: 0.6;
+}
