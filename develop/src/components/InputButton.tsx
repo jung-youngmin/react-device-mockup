@@ -1,17 +1,24 @@
-import { CSSProperties, HTMLInputTypeAttribute, useState } from "react";
-import ColorkButton from "./ColorkButton";
+import { CSSProperties, HTMLInputTypeAttribute, useEffect, useState } from "react";
+import ColorButton from "./ColorButton";
 import styles from "./styles.module.css";
 
 interface IInputButtonProps {
 	readonly label: string;
 	readonly inputType: HTMLInputTypeAttribute;
 	readonly defaultVal: string;
+	readonly value?: string;
 	readonly placeholder: string;
 	readonly onClickSubmit: (inputVal: string) => void;
 	readonly style?: CSSProperties;
 }
 export default function InputButton(props: IInputButtonProps) {
 	const [text, setText] = useState(props.defaultVal);
+
+	useEffect(() => {
+		if (props.value !== undefined) {
+			setText(props.value);
+		}
+	}, [props.value]);
 
 	return (
 		<div style={props.style}>
@@ -36,7 +43,7 @@ export default function InputButton(props: IInputButtonProps) {
 						setText(e.target.value);
 					}}
 				/>
-				<ColorkButton
+				<ColorButton
 					label={"reset"}
 					isActive={false}
 					showIcon={false}
@@ -46,7 +53,7 @@ export default function InputButton(props: IInputButtonProps) {
 						props.onClickSubmit(props.defaultVal);
 					}}
 				/>
-				<ColorkButton
+				<ColorButton
 					label={"submit"}
 					isActive
 					showIcon={false}

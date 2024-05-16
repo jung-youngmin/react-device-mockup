@@ -7,7 +7,7 @@
 .cardTitle {
 	color: "#444444";
 	margin: 8px;
-	margin-top: 0px;
+	margin-top: 16px;
 }
 
 .subLabel {
@@ -61,4 +61,11 @@
 .flexAlignEnd {
 	display: flex;
 	align-items: flex-end;
+}
+
+.flexBox {
+	flex: 1;
+	box-sizing: border-box;
+	margin: 16px;
+	margin-top: 0px;
 }

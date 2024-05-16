@@ -7,38 +7,53 @@ interface ICheckButtonProps {
 	readonly onClick: () => void;
 	readonly style?: CSSProperties;
 }
-export default function ColorkButton(props: ICheckButtonProps) {
+export default function ColorButton(props: ICheckButtonProps) {
 	const [hover, setHover] = useState(false);
-	const label = useMemo(() => {
+	const icon = useMemo(() => {
 		if (props.showIcon) {
 			if (props.isActive) {
-				return "⭕ " + props.label;
+				return "⭕";
 			} else {
-				return "❌ " + props.label;
+				return "❌";
 			}
 		} else {
-			return props.label;
+			return null;
 		}
-	}, [props.isActive, props.showIcon, props.label]);
+	}, [props.isActive, props.showIcon]);
 
 	return (
 		<button
 			style={{
+				display: "flex",
+				alignItems: "center",
+				boxSizing: "border-box",
 				backgroundColor: props.isActive ? "dodgerblue" : "#e0e0e0e0",
 				color: props.isActive ? "white" : "slategray",
 				border: "none",
-				padding: 8,
+				padding: 0,
 				paddingRight: 12,
-				paddingLeft: 12,
 				borderRadius: 12,
 				textWrap: "nowrap",
 				opacity: hover ? 0.6 : 1,
+				overflow: "hidden",
 				...props.style,
 			}}
 			onMouseOver={() => setHover(true)}
 			onMouseLeave={() => setHover(false)}
 			onClick={props.onClick}>
-			{label}
+			{icon !== null && (
+				<span
+					style={{
+						padding: 8,
+						paddingLeft: 12,
+						backgroundColor: props.isActive ? "#99ccff" : "lightgray",
+					}}>
+					{icon}
+				</span>
+			)}
+			<span style={{ paddingTop: 8, paddingBottom: 8, paddingLeft: props.showIcon ? 8 : 12 }}>
+				{props.label}
+			</span>
 		</button>
 	);
 }

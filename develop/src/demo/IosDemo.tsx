@@ -3,30 +3,27 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import Highlight from "react-highlight";
 import InputButton from "../components/InputButton";
 import ColorButton from "../components/ColorButton";
-import { AndroidMockup, AndroidTabMockup } from "../dist";
+import { AndroidTabMockup, IPhoneMockup } from "../dist";
 import demoStyle from "./demo.module.css";
 import ScreenDemo from "./ScreenDemo";
 import ButtonGroup from "../components/ButtonGroup";
 
-interface IAndroidDemoProps {
+interface IIosDemoDemoProps {
 	readonly mdoe: "phone" | "tab";
 }
-export default function AndroidDemo(props: IAndroidDemoProps) {
+export default function IosDemo(props: IIosDemoDemoProps) {
 	const DEFAULT_SCREEN_WIDTH = 200;
 	const DEFAULT_FRAME_COLOR = "#666666";
 	const DEFAULT_STATUS_BAR_COLOR = "#CCCCCC";
 
 	const [screenWidth, setScreenWidth] = useState(DEFAULT_SCREEN_WIDTH);
-	const [noRoundedScreen, setNoRoundedScreen] = useState(false);
+	const [screenType, setScreenType] = useState<"legacy" | "notch" | "island">("island");
 	const [isLandscape, setIsLandscape] = useState(false);
 	const [hideStatusBar, setHideStatusBar] = useState(false);
 	const [frameColor, setFrameColor] = useState<Property.Color>(DEFAULT_FRAME_COLOR);
 	const [statusbarColor, setStatusbarColor] = useState<Property.Color>(DEFAULT_STATUS_BAR_COLOR);
-	const [navBar, setNavBar] = useState<"swipe" | "bhr" | "rhb">("swipe");
-	const [navBarcolor, setNavBarcolor] = useState<Property.Color>(DEFAULT_STATUS_BAR_COLOR);
 	const [transparentNavBar, setTransparentNavBar] = useState<boolean>(false);
 	const [hideNavBar, setHideNavBar] = useState<boolean>(false);
-	const [transparentCamArea, setTransparentCamArea] = useState<boolean>(false);
 
 	const [showScreenDemo, setShowScreenDemo] = useState<boolean>(false);
 
@@ -41,29 +38,26 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 
 	const resetAll = useCallback(() => {
 		setScreenWidth(DEFAULT_SCREEN_WIDTH);
-		setNoRoundedScreen(false);
+		setScreenType("island");
 		setIsLandscape(false);
 		setHideStatusBar(false);
 		setFrameColor(DEFAULT_FRAME_COLOR);
 		setStatusbarColor(DEFAULT_STATUS_BAR_COLOR);
-		setNavBar("swipe");
-		setNavBarcolor(DEFAULT_STATUS_BAR_COLOR);
 		setTransparentNavBar(false);
 		setHideNavBar(false);
-		setTransparentCamArea(false);
 		setShowScreenDemo(false);
 	}, []);
 
 	const samplecode = useMemo(() => {
-		let code = props.mdoe === "phone" ? "<AndroidMockup" : "<AndroidTabMockup";
+		let code = props.mdoe === "phone" ? "<IPhoneMockup" : "<AndroidTabMockup";
 		code += `\n  screenWidth={${screenWidth}}`;
+
+		if (screenType !== "island") {
+			code += `\n  screenType={"${screenType}"}`;
+		}
 
 		if (isLandscape) {
 			code += `\n  isLandscape`;
-		}
-
-		if (noRoundedScreen) {
-			code += `\n  noRoundedScreen`;
 		}
 
 		if (frameColor !== DEFAULT_FRAME_COLOR) {
@@ -78,14 +72,6 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 			code += `\n  hideStatusBar`;
 		}
 
-		if (navBar !== "swipe") {
-			code += `\n  navBar={"${navBar}"}`;
-		}
-
-		if (navBarcolor !== DEFAULT_STATUS_BAR_COLOR) {
-			code += `\n  navBarcolor={"${navBarcolor}"}`;
-		}
-
 		if (transparentNavBar) {
 			code += `\n  transparentNavBar`;
 		}
@@ -94,31 +80,24 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 			code += `\n  hideNavBar`;
 		}
 
-		if (props.mdoe === "phone" && transparentCamArea) {
-			code += `\n  transparentCamArea`;
-		}
-
 		code += ">";
 
 		if (showScreenDemo) {
 			code += "\n  <YourScreenDemo />";
 		}
 
-		code += props.mdoe === "phone" ? `\n</AndroidMockup>` : `\n</AndroidTabMockup>`;
+		code += props.mdoe === "phone" ? `\n</IPhoneMockup>` : `\n</AndroidTabMockup>`;
 		return code;
 	}, [
 		props.mdoe,
 		screenWidth,
+		screenType,
 		isLandscape,
-		noRoundedScreen,
 		frameColor,
 		statusbarColor,
 		hideStatusBar,
-		navBar,
-		navBarcolor,
 		transparentNavBar,
 		hideNavBar,
-		transparentCamArea,
 		showScreenDemo,
 	]);
 
@@ -132,33 +111,27 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 					justifyContent: "center",
 				}}>
 				{props.mdoe === "phone" && (
-					<AndroidMockup
+					<IPhoneMockup
 						screenWidth={screenWidth}
+						screenType={screenType}
 						isLandscape={isLandscape}
-						noRoundedScreen={noRoundedScreen}
 						frameColor={frameColor}
 						statusbarColor={statusbarColor}
 						hideStatusBar={hideStatusBar}
-						navBar={navBar}
-						navBarcolor={navBarcolor}
 						transparentNavBar={transparentNavBar}
-						hideNavBar={hideNavBar}
-						transparentCamArea={transparentCamArea}>
+						hideNavBar={hideNavBar}>
 						{showScreenDemo && (
 							<ScreenDemo screenWidth={screenWidth} isLandscape={isLandscape} />
 						)}
-					</AndroidMockup>
+					</IPhoneMockup>
 				)}
 				{props.mdoe === "tab" && (
 					<AndroidTabMockup
 						screenWidth={screenWidth}
 						isLandscape={isLandscape}
-						noRoundedScreen={noRoundedScreen}
 						frameColor={frameColor}
 						statusbarColor={statusbarColor}
 						hideStatusBar={hideStatusBar}
-						navBar={navBar}
-						navBarcolor={navBarcolor}
 						transparentNavBar={transparentNavBar}
 						hideNavBar={hideNavBar}>
 						{showScreenDemo && (
@@ -235,13 +208,6 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 							onClick={() => setIsLandscape(prev => !prev)}
 						/>
 						<ColorButton
-							label="noRoundedScreen"
-							isActive={noRoundedScreen}
-							showIcon
-							style={{ marginRight: 16, marginTop: 16 }}
-							onClick={() => setNoRoundedScreen(prev => !prev)}
-						/>
-						<ColorButton
 							label="showScreenDemo"
 							isActive={showScreenDemo}
 							showIcon
@@ -283,40 +249,25 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 				<div className={`${demoStyle.card} ${demoStyle.flexColWrap}`}>
 					<div className={`${demoStyle.flexRowWrap} ${demoStyle.flexAlignEnd}`}>
 						<div style={{ marginRight: 30 }}>
-							<div className={demoStyle.subLabel}>navBar</div>
+							<div className={demoStyle.subLabel}>screenType</div>
 							<ButtonGroup
 								buttonData={[
 									{
-										label: "swipe",
-										isActive: navBar === "swipe",
-										onClick: () => setNavBar("swipe"),
+										label: "island",
+										isActive: screenType === "island",
+										onClick: () => setScreenType("island"),
 									},
 									{
-										label: "bhr",
-										isActive: navBar === "bhr",
-										onClick: () => setNavBar("bhr"),
+										label: "notch",
+										isActive: screenType === "notch",
+										onClick: () => setScreenType("notch"),
 									},
 									{
-										label: "rhb",
-										isActive: navBar === "rhb",
-										onClick: () => setNavBar("rhb"),
+										label: "legacy",
+										isActive: screenType === "legacy",
+										onClick: () => setScreenType("legacy"),
 									},
 								]}
-							/>
-						</div>
-						<div className={demoStyle.flexAlignEnd}>
-							<InputButton
-								label="navBarcolor"
-								inputType="text"
-								defaultVal={DEFAULT_STATUS_BAR_COLOR}
-								placeholder="navBarcolor"
-								onClickSubmit={inputVal => {
-									setNavBarcolor(inputVal);
-								}}
-							/>
-							<span
-								className={demoStyle.colorSample}
-								style={{ backgroundColor: navBarcolor }}
 							/>
 						</div>
 					</div>
@@ -335,20 +286,6 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 							style={{ marginRight: 16, marginTop: 16 }}
 							onClick={() => setHideNavBar(prev => !prev)}
 						/>
-						{props.mdoe === "phone" && (
-							<div style={{ marginTop: 8 }}>
-								<div className={demoStyle.subLabel} style={{ fontSize: 12 }}>
-									⚠️ only works when
-									<code style={{ color: "coral" }}> isLandscape=true</code>
-								</div>
-								<ColorButton
-									label="transparentCamArea"
-									isActive={transparentCamArea}
-									showIcon
-									onClick={() => setTransparentCamArea(prev => !prev)}
-								/>
-							</div>
-						)}
 					</div>
 				</div>
 			</div>

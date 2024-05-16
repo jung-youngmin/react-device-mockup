@@ -1,15 +1,14 @@
-import { Property } from "csstype";
-import React, { CSSProperties, useMemo, useState } from "react";
+import { useState } from "react";
 import logo from "./logo.svg";
 import cssStyles from "./App.module.css";
-import { AndroidMockup } from "./dist";
-import ColorkButton from "./components/ColorkButton";
-import InputButton from "./components/InputButton";
 import AndroidDemo from "./demo/AndroidDemo";
 import TouchableTitle from "./components/TouchableTitle";
+import IosDemo from "./demo/IosDemo";
 
 function App() {
-	const [showAndroidDemo, setShowAndroidDemo] = useState(false);
+	const [showAndroidDemo, setShowAndroidDemo] = useState(true);
+	const [showAndroidTabDemo, setShowAndroidTabDemo] = useState(true);
+	const [showIphoneDemo, setShowIphoneDemo] = useState(true);
 
 	return (
 		<div className={cssStyles.App}>
@@ -23,11 +22,25 @@ function App() {
 				</a>
 			</header> */}
 			<TouchableTitle
-				title="AndroidMockup"
+				title="📞 AndroidMockup"
 				isActive={showAndroidDemo}
 				onClick={() => setShowAndroidDemo(prev => !prev)}
 			/>
-			{showAndroidDemo && <AndroidDemo />}
+			{showAndroidDemo && <AndroidDemo mdoe="phone" />}
+
+			<TouchableTitle
+				title="📺 AndroidTabMockup"
+				isActive={showAndroidTabDemo}
+				onClick={() => setShowAndroidTabDemo(prev => !prev)}
+			/>
+			{showAndroidTabDemo && <AndroidDemo mdoe="tab" />}
+
+			<TouchableTitle
+				title="📞 IPhoneMockup"
+				isActive={showIphoneDemo}
+				onClick={() => setShowIphoneDemo(prev => !prev)}
+			/>
+			{showIphoneDemo && <IosDemo mdoe="phone" />}
 		</div>
 	);
 }
