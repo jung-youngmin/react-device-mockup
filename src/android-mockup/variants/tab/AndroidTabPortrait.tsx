@@ -2,10 +2,9 @@ import { Property } from "csstype";
 import { PropsWithChildren, useMemo } from "react";
 import { IAndroidMockupVariantProps, StyleSheet } from "../../../shared-types/variants-interface";
 
-export default function AndroidLandscape(
-	props: PropsWithChildren<IAndroidMockupVariantProps & { readonly transparentCamArea: boolean }>,
-) {
+export default function AndroidTabPortrait(props: PropsWithChildren<IAndroidMockupVariantProps>) {
 	const {
+		screenWidth,
 		screenRounded,
 		frameColor,
 		statusbarColor,
@@ -14,17 +13,16 @@ export default function AndroidLandscape(
 		hideStatusBar,
 		hideNavigationBar,
 		transparentNavigationBar,
-		transparentCamArea,
 	} = props;
 	const styles = useMemo(() => {
 		return getStyles(
-			props.screenWidth,
+			screenWidth,
 			screenRounded,
 			frameColor,
 			statusbarColor,
 			navigationBarcolor,
 		);
-	}, [props.screenWidth, screenRounded, frameColor, statusbarColor, navigationBarcolor]);
+	}, [screenWidth, screenRounded, frameColor, statusbarColor, navigationBarcolor]);
 
 	return (
 		<div style={styles.container}>
@@ -32,78 +30,65 @@ export default function AndroidLandscape(
 			<div style={styles.frame}>
 				{/* screen */}
 				<div style={styles.screen}>
-					{/* status bar*/}
-					{transparentCamArea === false && (
-						<div style={styles.statusbarLandscape}>
-							{/* camera */}
-							<div style={styles.cameraLandscape} />
-						</div>
-					)}
+					{/* status bar */}
+					{hideStatusBar === false && <div style={styles.statusbarPortrait}></div>}
 					{/* screen content */}
-					<div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
-						{hideStatusBar === false && <div style={styles.statusbar} />}
-						<div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
-							{props.children}
-						</div>
-						{/* navigation bar - swipe */}
-						{hideNavigationBar === false &&
-							navigationBar === "swipe" &&
-							transparentNavigationBar === false && (
-								<div style={styles.navigationLandscapeSwipe}>
-									<div style={styles.navigationSwipeBar} />
-								</div>
-							)}
+					<div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
+						{props.children}
 					</div>
-
-					{/* camera - fullScreen */}
-					{transparentCamArea && <div style={styles.cameraFullScreenLandscape} />}
-
-					{/* navigation bar - fullScreen - swipe */}
+					{/* navigation bar - swipe */}
 					{hideNavigationBar === false &&
 						navigationBar === "swipe" &&
-						transparentNavigationBar && (
-							<div style={styles.navigationFullScreenLandscapeSwipe}>
+						(transparentNavigationBar ? (
+							<div style={styles.navigationSwipeTransparent}>
 								<div style={styles.navigationSwipeBar} />
 							</div>
-						)}
-
-					{/* navigation bar - bhr */}
+						) : (
+							<div style={styles.navigationSwipe}>
+								<div style={styles.navigationSwipeBar} />
+							</div>
+						))}
+					{/* navigation bar - portrait - bhr */}
 					{hideNavigationBar === false &&
 						navigationBar === "bhr" &&
 						(transparentNavigationBar ? (
-							<div style={styles.navigationLandscapeBhrTransparent}>
-								<div style={styles.square} />
-								<div style={styles.circle} />
+							<div style={styles.navigationPortraitBhrTransparent}>
 								<div style={styles.triangle} />
+								<div style={styles.circle} />
+								<div style={styles.square} />
 							</div>
 						) : (
-							<div style={styles.navigationLandscapeBHR}>
-								<div style={styles.square} />
-								<div style={styles.circle} />
+							<div style={styles.navigationPortraitBHR}>
 								<div style={styles.triangle} />
+								<div style={styles.circle} />
+								<div style={styles.square} />
 							</div>
 						))}
 
-					{/* navigation bar - rhb */}
+					{/* navigation bar - portrait - rhb */}
 					{hideNavigationBar === false &&
 						navigationBar === "rhb" &&
 						(transparentNavigationBar ? (
-							<div style={styles.navigationLandscapeBhrTransparent}>
-								<div style={styles.triangle} />
-								<div style={styles.circle} />
+							<div style={styles.navigationPortraitBhrTransparent}>
 								<div style={styles.square} />
+								<div style={styles.circle} />
+								<div style={styles.triangle} />
 							</div>
 						) : (
-							<div style={styles.navigationLandscapeBHR}>
-								<div style={styles.triangle} />
-								<div style={styles.circle} />
+							<div style={styles.navigationPortraitBHR}>
 								<div style={styles.square} />
+								<div style={styles.circle} />
+								<div style={styles.triangle} />
 							</div>
 						))}
 				</div>
 			</div>
-			<div style={styles.volumeLandscape} />
-			<div style={styles.powerLandscape} />
+			{/* camera - portrait */}
+			<div style={styles.cameraPortraitContainer}>
+				<div style={styles.camera} />
+			</div>
+			<div style={styles.volumePortrait} />
+			<div style={styles.powerPortrait} />
 		</div>
 	);
 }
@@ -116,21 +101,21 @@ const getStyles = (
 	navigationBarcolor: Property.Color,
 ) => {
 	const getSizeWithRatio = (size: number) => {
-		const sizeRatio = Math.floor((screenWidth * size) / 2340);
+		const sizeRatio = Math.floor((screenWidth * size) / 1600);
 		return Math.max(sizeRatio, 1);
 	};
 
-	const FRAME_WIDTH = getSizeWithRatio(32);
+	const FRAME_WIDTH = getSizeWithRatio(100);
 	const HALF_FRAME_WIDTH = Math.floor(FRAME_WIDTH / 2);
 
-	const mHeight = Math.floor((screenWidth / 19.5) * 9);
+	const mHeight = Math.floor((screenWidth / 10) * 16);
 	const widthAndFrame = screenWidth + FRAME_WIDTH * 2;
 	const heightAndFrame = mHeight + FRAME_WIDTH * 2;
 
-	const frameButtonHeight = Math.floor(FRAME_WIDTH * 0.9);
-	const frameButtonPosition = mHeight + FRAME_WIDTH + HALF_FRAME_WIDTH;
+	const frameButtonWidth = Math.floor(FRAME_WIDTH * 0.7);
+	const frameButtonPosition = screenWidth + FRAME_WIDTH + HALF_FRAME_WIDTH;
 
-	const subItemSize = getSizeWithRatio(60);
+	const subItemSize = getSizeWithRatio(45);
 
 	return StyleSheet.create({
 		container: {
@@ -138,7 +123,7 @@ const getStyles = (
 			position: "relative",
 			width: widthAndFrame,
 			height: heightAndFrame,
-			paddingTop: frameButtonHeight - HALF_FRAME_WIDTH + 1,
+			paddingRight: frameButtonWidth - HALF_FRAME_WIDTH + 1,
 		},
 		frame: {
 			display: "flex",
@@ -152,41 +137,34 @@ const getStyles = (
 		},
 		screen: {
 			display: "flex",
-			flexDirection: "row",
+			flexDirection: "column",
 			position: "relative",
 			width: screenWidth,
 			height: mHeight,
 			backgroundColor: "whitesmoke",
-			overflow: "hidden",
 		},
-		statusbarLandscape: {
+		statusbarPortrait: {
 			display: "flex",
 			flexDirection: "column",
-			width: getSizeWithRatio(90),
-			height: "100%",
-			backgroundColor: statusbarColor,
-			justifyContent: "center",
-		},
-		statusbar: {
-			// display: "flex",
 			// width: "100%",
 			height: getSizeWithRatio(50),
 			backgroundColor: statusbarColor,
+			alignItems: "center",
 		},
-		navigationLandscapeSwipe: {
+		navigationSwipe: {
 			display: "flex",
 			width: "100%",
-			height: getSizeWithRatio(50),
+			height: getSizeWithRatio(60),
 			backgroundColor: navigationBarcolor,
 			alignItems: "center",
 			justifyContent: "center",
 		},
-		navigationFullScreenLandscapeSwipe: {
+		navigationSwipeTransparent: {
 			display: "flex",
 			position: "absolute",
 			bottom: 0,
 			width: "100%",
-			height: getSizeWithRatio(50),
+			height: getSizeWithRatio(60),
 			alignItems: "center",
 			justifyContent: "center",
 			pointerEvents: "none",
@@ -197,48 +175,46 @@ const getStyles = (
 			width: getSizeWithRatio(350),
 			height: getSizeWithRatio(15),
 		},
-		navigationLandscapeBHR: {
+		navigationPortraitBHR: {
 			display: "flex",
 			position: "relative",
-			flexDirection: "column",
-			width: getSizeWithRatio(120),
-			// height: "100%",
-			paddingTop: getSizeWithRatio(260),
-			paddingBottom: getSizeWithRatio(260),
+			// width: "100%",
+			height: getSizeWithRatio(80),
 			backgroundColor: navigationBarcolor,
+			paddingLeft: screenWidth / 2,
+			flexDirection: "row",
 			alignItems: "center",
-			justifyContent: "space-between",
+			justifyContent: "space-evenly",
 		},
-		navigationLandscapeBhrTransparent: {
+		navigationPortraitBhrTransparent: {
 			display: "flex",
-			flexDirection: "column",
 			position: "absolute",
+			bottom: 0,
+			width: "100%",
 			boxSizing: "border-box",
-			right: 0,
-			width: getSizeWithRatio(120),
-			height: "100%",
-			paddingTop: getSizeWithRatio(260),
-			paddingBottom: getSizeWithRatio(260),
-			alignItems: "center",
-			justifyContent: "space-between",
 			pointerEvents: "none",
+			height: getSizeWithRatio(80),
+			paddingLeft: screenWidth / 2,
+			flexDirection: "row",
+			alignItems: "center",
+			justifyContent: "space-evenly",
 		},
-		volumeLandscape: {
+		powerPortrait: {
 			position: "absolute",
 			borderRadius: FRAME_WIDTH,
-			left: getSizeWithRatio(420),
-			bottom: frameButtonPosition,
-			width: getSizeWithRatio(330),
-			height: frameButtonHeight,
+			top: getSizeWithRatio(300),
+			left: frameButtonPosition,
+			width: frameButtonWidth,
+			height: getSizeWithRatio(180),
 			backgroundColor: frameColor,
 		},
-		powerLandscape: {
+		volumePortrait: {
 			position: "absolute",
 			borderRadius: FRAME_WIDTH,
-			left: getSizeWithRatio(900),
-			bottom: frameButtonPosition,
-			width: getSizeWithRatio(180),
-			height: frameButtonHeight,
+			top: getSizeWithRatio(600),
+			left: frameButtonPosition,
+			width: frameButtonWidth,
+			height: getSizeWithRatio(330),
 			backgroundColor: frameColor,
 		},
 		triangle: {
@@ -269,22 +245,20 @@ const getStyles = (
 			backgroundColor: frameColor,
 			opacity: 0.6,
 		},
-		cameraLandscape: {
-			width: subItemSize,
-			height: subItemSize,
-			borderRadius: subItemSize,
-			backgroundColor: frameColor,
-			marginLeft: getSizeWithRatio(20),
-		},
-		cameraFullScreenLandscape: {
+		cameraPortraitContainer: {
+			display: "flex",
 			position: "absolute",
-			alignSelf: "center",
-			verticalAlign: "middle",
-			left: getSizeWithRatio(20),
-			width: subItemSize,
-			height: subItemSize,
-			borderRadius: subItemSize,
-			backgroundColor: frameColor,
+			left: screenWidth + FRAME_WIDTH,
+			alignItems: "center",
+			justifyContent: "center",
+			width: FRAME_WIDTH,
+			height: "100%",
+		},
+		camera: {
+			width: getSizeWithRatio(40),
+			height: getSizeWithRatio(40),
+			borderRadius: getSizeWithRatio(40),
+			backgroundColor: statusbarColor,
 		},
 	});
 };

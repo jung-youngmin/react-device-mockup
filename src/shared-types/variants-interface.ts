@@ -21,6 +21,20 @@ export interface IAndroidMockupVariantProps {
 	readonly hideNavigationBar: boolean;
 }
 
+export interface IIosMockupVariantProps {
+	readonly screenWidth: number;
+	/** default: "#666666" */
+	readonly frameColor: Property.Color;
+	/** default: "#CCCCCC" */
+	readonly statusbarColor: Property.Color;
+	/** default: false */
+	readonly hideStatusBar: boolean;
+	/** default: false */
+	readonly transparentNavigationBar: boolean;
+	/** default: false */
+	readonly hideNavigationBar: boolean;
+}
+
 type CSSProperties = {
 	[key: string]: React.CSSProperties;
 };

@@ -61,9 +61,7 @@ export default function AndroidPortrait(props: PropsWithChildren<IAndroidMockupV
 					{hideNavigationBar === false &&
 						navigationBar === "bhr" &&
 						(transparentNavigationBar ? (
-							<div
-								// pointerEvents="none"
-								style={styles.navigationPortraitBhrTransParent}>
+							<div style={styles.navigationPortraitBhrTransParent}>
 								<div style={styles.triangle} />
 								<div style={styles.circle} />
 								<div style={styles.square} />
@@ -80,9 +78,7 @@ export default function AndroidPortrait(props: PropsWithChildren<IAndroidMockupV
 					{hideNavigationBar === false &&
 						navigationBar === "rhb" &&
 						(transparentNavigationBar ? (
-							<div
-								// pointerEvents="none"
-								style={styles.navigationPortraitBhrTransParent}>
+							<div style={styles.navigationPortraitBhrTransParent}>
 								<div style={styles.square} />
 								<div style={styles.circle} />
 								<div style={styles.triangle} />
@@ -130,7 +126,6 @@ const getStyles = (
 		container: {
 			display: "flex",
 			position: "relative",
-			// border: "1px solid blue",
 			width: widthAndFrame,
 			height: heightAndFrame,
 			paddingRight: frameButtonWidth - HALF_FRAME_WIDTH + 1,

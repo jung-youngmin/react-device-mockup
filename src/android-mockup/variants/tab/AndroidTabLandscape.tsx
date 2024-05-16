@@ -2,9 +2,7 @@ import { Property } from "csstype";
 import { PropsWithChildren, useMemo } from "react";
 import { IAndroidMockupVariantProps, StyleSheet } from "../../../shared-types/variants-interface";
 
-export default function AndroidLandscape(
-	props: PropsWithChildren<IAndroidMockupVariantProps & { readonly transparentCamArea: boolean }>,
-) {
+export default function AndroidTabLandscape(props: PropsWithChildren<IAndroidMockupVariantProps>) {
 	const {
 		screenRounded,
 		frameColor,
@@ -14,7 +12,6 @@ export default function AndroidLandscape(
 		hideStatusBar,
 		hideNavigationBar,
 		transparentNavigationBar,
-		transparentCamArea,
 	} = props;
 	const styles = useMemo(() => {
 		return getStyles(
@@ -32,75 +29,67 @@ export default function AndroidLandscape(
 			<div style={styles.frame}>
 				{/* screen */}
 				<div style={styles.screen}>
-					{/* status bar*/}
-					{transparentCamArea === false && (
-						<div style={styles.statusbarLandscape}>
-							{/* camera */}
-							<div style={styles.cameraLandscape} />
-						</div>
-					)}
+					{/* status bar */}
+					{hideStatusBar === false && <div style={styles.statusbarPortrait} />}
 					{/* screen content */}
-					<div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
-						{hideStatusBar === false && <div style={styles.statusbar} />}
-						<div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
-							{props.children}
-						</div>
-						{/* navigation bar - swipe */}
-						{hideNavigationBar === false &&
-							navigationBar === "swipe" &&
-							transparentNavigationBar === false && (
-								<div style={styles.navigationLandscapeSwipe}>
-									<div style={styles.navigationSwipeBar} />
-								</div>
-							)}
+					<div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
+						{props.children}
 					</div>
-
-					{/* camera - fullScreen */}
-					{transparentCamArea && <div style={styles.cameraFullScreenLandscape} />}
-
-					{/* navigation bar - fullScreen - swipe */}
+					{/* navigation bar - swipe */}
 					{hideNavigationBar === false &&
 						navigationBar === "swipe" &&
-						transparentNavigationBar && (
-							<div style={styles.navigationFullScreenLandscapeSwipe}>
+						(transparentNavigationBar ? (
+							<div
+								// pointerEvents="none"
+								style={styles.navigationSwipeTransparent}>
 								<div style={styles.navigationSwipeBar} />
 							</div>
-						)}
-
-					{/* navigation bar - bhr */}
+						) : (
+							<div style={styles.navigationSwipe}>
+								<div style={styles.navigationSwipeBar} />
+							</div>
+						))}
+					{/* navigation bar - landscape - bhr */}
 					{hideNavigationBar === false &&
 						navigationBar === "bhr" &&
 						(transparentNavigationBar ? (
-							<div style={styles.navigationLandscapeBhrTransparent}>
-								<div style={styles.square} />
-								<div style={styles.circle} />
+							<div
+								// pointerEvents="none"
+								style={styles.navigationLandscapeBhrTransparent}>
 								<div style={styles.triangle} />
+								<div style={styles.circle} />
+								<div style={styles.square} />
 							</div>
 						) : (
 							<div style={styles.navigationLandscapeBHR}>
-								<div style={styles.square} />
-								<div style={styles.circle} />
 								<div style={styles.triangle} />
+								<div style={styles.circle} />
+								<div style={styles.square} />
 							</div>
 						))}
-
-					{/* navigation bar - rhb */}
+					{/* navigation bar - landscape - rhb */}
 					{hideNavigationBar === false &&
 						navigationBar === "rhb" &&
 						(transparentNavigationBar ? (
-							<div style={styles.navigationLandscapeBhrTransparent}>
-								<div style={styles.triangle} />
-								<div style={styles.circle} />
+							<div
+								// pointerEvents="none"
+								style={styles.navigationLandscapeBhrTransparent}>
 								<div style={styles.square} />
+								<div style={styles.circle} />
+								<div style={styles.triangle} />
 							</div>
 						) : (
 							<div style={styles.navigationLandscapeBHR}>
-								<div style={styles.triangle} />
-								<div style={styles.circle} />
 								<div style={styles.square} />
+								<div style={styles.circle} />
+								<div style={styles.triangle} />
 							</div>
 						))}
 				</div>
+			</div>
+			{/* camera - landscape */}
+			<div style={styles.cameraLandscapeContainer}>
+				<div style={styles.camera} />
 			</div>
 			<div style={styles.volumeLandscape} />
 			<div style={styles.powerLandscape} />
@@ -116,21 +105,21 @@ const getStyles = (
 	navigationBarcolor: Property.Color,
 ) => {
 	const getSizeWithRatio = (size: number) => {
-		const sizeRatio = Math.floor((screenWidth * size) / 2340);
+		const sizeRatio = Math.floor((screenWidth * size) / 2560);
 		return Math.max(sizeRatio, 1);
 	};
 
-	const FRAME_WIDTH = getSizeWithRatio(32);
+	const FRAME_WIDTH = getSizeWithRatio(100);
 	const HALF_FRAME_WIDTH = Math.floor(FRAME_WIDTH / 2);
 
-	const mHeight = Math.floor((screenWidth / 19.5) * 9);
+	const mHeight = Math.floor((screenWidth / 16) * 10);
 	const widthAndFrame = screenWidth + FRAME_WIDTH * 2;
 	const heightAndFrame = mHeight + FRAME_WIDTH * 2;
 
-	const frameButtonHeight = Math.floor(FRAME_WIDTH * 0.9);
+	const frameButtonHeight = Math.floor(FRAME_WIDTH * 0.7);
 	const frameButtonPosition = mHeight + FRAME_WIDTH + HALF_FRAME_WIDTH;
 
-	const subItemSize = getSizeWithRatio(60);
+	const subItemSize = getSizeWithRatio(45);
 
 	return StyleSheet.create({
 		container: {
@@ -138,11 +127,12 @@ const getStyles = (
 			position: "relative",
 			width: widthAndFrame,
 			height: heightAndFrame,
-			paddingTop: frameButtonHeight - HALF_FRAME_WIDTH + 1,
+			paddingTop: frameButtonHeight - HALF_FRAME_WIDTH,
 		},
 		frame: {
 			display: "flex",
 			flexDirection: "column",
+			position: "relative",
 			backgroundColor: frameColor,
 			borderRadius: screenRounded ? getSizeWithRatio(140) : getSizeWithRatio(30),
 			borderStyle: "solid",
@@ -152,41 +142,35 @@ const getStyles = (
 		},
 		screen: {
 			display: "flex",
-			flexDirection: "row",
+			flexDirection: "column",
 			position: "relative",
 			width: screenWidth,
 			height: mHeight,
 			backgroundColor: "whitesmoke",
 			overflow: "hidden",
 		},
-		statusbarLandscape: {
+		statusbarPortrait: {
 			display: "flex",
 			flexDirection: "column",
-			width: getSizeWithRatio(90),
-			height: "100%",
-			backgroundColor: statusbarColor,
-			justifyContent: "center",
-		},
-		statusbar: {
-			// display: "flex",
-			// width: "100%",
-			height: getSizeWithRatio(50),
-			backgroundColor: statusbarColor,
-		},
-		navigationLandscapeSwipe: {
-			display: "flex",
 			width: "100%",
 			height: getSizeWithRatio(50),
+			backgroundColor: statusbarColor,
+			alignItems: "center",
+		},
+		navigationSwipe: {
+			display: "flex",
+			width: "100%",
+			height: getSizeWithRatio(60),
 			backgroundColor: navigationBarcolor,
 			alignItems: "center",
 			justifyContent: "center",
 		},
-		navigationFullScreenLandscapeSwipe: {
+		navigationSwipeTransparent: {
 			display: "flex",
 			position: "absolute",
 			bottom: 0,
 			width: "100%",
-			height: getSizeWithRatio(50),
+			height: getSizeWithRatio(60),
 			alignItems: "center",
 			justifyContent: "center",
 			pointerEvents: "none",
@@ -200,44 +184,42 @@ const getStyles = (
 		navigationLandscapeBHR: {
 			display: "flex",
 			position: "relative",
-			flexDirection: "column",
-			width: getSizeWithRatio(120),
-			// height: "100%",
-			paddingTop: getSizeWithRatio(260),
-			paddingBottom: getSizeWithRatio(260),
+			boxSizing: "border-box",
+			width: "100%",
+			height: getSizeWithRatio(80),
 			backgroundColor: navigationBarcolor,
+			paddingLeft: (screenWidth / 3) * 2,
+			flexDirection: "row",
 			alignItems: "center",
-			justifyContent: "space-between",
+			justifyContent: "space-evenly",
 		},
 		navigationLandscapeBhrTransparent: {
 			display: "flex",
-			flexDirection: "column",
 			position: "absolute",
 			boxSizing: "border-box",
-			right: 0,
-			width: getSizeWithRatio(120),
-			height: "100%",
-			paddingTop: getSizeWithRatio(260),
-			paddingBottom: getSizeWithRatio(260),
+			bottom: 0,
+			width: "100%",
+			height: getSizeWithRatio(80),
+			paddingLeft: (screenWidth / 3) * 2,
+			flexDirection: "row",
 			alignItems: "center",
-			justifyContent: "space-between",
-			pointerEvents: "none",
-		},
-		volumeLandscape: {
-			position: "absolute",
-			borderRadius: FRAME_WIDTH,
-			left: getSizeWithRatio(420),
-			bottom: frameButtonPosition,
-			width: getSizeWithRatio(330),
-			height: frameButtonHeight,
-			backgroundColor: frameColor,
+			justifyContent: "space-evenly",
 		},
 		powerLandscape: {
 			position: "absolute",
 			borderRadius: FRAME_WIDTH,
-			left: getSizeWithRatio(900),
+			left: getSizeWithRatio(300),
 			bottom: frameButtonPosition,
 			width: getSizeWithRatio(180),
+			height: frameButtonHeight,
+			backgroundColor: frameColor,
+		},
+		volumeLandscape: {
+			position: "absolute",
+			borderRadius: FRAME_WIDTH,
+			left: getSizeWithRatio(600),
+			bottom: frameButtonPosition,
+			width: getSizeWithRatio(330),
 			height: frameButtonHeight,
 			backgroundColor: frameColor,
 		},
@@ -269,22 +251,20 @@ const getStyles = (
 			backgroundColor: frameColor,
 			opacity: 0.6,
 		},
-		cameraLandscape: {
-			width: subItemSize,
-			height: subItemSize,
-			borderRadius: subItemSize,
-			backgroundColor: frameColor,
-			marginLeft: getSizeWithRatio(20),
-		},
-		cameraFullScreenLandscape: {
+		cameraLandscapeContainer: {
+			display: "flex",
 			position: "absolute",
-			alignSelf: "center",
-			verticalAlign: "middle",
-			left: getSizeWithRatio(20),
-			width: subItemSize,
-			height: subItemSize,
-			borderRadius: subItemSize,
-			backgroundColor: frameColor,
+			top: frameButtonHeight - HALF_FRAME_WIDTH,
+			alignItems: "center",
+			justifyContent: "center",
+			width: widthAndFrame,
+			height: FRAME_WIDTH,
+		},
+		camera: {
+			width: getSizeWithRatio(40),
+			height: getSizeWithRatio(40),
+			borderRadius: getSizeWithRatio(40),
+			backgroundColor: statusbarColor,
 		},
 	});
 };
