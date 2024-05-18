@@ -7,11 +7,16 @@ input.myInput:focus {
 }
 
 .subLabel {
+	display: flex;
+	box-sizing: border-box;
 	font-size: 14px;
 	color: slategray;
 	margin-left: 4px;
 }
 
+.title {
+	user-select: none;
+}
 .title:hover {
 	opacity: 0.6;
 }

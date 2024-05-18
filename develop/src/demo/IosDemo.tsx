@@ -1,15 +1,15 @@
 import { Property } from "csstype";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import Highlight from "react-highlight";
+import { useCallback, useMemo, useState } from "react";
 import InputButton from "../components/InputButton";
 import ColorButton from "../components/ColorButton";
-import { AndroidTabMockup, IPhoneMockup } from "../dist";
+import { IPadMockup, IPhoneMockup } from "../dist";
 import demoStyle from "./demo.module.css";
 import ScreenDemo from "./ScreenDemo";
 import ButtonGroup from "../components/ButtonGroup";
+import CodeBlock from "./CodeBlock";
 
 interface IIosDemoDemoProps {
-	readonly mdoe: "phone" | "tab";
+	readonly mode: "phone" | "tab";
 }
 export default function IosDemo(props: IIosDemoDemoProps) {
 	const DEFAULT_SCREEN_WIDTH = 200;
@@ -17,7 +17,8 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 	const DEFAULT_STATUS_BAR_COLOR = "#CCCCCC";
 
 	const [screenWidth, setScreenWidth] = useState(DEFAULT_SCREEN_WIDTH);
-	const [screenType, setScreenType] = useState<"legacy" | "notch" | "island">("island");
+	const [phoneScreenType, setPhoneScreenType] = useState<"legacy" | "notch" | "island">("island");
+	const [padScreenType, setPadScreenType] = useState<"legacy" | "modern">("modern");
 	const [isLandscape, setIsLandscape] = useState(false);
 	const [hideStatusBar, setHideStatusBar] = useState(false);
 	const [frameColor, setFrameColor] = useState<Property.Color>(DEFAULT_FRAME_COLOR);
@@ -27,18 +28,10 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 
 	const [showScreenDemo, setShowScreenDemo] = useState<boolean>(false);
 
-	const [isCopied, setIsCopied] = useState(false);
-	useEffect(() => {
-		if (isCopied) {
-			setTimeout(() => {
-				setIsCopied(false);
-			}, 1500);
-		}
-	}, [isCopied]);
-
 	const resetAll = useCallback(() => {
 		setScreenWidth(DEFAULT_SCREEN_WIDTH);
-		setScreenType("island");
+		setPhoneScreenType("island");
+		setPadScreenType("modern");
 		setIsLandscape(false);
 		setHideStatusBar(false);
 		setFrameColor(DEFAULT_FRAME_COLOR);
@@ -49,11 +42,15 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 	}, []);
 
 	const samplecode = useMemo(() => {
-		let code = props.mdoe === "phone" ? "<IPhoneMockup" : "<AndroidTabMockup";
+		let code = props.mode === "phone" ? "<IPhoneMockup" : "<IPadMockup";
 		code += `\n  screenWidth={${screenWidth}}`;
 
-		if (screenType !== "island") {
-			code += `\n  screenType={"${screenType}"}`;
+		if (props.mode === "phone" && phoneScreenType !== "island") {
+			code += `\n  screenType={"${phoneScreenType}"}`;
+		}
+
+		if (props.mode === "tab" && padScreenType !== "modern") {
+			code += `\n  screenType={"${padScreenType}"}`;
 		}
 
 		if (isLandscape) {
@@ -86,12 +83,13 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 			code += "\n  <YourScreenDemo />";
 		}
 
-		code += props.mdoe === "phone" ? `\n</IPhoneMockup>` : `\n</AndroidTabMockup>`;
+		code += props.mode === "phone" ? `\n</IPhoneMockup>` : `\n</IPadMockup>`;
 		return code;
 	}, [
-		props.mdoe,
+		props.mode,
 		screenWidth,
-		screenType,
+		phoneScreenType,
+		padScreenType,
 		isLandscape,
 		frameColor,
 		statusbarColor,
@@ -107,13 +105,13 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 				className={demoStyle.flexBox}
 				style={{
 					display: "flex",
-					alignItems: "center",
+					// alignItems: "center",
 					justifyContent: "center",
 				}}>
-				{props.mdoe === "phone" && (
+				{props.mode === "phone" && (
 					<IPhoneMockup
 						screenWidth={screenWidth}
-						screenType={screenType}
+						screenType={phoneScreenType}
 						isLandscape={isLandscape}
 						frameColor={frameColor}
 						statusbarColor={statusbarColor}
@@ -125,9 +123,10 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 						)}
 					</IPhoneMockup>
 				)}
-				{props.mdoe === "tab" && (
-					<AndroidTabMockup
+				{props.mode === "tab" && (
+					<IPadMockup
 						screenWidth={screenWidth}
+						screenType={padScreenType}
 						isLandscape={isLandscape}
 						frameColor={frameColor}
 						statusbarColor={statusbarColor}
@@ -137,7 +136,7 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 						{showScreenDemo && (
 							<ScreenDemo screenWidth={screenWidth} isLandscape={isLandscape} />
 						)}
-					</AndroidTabMockup>
+					</IPadMockup>
 				)}
 			</div>
 			{/* control panel */}
@@ -150,7 +149,9 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 					onClick={resetAll}
 				/>
 				<h3 className={demoStyle.cardTitle}>Common</h3>
-				<div className={`${demoStyle.card} ${demoStyle.flexColWrap}`}>
+				<div
+					className={`${demoStyle.card} ${demoStyle.flexColWrap}`}
+					style={{ paddingTop: 8 }}>
 					<div className={`${demoStyle.flexRowWrap} ${demoStyle.flexAlignEnd}`}>
 						<InputButton
 							label="✨ screenWidth"
@@ -158,12 +159,14 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 							defaultVal={DEFAULT_SCREEN_WIDTH.toString()}
 							value={screenWidth.toString()}
 							placeholder="screenWidth"
-							style={{ marginRight: 30 }}
+							className={demoStyle["mt8mr30"]}
 							onClickSubmit={inputVal => {
 								setScreenWidth(Number(inputVal));
 							}}
 						/>
 						<ButtonGroup
+							title="screenWidth Preset"
+							className={demoStyle["mt8mr30"]}
 							buttonData={[
 								{
 									label: "200",
@@ -181,9 +184,49 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 									onClick: () => setScreenWidth(400),
 								},
 							]}
-							style={{ marginRight: 30, marginTop: 4 }}
 						/>
-						<div className={demoStyle.flexAlignEnd}>
+						{props.mode === "phone" && (
+							<ButtonGroup
+								title="screenType"
+								className={demoStyle["mt8mr30"]}
+								buttonData={[
+									{
+										label: "island",
+										isActive: phoneScreenType === "island",
+										onClick: () => setPhoneScreenType("island"),
+									},
+									{
+										label: "notch",
+										isActive: phoneScreenType === "notch",
+										onClick: () => setPhoneScreenType("notch"),
+									},
+									{
+										label: "legacy",
+										isActive: phoneScreenType === "legacy",
+										onClick: () => setPhoneScreenType("legacy"),
+									},
+								]}
+							/>
+						)}
+						{props.mode === "tab" && (
+							<ButtonGroup
+								title="screenType"
+								className={demoStyle["mt8mr30"]}
+								buttonData={[
+									{
+										label: "modern",
+										isActive: padScreenType === "modern",
+										onClick: () => setPadScreenType("modern"),
+									},
+									{
+										label: "legacy",
+										isActive: padScreenType === "legacy",
+										onClick: () => setPadScreenType("legacy"),
+									},
+								]}
+							/>
+						)}
+						<div className={demoStyle.flexAlignEnd + " " + demoStyle["mt8mr30"]}>
 							<InputButton
 								label="frameColor"
 								inputType="text"
@@ -204,14 +247,14 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 							label="isLandscape"
 							isActive={isLandscape}
 							showIcon
-							style={{ marginRight: 16, marginTop: 16 }}
+							className={demoStyle["mt16mr16"]}
 							onClick={() => setIsLandscape(prev => !prev)}
 						/>
 						<ColorButton
 							label="showScreenDemo"
 							isActive={showScreenDemo}
 							showIcon
-							style={{ marginTop: 16 }}
+							className={demoStyle["mt16mr16"]}
 							onClick={() => setShowScreenDemo(prev => !prev)}
 						/>
 					</div>
@@ -219,9 +262,9 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 
 				<h3 className={demoStyle.cardTitle}>Statusbar</h3>
 				<div
-					className={`${demoStyle.card} ${demoStyle.flexRowWrap}`}
-					style={{ alignItems: "flex-end" }}>
-					<div className={demoStyle.flexAlignEnd} style={{ marginRight: 30 }}>
+					className={`${demoStyle.card} ${demoStyle.flexRowWrap} ${demoStyle.flexAlignEnd}`}
+					style={{ paddingTop: 8 }}>
+					<div className={demoStyle.flexAlignEnd + " " + demoStyle["mt8mr30"]}>
 						<InputButton
 							label="statusbarColor"
 							inputType="text"
@@ -240,74 +283,49 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 						label="hideStatusBar"
 						isActive={hideStatusBar}
 						showIcon
-						style={{ marginTop: 16 }}
+						className={demoStyle["mt16mr16"]}
 						onClick={() => setHideStatusBar(prev => !prev)}
 					/>
 				</div>
+				{props.mode === "phone" && phoneScreenType === "legacy" && (
+					<div
+						className={demoStyle.subLabel}
+						style={{ display: "initial", marginLeft: 16, marginTop: 4 }}>
+						⚠️ When <code className={demoStyle.code}> isLandscape=true </code> and
+						<code className={demoStyle.code}> screenType="legacy"</code>, status bar is
+						always hidden regardless of
+						<code className={demoStyle.code}> hideStatusBar</code>.
+					</div>
+				)}
 
 				<h3 className={demoStyle.cardTitle}>Navigation Bar</h3>
-				<div className={`${demoStyle.card} ${demoStyle.flexColWrap}`}>
-					<div className={`${demoStyle.flexRowWrap} ${demoStyle.flexAlignEnd}`}>
-						<div style={{ marginRight: 30 }}>
-							<div className={demoStyle.subLabel}>screenType</div>
-							<ButtonGroup
-								buttonData={[
-									{
-										label: "island",
-										isActive: screenType === "island",
-										onClick: () => setScreenType("island"),
-									},
-									{
-										label: "notch",
-										isActive: screenType === "notch",
-										onClick: () => setScreenType("notch"),
-									},
-									{
-										label: "legacy",
-										isActive: screenType === "legacy",
-										onClick: () => setScreenType("legacy"),
-									},
-								]}
-							/>
-						</div>
-					</div>
-					<div className={demoStyle.flexRowWrap + " " + demoStyle.flexAlignEnd}>
-						<ColorButton
-							label="transparentNavBar"
-							isActive={transparentNavBar}
-							showIcon
-							style={{ marginRight: 16, marginTop: 16 }}
-							onClick={() => setTransparentNavBar(prev => !prev)}
-						/>
-						<ColorButton
-							label="hideNavBar"
-							isActive={hideNavBar}
-							showIcon
-							style={{ marginRight: 16, marginTop: 16 }}
-							onClick={() => setHideNavBar(prev => !prev)}
-						/>
-					</div>
-				</div>
-			</div>
-			{/* code */}
-			<div
-				className={`${demoStyle.card} ${demoStyle.flexBox}`}
-				style={{ backgroundColor: "#1e1e1e" }}>
-				<div className={demoStyle.flexRowWrap} style={{ alignItems: "center" }}>
+				<div className={demoStyle.card + " " + demoStyle.flexRowWrap}>
 					<ColorButton
-						label={"📑 Copy "}
-						isActive
-						showIcon={false}
-						onClick={async () => {
-							await window.navigator.clipboard.writeText(samplecode);
-							setIsCopied(true);
-						}}
+						label="transparentNavBar"
+						isActive={transparentNavBar}
+						showIcon
+						style={{ marginRight: 16 }}
+						onClick={() => setTransparentNavBar(prev => !prev)}
 					/>
-					{isCopied && (
-						<code style={{ color: "lightgray", marginLeft: 16 }}>Copied!</code>
-					)}
+					<ColorButton
+						label="hideNavBar"
+						isActive={hideNavBar}
+						showIcon
+						style={{ marginRight: 16 }}
+						onClick={() => setHideNavBar(prev => !prev)}
+					/>
 				</div>
-				<Highlight className="react">{samplecode}</Highlight>
+				{(phoneScreenType === "legacy" || padScreenType === "legacy") && (
+					<div
+						className={demoStyle.subLabel}
+						style={{ display: "initial", marginLeft: 16, marginTop: 4 }}>
+						⚠️ When <code className={demoStyle.code}> screenType="legacy"</code>,
+						<code className={demoStyle.code}> transparentNavBar</code> and
+						<code className={demoStyle.code}> hideNavBar</code> are always ignored
+					</div>
+				)}
+				{/* code */}
+				<CodeBlock title="Code" sampleCode={samplecode} />
 			</div>
 		</div>
 	);

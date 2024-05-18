@@ -1,15 +1,15 @@
 import { Property } from "csstype";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import Highlight from "react-highlight";
+import { useCallback, useMemo, useState } from "react";
 import InputButton from "../components/InputButton";
 import ColorButton from "../components/ColorButton";
 import { AndroidMockup, AndroidTabMockup } from "../dist";
 import demoStyle from "./demo.module.css";
 import ScreenDemo from "./ScreenDemo";
 import ButtonGroup from "../components/ButtonGroup";
+import CodeBlock from "./CodeBlock";
 
 interface IAndroidDemoProps {
-	readonly mdoe: "phone" | "tab";
+	readonly mode: "phone" | "tab";
 }
 export default function AndroidDemo(props: IAndroidDemoProps) {
 	const DEFAULT_SCREEN_WIDTH = 200;
@@ -30,15 +30,6 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 
 	const [showScreenDemo, setShowScreenDemo] = useState<boolean>(false);
 
-	const [isCopied, setIsCopied] = useState(false);
-	useEffect(() => {
-		if (isCopied) {
-			setTimeout(() => {
-				setIsCopied(false);
-			}, 1500);
-		}
-	}, [isCopied]);
-
 	const resetAll = useCallback(() => {
 		setScreenWidth(DEFAULT_SCREEN_WIDTH);
 		setNoRoundedScreen(false);
@@ -55,7 +46,7 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 	}, []);
 
 	const samplecode = useMemo(() => {
-		let code = props.mdoe === "phone" ? "<AndroidMockup" : "<AndroidTabMockup";
+		let code = props.mode === "phone" ? "<AndroidMockup" : "<AndroidTabMockup";
 		code += `\n  screenWidth={${screenWidth}}`;
 
 		if (isLandscape) {
@@ -94,7 +85,7 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 			code += `\n  hideNavBar`;
 		}
 
-		if (props.mdoe === "phone" && transparentCamArea) {
+		if (props.mode === "phone" && transparentCamArea) {
 			code += `\n  transparentCamArea`;
 		}
 
@@ -104,10 +95,10 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 			code += "\n  <YourScreenDemo />";
 		}
 
-		code += props.mdoe === "phone" ? `\n</AndroidMockup>` : `\n</AndroidTabMockup>`;
+		code += props.mode === "phone" ? `\n</AndroidMockup>` : `\n</AndroidTabMockup>`;
 		return code;
 	}, [
-		props.mdoe,
+		props.mode,
 		screenWidth,
 		isLandscape,
 		noRoundedScreen,
@@ -131,7 +122,7 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 					alignItems: "center",
 					justifyContent: "center",
 				}}>
-				{props.mdoe === "phone" && (
+				{props.mode === "phone" && (
 					<AndroidMockup
 						screenWidth={screenWidth}
 						isLandscape={isLandscape}
@@ -149,7 +140,7 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 						)}
 					</AndroidMockup>
 				)}
-				{props.mdoe === "tab" && (
+				{props.mode === "tab" && (
 					<AndroidTabMockup
 						screenWidth={screenWidth}
 						isLandscape={isLandscape}
@@ -177,20 +168,24 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 					onClick={resetAll}
 				/>
 				<h3 className={demoStyle.cardTitle}>Common</h3>
-				<div className={`${demoStyle.card} ${demoStyle.flexColWrap}`}>
+				<div
+					className={`${demoStyle.card} ${demoStyle.flexColWrap}`}
+					style={{ paddingTop: 8 }}>
 					<div className={`${demoStyle.flexRowWrap} ${demoStyle.flexAlignEnd}`}>
 						<InputButton
+							className={demoStyle["mt8mr30"]}
 							label="✨ screenWidth"
 							inputType="number"
 							defaultVal={DEFAULT_SCREEN_WIDTH.toString()}
 							value={screenWidth.toString()}
 							placeholder="screenWidth"
-							style={{ marginRight: 30 }}
 							onClickSubmit={inputVal => {
 								setScreenWidth(Number(inputVal));
 							}}
 						/>
 						<ButtonGroup
+							className={demoStyle["mt8mr30"]}
+							title="screenWidth Preset"
 							buttonData={[
 								{
 									label: "200",
@@ -208,9 +203,8 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 									onClick: () => setScreenWidth(400),
 								},
 							]}
-							style={{ marginRight: 30, marginTop: 4 }}
 						/>
-						<div className={demoStyle.flexAlignEnd}>
+						<div className={demoStyle.flexAlignEnd + " " + demoStyle["mt8mr30"]}>
 							<InputButton
 								label="frameColor"
 								inputType="text"
@@ -231,21 +225,21 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 							label="isLandscape"
 							isActive={isLandscape}
 							showIcon
-							style={{ marginRight: 16, marginTop: 16 }}
+							className={demoStyle["mt16mr16"]}
 							onClick={() => setIsLandscape(prev => !prev)}
 						/>
 						<ColorButton
 							label="noRoundedScreen"
 							isActive={noRoundedScreen}
 							showIcon
-							style={{ marginRight: 16, marginTop: 16 }}
+							className={demoStyle["mt16mr16"]}
 							onClick={() => setNoRoundedScreen(prev => !prev)}
 						/>
 						<ColorButton
 							label="showScreenDemo"
 							isActive={showScreenDemo}
 							showIcon
-							style={{ marginTop: 16 }}
+							className={demoStyle["mt16mr16"]}
 							onClick={() => setShowScreenDemo(prev => !prev)}
 						/>
 					</div>
@@ -253,9 +247,9 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 
 				<h3 className={demoStyle.cardTitle}>Statusbar</h3>
 				<div
-					className={`${demoStyle.card} ${demoStyle.flexRowWrap}`}
-					style={{ alignItems: "flex-end" }}>
-					<div className={demoStyle.flexAlignEnd} style={{ marginRight: 30 }}>
+					className={`${demoStyle.card} ${demoStyle.flexRowWrap} ${demoStyle.flexAlignEnd}`}
+					style={{ paddingTop: 8 }}>
+					<div className={demoStyle.flexAlignEnd + " " + demoStyle["mt8mr30"]}>
 						<InputButton
 							label="statusbarColor"
 							inputType="text"
@@ -274,37 +268,38 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 						label="hideStatusBar"
 						isActive={hideStatusBar}
 						showIcon
-						style={{ marginTop: 16 }}
+						className={demoStyle["mt16mr16"]}
 						onClick={() => setHideStatusBar(prev => !prev)}
 					/>
 				</div>
 
 				<h3 className={demoStyle.cardTitle}>Navigation Bar</h3>
-				<div className={`${demoStyle.card} ${demoStyle.flexColWrap}`}>
+				<div
+					className={`${demoStyle.card} ${demoStyle.flexColWrap}`}
+					style={{ paddingTop: 8 }}>
 					<div className={`${demoStyle.flexRowWrap} ${demoStyle.flexAlignEnd}`}>
-						<div style={{ marginRight: 30 }}>
-							<div className={demoStyle.subLabel}>navBar</div>
-							<ButtonGroup
-								buttonData={[
-									{
-										label: "swipe",
-										isActive: navBar === "swipe",
-										onClick: () => setNavBar("swipe"),
-									},
-									{
-										label: "bhr",
-										isActive: navBar === "bhr",
-										onClick: () => setNavBar("bhr"),
-									},
-									{
-										label: "rhb",
-										isActive: navBar === "rhb",
-										onClick: () => setNavBar("rhb"),
-									},
-								]}
-							/>
-						</div>
-						<div className={demoStyle.flexAlignEnd}>
+						<ButtonGroup
+							title="navBar"
+							className={demoStyle["mt8mr30"]}
+							buttonData={[
+								{
+									label: "swipe",
+									isActive: navBar === "swipe",
+									onClick: () => setNavBar("swipe"),
+								},
+								{
+									label: "bhr",
+									isActive: navBar === "bhr",
+									onClick: () => setNavBar("bhr"),
+								},
+								{
+									label: "rhb",
+									isActive: navBar === "rhb",
+									onClick: () => setNavBar("rhb"),
+								},
+							]}
+						/>
+						<div className={demoStyle.flexAlignEnd + " " + demoStyle["mt8mr30"]}>
 							<InputButton
 								label="navBarcolor"
 								inputType="text"
@@ -325,52 +320,38 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 							label="transparentNavBar"
 							isActive={transparentNavBar}
 							showIcon
-							style={{ marginRight: 16, marginTop: 16 }}
+							className={demoStyle["mt16mr16"]}
 							onClick={() => setTransparentNavBar(prev => !prev)}
 						/>
 						<ColorButton
 							label="hideNavBar"
 							isActive={hideNavBar}
 							showIcon
-							style={{ marginRight: 16, marginTop: 16 }}
+							className={demoStyle["mt16mr16"]}
 							onClick={() => setHideNavBar(prev => !prev)}
 						/>
-						{props.mdoe === "phone" && (
-							<div style={{ marginTop: 8 }}>
-								<div className={demoStyle.subLabel} style={{ fontSize: 12 }}>
-									⚠️ only works when
-									<code style={{ color: "coral" }}> isLandscape=true</code>
-								</div>
-								<ColorButton
-									label="transparentCamArea"
-									isActive={transparentCamArea}
-									showIcon
-									onClick={() => setTransparentCamArea(prev => !prev)}
-								/>
-							</div>
+						{props.mode === "phone" && (
+							<ColorButton
+								label="transparentCamArea"
+								isActive={transparentCamArea}
+								showIcon
+								className={demoStyle["mt16mr16"]}
+								onClick={() => setTransparentCamArea(prev => !prev)}
+							/>
 						)}
 					</div>
 				</div>
-			</div>
-			{/* code */}
-			<div
-				className={`${demoStyle.card} ${demoStyle.flexBox}`}
-				style={{ backgroundColor: "#1e1e1e" }}>
-				<div className={demoStyle.flexRowWrap} style={{ alignItems: "center" }}>
-					<ColorButton
-						label={"📑 Copy "}
-						isActive
-						showIcon={false}
-						onClick={async () => {
-							await window.navigator.clipboard.writeText(samplecode);
-							setIsCopied(true);
-						}}
-					/>
-					{isCopied && (
-						<code style={{ color: "lightgray", marginLeft: 16 }}>Copied!</code>
-					)}
-				</div>
-				<Highlight className="react">{samplecode}</Highlight>
+				{props.mode === "phone" && (
+					<div
+						className={demoStyle.subLabel}
+						style={{ display: "initial", marginLeft: 16, marginTop: 4 }}>
+						⚠️ <code className={demoStyle.code}>transparentCamArea</code> only works
+						when
+						<code className={demoStyle.code}> isLandscape=true</code>
+					</div>
+				)}
+				{/* code */}
+				<CodeBlock title="Code" sampleCode={samplecode} />
 			</div>
 		</div>
 	);

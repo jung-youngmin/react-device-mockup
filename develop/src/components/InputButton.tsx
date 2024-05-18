@@ -10,6 +10,7 @@ interface IInputButtonProps {
 	readonly placeholder: string;
 	readonly onClickSubmit: (inputVal: string) => void;
 	readonly style?: CSSProperties;
+	readonly className?: string;
 }
 export default function InputButton(props: IInputButtonProps) {
 	const [text, setText] = useState(props.defaultVal);
@@ -21,7 +22,7 @@ export default function InputButton(props: IInputButtonProps) {
 	}, [props.value]);
 
 	return (
-		<div style={props.style}>
+		<div className={props.className} style={props.style}>
 			<span className={styles.subLabel}>{props.label}</span>
 			<div style={{ display: "flex", flexDirection: "row" }}>
 				<input

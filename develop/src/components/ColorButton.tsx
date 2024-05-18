@@ -6,6 +6,7 @@ interface ICheckButtonProps {
 	readonly showIcon: boolean;
 	readonly onClick: () => void;
 	readonly style?: CSSProperties;
+	readonly className?: string;
 }
 export default function ColorButton(props: ICheckButtonProps) {
 	const [hover, setHover] = useState(false);
@@ -23,6 +24,7 @@ export default function ColorButton(props: ICheckButtonProps) {
 
 	return (
 		<button
+			className={props.className}
 			style={{
 				display: "flex",
 				alignItems: "center",

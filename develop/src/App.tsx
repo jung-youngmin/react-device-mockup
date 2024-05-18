@@ -4,11 +4,28 @@ import cssStyles from "./App.module.css";
 import AndroidDemo from "./demo/AndroidDemo";
 import TouchableTitle from "./components/TouchableTitle";
 import IosDemo from "./demo/IosDemo";
+import CodeBlock from "./demo/CodeBlock";
 
 function App() {
-	const [showAndroidDemo, setShowAndroidDemo] = useState(true);
-	const [showAndroidTabDemo, setShowAndroidTabDemo] = useState(true);
-	const [showIphoneDemo, setShowIphoneDemo] = useState(true);
+	const [showAndroidDemo, setShowAndroidDemo] = useState(false);
+	const [showAndroidTabDemo, setShowAndroidTabDemo] = useState(false);
+	const [showIphoneDemo, setShowIphoneDemo] = useState(false);
+	const [showIpadDemo, setShowIpadDemo] = useState(false);
+
+	const rnImport = `import {
+  AndroidMockup,
+  AndroidTabMockup,
+  IPhoneMockup,
+  IPadMockup
+}
+from "react-native-device-mockup"`;
+	const rImport = `import {
+	AndroidMockup,
+	AndroidTabMockup,
+	IPhoneMockup,
+	IPadMockup
+  }
+  from "react-native-device-mockup"`;
 
 	return (
 		<div className={cssStyles.App}>
@@ -21,26 +38,50 @@ function App() {
 					Learn React
 				</a>
 			</header> */}
+			{/* // TODO */}
+			<TouchableTitle title="Install & import" isActive onClick={() => {}} />
+			<div style={{ display: "flex", flexWrap: "wrap" }}>
+				<CodeBlock
+					title="React"
+					language="bash"
+					sampleCode="npm install react-device-mockup"
+				/>
+				<CodeBlock title="React" language="ts" sampleCode={rImport} />
+			</div>
+			<CodeBlock
+				title="React Native"
+				language="bash"
+				sampleCode="npm install react-native-device-mockup"
+			/>
+			<CodeBlock title="React Native" language="ts" sampleCode={rnImport} />
+
 			<TouchableTitle
 				title="📞 AndroidMockup"
 				isActive={showAndroidDemo}
 				onClick={() => setShowAndroidDemo(prev => !prev)}
 			/>
-			{showAndroidDemo && <AndroidDemo mdoe="phone" />}
+			{showAndroidDemo && <AndroidDemo mode="phone" />}
 
 			<TouchableTitle
 				title="📺 AndroidTabMockup"
 				isActive={showAndroidTabDemo}
 				onClick={() => setShowAndroidTabDemo(prev => !prev)}
 			/>
-			{showAndroidTabDemo && <AndroidDemo mdoe="tab" />}
+			{showAndroidTabDemo && <AndroidDemo mode="tab" />}
 
 			<TouchableTitle
 				title="📞 IPhoneMockup"
 				isActive={showIphoneDemo}
 				onClick={() => setShowIphoneDemo(prev => !prev)}
 			/>
-			{showIphoneDemo && <IosDemo mdoe="phone" />}
+			{showIphoneDemo && <IosDemo mode="phone" />}
+
+			<TouchableTitle
+				title="📺 IPadMockup"
+				isActive={showIpadDemo}
+				onClick={() => setShowIpadDemo(prev => !prev)}
+			/>
+			{showIpadDemo && <IosDemo mode="tab" />}
 		</div>
 	);
 }

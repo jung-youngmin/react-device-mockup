@@ -1,11 +1,14 @@
 import { CSSProperties, useCallback, useMemo } from "react";
 import ColorButton from "./ColorButton";
+import styles from "./styles.module.css";
 
 type TData = { label: string; isActive: boolean; onClick: () => void };
 
 interface IButtonGroupProps {
 	readonly buttonData: TData[];
+	readonly title: string;
 	readonly style?: CSSProperties;
+	readonly className?: string;
 }
 
 export default function ButtonGroup(props: IButtonGroupProps) {
@@ -59,6 +62,9 @@ export default function ButtonGroup(props: IButtonGroupProps) {
 	);
 
 	return (
-		<div style={{ display: "flex", ...props.style }}>{props.buttonData.map(renderButtons)}</div>
+		<div className={props.className} style={{ ...props.style }}>
+			<div className={styles.subLabel}>{props.title}</div>
+			<div style={{ display: "flex" }}>{props.buttonData.map(renderButtons)}</div>
+		</div>
 	);
 }

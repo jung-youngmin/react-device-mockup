@@ -2,6 +2,7 @@
 	background-color: white;
 	border-radius: 16px;
 	padding: 16px;
+	box-shadow: 0px 0px 16px 0px #cfcfcf;
 }
 
 .cardTitle {
@@ -11,6 +12,8 @@
 }
 
 .subLabel {
+	display: flex;
+	box-sizing: border-box;
 	font-size: 14px;
 	color: slategray;
 	margin-left: 4px;
@@ -68,4 +71,19 @@
 	box-sizing: border-box;
 	margin: 16px;
 	margin-top: 0px;
+}
+
+.code {
+	color: mediumvioletred;
+	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+.mt8mr30 {
+	margin-top: 8px;
+	margin-right: 30px;
+}
+
+.mt16mr16 {
+	margin-top: 16px;
+	margin-right: 16px;
 }
