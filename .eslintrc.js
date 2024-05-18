@@ -1,61 +1,37 @@
 module.exports = {
-	env: {
-		es6: true,
-		node: true,
-	},
+	root: true,
 	extends: [
-		"eslint:recommended",
-		"plugin:react/recommended",
-		"plugin:@typescript-eslint/eslint-recommended",
-		"prettier",
 		"react-app",
+		"airbnb",
+		"plugin:import/typescript",
+		"plugin:react/jsx-runtime", // react/react-in-jsx-scope 무시
+		"eslint-config-prettier", // eslint에서 prettier와 겹치는 설정 끄는 플러그인, 가장 마지막으로 이동, "prettier"로 줄여써도 괜찮음
 	],
-	globals: {
-		Atomics: "readonly",
-		SharedArrayBuffer: "readonly",
-	},
-	parser: "@typescript-eslint/parser",
-	parserOptions: {
-		ecmaFeatures: {
-			jsx: true,
-		},
-		ecmaVersion: 2018,
-		sourceType: "module",
-	},
-	plugins: ["react", "@typescript-eslint"],
 	rules: {
-		indent: ["error", "tab"],
-		"linebreak-style": ["error", "windows"],
+		"linebreak-style": 0,
 		quotes: ["error", "double"],
-		semi: ["error", "always"],
-		"arrow-parens": ["error", "as-needed"], // a => {}
-		"no-param-reassign": ["error", { props: false }],
-		"no-unused-expressions": [
+		"no-tabs": 0,
+		"react/jsx-filename-extension": ["error", { extensions: [".ts", ".tsx"] }],
+		"import/no-unresolved": 0,
+		"import/extensions": [
 			"error",
+			"ignorePackages",
 			{
-				allowTernary: true, // a || b
-				allowShortCircuit: true, // a ? b : 0
-				allowTaggedTemplates: true,
+				ts: "never",
+				tsx: "never",
 			},
 		],
-		"import/no-extraneous-dependencies": [
-			"error",
-			{ devDependencies: true },
-		],
-		"max-len": [
-			"error",
-			{
-				code: 120,
-				ignoreComments: true,
-				ignoreStrings: true,
-				ignoreTemplateLiterals: true,
-			},
-		], // prettier의 printWidth 옵션 대신 사용
-		"prettier/prettier": [
-			"error",
-			{
-				endOfLine: "auto",
-			},
-		],
+		"react/require-default-props": 0,
+		"react/destructuring-assignment": 0,
+		"react/jsx-indent": ["error", "tab"], // jsx에서도 indent tab으로 통일
+		"react/jsx-indent-props": [1, "tab"],
+		"react/jsx-closing-bracket-location": [1, "after-props"],
+		"operator-linebreak": ["error", "after"],
+		"implicit-arrow-linebreak": 0, // => 화살표 옆에 바로 코드가 오는지
+	},
+	settings: {
+		react: {
+			version: "detect", // 프로젝트에 설치된 리액트 버전을 자동으로 감지하도록 설정
+		},
 	},
 };
