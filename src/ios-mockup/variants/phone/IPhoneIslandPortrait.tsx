@@ -2,58 +2,6 @@ import { Property } from "csstype";
 import { PropsWithChildren, useMemo } from "react";
 import { IIosMockupVariantProps, StyleSheet } from "../../../shared-types/variants-interface";
 
-export default function IPhoneIslandPortrait(props: PropsWithChildren<IIosMockupVariantProps>) {
-	const {
-		frameColor,
-		statusbarColor,
-		hideStatusBar,
-		hideNavigationBar,
-		transparentNavigationBar,
-	} = props;
-	const styles = useMemo(() => {
-		return getStyles(props.screenWidth, frameColor, statusbarColor);
-	}, [props.screenWidth, frameColor, statusbarColor]);
-
-	return (
-		<div style={styles.container}>
-			{/* frame */}
-			<div style={styles.frame}>
-				{/* screen */}
-				<div style={styles.screen}>
-					{hideStatusBar === false && (
-						<div style={styles.notchContainer}>
-							<div style={styles.island}></div>
-						</div>
-					)}
-					{/* screen content */}
-					<div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
-						{props.children}
-					</div>
-					{hideNavigationBar === false && transparentNavigationBar === false && (
-						<div style={styles.swipeContainer}>
-							<div style={styles.swipeBar} />
-						</div>
-					)}
-				</div>
-				{hideStatusBar && (
-					<div style={styles.notchContainerFullScreen}>
-						<div style={styles.island}></div>
-					</div>
-				)}
-				{hideNavigationBar === false && transparentNavigationBar && (
-					<div style={styles.swipeContainerFullScreen}>
-						<div style={styles.swipeBar} />
-					</div>
-				)}
-			</div>
-			<div style={styles.silenceSwitch} />
-			<div style={styles.volumeUp} />
-			<div style={styles.volumeDown} />
-			<div style={styles.powerPortrait} />
-		</div>
-	);
-}
-
 const getStyles = (
 	screenWidth: number,
 	frameColor: Property.Color,
@@ -194,3 +142,56 @@ const getStyles = (
 		},
 	});
 };
+
+export default function IPhoneIslandPortrait(props: PropsWithChildren<IIosMockupVariantProps>) {
+	const {
+		frameColor,
+		statusbarColor,
+		hideStatusBar,
+		hideNavigationBar,
+		transparentNavigationBar,
+	} = props;
+	const styles = useMemo(
+		() => getStyles(props.screenWidth, frameColor, statusbarColor),
+		[props.screenWidth, frameColor, statusbarColor],
+	);
+
+	return (
+		<div style={styles.container}>
+			{/* frame */}
+			<div style={styles.frame}>
+				{/* screen */}
+				<div style={styles.screen}>
+					{hideStatusBar === false && (
+						<div style={styles.notchContainer}>
+							<div style={styles.island} />
+						</div>
+					)}
+					{/* screen content */}
+					<div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
+						{props.children}
+					</div>
+					{hideNavigationBar === false && transparentNavigationBar === false && (
+						<div style={styles.swipeContainer}>
+							<div style={styles.swipeBar} />
+						</div>
+					)}
+				</div>
+				{hideStatusBar && (
+					<div style={styles.notchContainerFullScreen}>
+						<div style={styles.island} />
+					</div>
+				)}
+				{hideNavigationBar === false && transparentNavigationBar && (
+					<div style={styles.swipeContainerFullScreen}>
+						<div style={styles.swipeBar} />
+					</div>
+				)}
+			</div>
+			<div style={styles.silenceSwitch} />
+			<div style={styles.volumeUp} />
+			<div style={styles.volumeDown} />
+			<div style={styles.powerPortrait} />
+		</div>
+	);
+}

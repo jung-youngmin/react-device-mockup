@@ -2,112 +2,6 @@ import { Property } from "csstype";
 import { PropsWithChildren, useMemo } from "react";
 import { IAndroidMockupVariantProps, StyleSheet } from "../../../shared-types/variants-interface";
 
-export default function AndroidLandscape(
-	props: PropsWithChildren<IAndroidMockupVariantProps & { readonly transparentCamArea: boolean }>,
-) {
-	const {
-		screenRounded,
-		frameColor,
-		statusbarColor,
-		navigationBar,
-		navigationBarcolor,
-		hideStatusBar,
-		hideNavigationBar,
-		transparentNavigationBar,
-		transparentCamArea,
-	} = props;
-	const styles = useMemo(() => {
-		return getStyles(
-			props.screenWidth,
-			screenRounded,
-			frameColor,
-			statusbarColor,
-			navigationBarcolor,
-		);
-	}, [props.screenWidth, screenRounded, frameColor, statusbarColor, navigationBarcolor]);
-
-	return (
-		<div style={styles.container}>
-			{/* frame */}
-			<div style={styles.frame}>
-				{/* screen */}
-				<div style={styles.screen}>
-					{/* status bar*/}
-					{transparentCamArea === false && (
-						<div style={styles.statusbarLandscape}>
-							{/* camera */}
-							<div style={styles.cameraLandscape} />
-						</div>
-					)}
-					{/* screen content */}
-					<div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
-						{hideStatusBar === false && <div style={styles.statusbar} />}
-						<div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
-							{props.children}
-						</div>
-						{/* navigation bar - swipe */}
-						{hideNavigationBar === false &&
-							navigationBar === "swipe" &&
-							transparentNavigationBar === false && (
-								<div style={styles.navigationLandscapeSwipe}>
-									<div style={styles.navigationSwipeBar} />
-								</div>
-							)}
-					</div>
-
-					{/* camera - fullScreen */}
-					{transparentCamArea && <div style={styles.cameraFullScreenLandscape} />}
-
-					{/* navigation bar - fullScreen - swipe */}
-					{hideNavigationBar === false &&
-						navigationBar === "swipe" &&
-						transparentNavigationBar && (
-							<div style={styles.navigationFullScreenLandscapeSwipe}>
-								<div style={styles.navigationSwipeBar} />
-							</div>
-						)}
-
-					{/* navigation bar - bhr */}
-					{hideNavigationBar === false &&
-						navigationBar === "bhr" &&
-						(transparentNavigationBar ? (
-							<div style={styles.navigationLandscapeBhrTransparent}>
-								<div style={styles.square} />
-								<div style={styles.circle} />
-								<div style={styles.triangle} />
-							</div>
-						) : (
-							<div style={styles.navigationLandscapeBHR}>
-								<div style={styles.square} />
-								<div style={styles.circle} />
-								<div style={styles.triangle} />
-							</div>
-						))}
-
-					{/* navigation bar - rhb */}
-					{hideNavigationBar === false &&
-						navigationBar === "rhb" &&
-						(transparentNavigationBar ? (
-							<div style={styles.navigationLandscapeBhrTransparent}>
-								<div style={styles.triangle} />
-								<div style={styles.circle} />
-								<div style={styles.square} />
-							</div>
-						) : (
-							<div style={styles.navigationLandscapeBHR}>
-								<div style={styles.triangle} />
-								<div style={styles.circle} />
-								<div style={styles.square} />
-							</div>
-						))}
-				</div>
-			</div>
-			<div style={styles.volumeLandscape} />
-			<div style={styles.powerLandscape} />
-		</div>
-	);
-}
-
 const getStyles = (
 	screenWidth: number,
 	screenRounded: boolean,
@@ -288,3 +182,111 @@ const getStyles = (
 		},
 	});
 };
+
+export default function AndroidLandscape(
+	props: PropsWithChildren<IAndroidMockupVariantProps & { readonly transparentCamArea: boolean }>,
+) {
+	const {
+		screenRounded,
+		frameColor,
+		statusbarColor,
+		navigationBar,
+		navigationBarcolor,
+		hideStatusBar,
+		hideNavigationBar,
+		transparentNavigationBar,
+		transparentCamArea,
+	} = props;
+	const styles = useMemo(
+		() =>
+			getStyles(
+				props.screenWidth,
+				screenRounded,
+				frameColor,
+				statusbarColor,
+				navigationBarcolor,
+			),
+		[props.screenWidth, screenRounded, frameColor, statusbarColor, navigationBarcolor],
+	);
+
+	return (
+		<div style={styles.container}>
+			{/* frame */}
+			<div style={styles.frame}>
+				{/* screen */}
+				<div style={styles.screen}>
+					{/* status bar */}
+					{transparentCamArea === false && (
+						<div style={styles.statusbarLandscape}>
+							{/* camera */}
+							<div style={styles.cameraLandscape} />
+						</div>
+					)}
+					{/* screen content */}
+					<div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
+						{hideStatusBar === false && <div style={styles.statusbar} />}
+						<div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
+							{props.children}
+						</div>
+						{/* navigation bar - swipe */}
+						{hideNavigationBar === false &&
+							navigationBar === "swipe" &&
+							transparentNavigationBar === false && (
+								<div style={styles.navigationLandscapeSwipe}>
+									<div style={styles.navigationSwipeBar} />
+								</div>
+							)}
+					</div>
+
+					{/* camera - fullScreen */}
+					{transparentCamArea && <div style={styles.cameraFullScreenLandscape} />}
+
+					{/* navigation bar - fullScreen - swipe */}
+					{hideNavigationBar === false &&
+						navigationBar === "swipe" &&
+						transparentNavigationBar && (
+							<div style={styles.navigationFullScreenLandscapeSwipe}>
+								<div style={styles.navigationSwipeBar} />
+							</div>
+						)}
+
+					{/* navigation bar - bhr */}
+					{hideNavigationBar === false &&
+						navigationBar === "bhr" &&
+						(transparentNavigationBar ? (
+							<div style={styles.navigationLandscapeBhrTransparent}>
+								<div style={styles.square} />
+								<div style={styles.circle} />
+								<div style={styles.triangle} />
+							</div>
+						) : (
+							<div style={styles.navigationLandscapeBHR}>
+								<div style={styles.square} />
+								<div style={styles.circle} />
+								<div style={styles.triangle} />
+							</div>
+						))}
+
+					{/* navigation bar - rhb */}
+					{hideNavigationBar === false &&
+						navigationBar === "rhb" &&
+						(transparentNavigationBar ? (
+							<div style={styles.navigationLandscapeBhrTransparent}>
+								<div style={styles.triangle} />
+								<div style={styles.circle} />
+								<div style={styles.square} />
+							</div>
+						) : (
+							<div style={styles.navigationLandscapeBHR}>
+								<div style={styles.triangle} />
+								<div style={styles.circle} />
+								<div style={styles.square} />
+							</div>
+						))}
+				</div>
+			</div>
+			<div style={styles.volumeLandscape} />
+			<div style={styles.powerLandscape} />
+		</div>
+	);
+}

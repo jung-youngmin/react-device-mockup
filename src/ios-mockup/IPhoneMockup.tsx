@@ -28,33 +28,40 @@ interface IiPhoneMockupProps {
 
 export type IPhoneMockupProps = PropsWithChildren<IiPhoneMockupProps>;
 export default function IPhoneMockup(props: IPhoneMockupProps) {
-	const screenType = useMemo(() => {
-		return props.screenType === undefined ? "island" : props.screenType;
-	}, [props.screenType]);
+	const screenType = useMemo(
+		() => (props.screenType === undefined ? "island" : props.screenType),
+		[props.screenType],
+	);
 
-	const isLandscape = useMemo(() => {
-		return props.isLandscape === undefined ? false : props.isLandscape;
-	}, [props.isLandscape]);
+	const isLandscape = useMemo(
+		() => (props.isLandscape === undefined ? false : props.isLandscape),
+		[props.isLandscape],
+	);
 
-	const frameColor = useMemo(() => {
-		return props.frameColor === undefined ? "#666666" : props.frameColor;
-	}, [props.frameColor]);
+	const frameColor = useMemo(
+		() => (props.frameColor === undefined ? "#666666" : props.frameColor),
+		[props.frameColor],
+	);
 
-	const statusbarColor = useMemo(() => {
-		return props.statusbarColor === undefined ? "#CCCCCC" : props.statusbarColor;
-	}, [props.statusbarColor]);
+	const statusbarColor = useMemo(
+		() => (props.statusbarColor === undefined ? "#CCCCCC" : props.statusbarColor),
+		[props.statusbarColor],
+	);
 
-	const hideStatusBar = useMemo(() => {
-		return props.hideStatusBar === undefined ? false : props.hideStatusBar;
-	}, [props.hideStatusBar]);
+	const hideStatusBar = useMemo(
+		() => (props.hideStatusBar === undefined ? false : props.hideStatusBar),
+		[props.hideStatusBar],
+	);
 
-	const transparentNavigationBar = useMemo(() => {
-		return props.transparentNavBar === undefined ? false : props.transparentNavBar;
-	}, [props.transparentNavBar]);
+	const transparentNavigationBar = useMemo(
+		() => (props.transparentNavBar === undefined ? false : props.transparentNavBar),
+		[props.transparentNavBar],
+	);
 
-	const hideNavigationBar = useMemo(() => {
-		return props.hideNavBar === undefined ? false : props.hideNavBar;
-	}, [props.hideNavBar]);
+	const hideNavigationBar = useMemo(
+		() => (props.hideNavBar === undefined ? false : props.hideNavBar),
+		[props.hideNavBar],
+	);
 
 	const Mockup = useMemo(() => {
 		switch (screenType) {
@@ -64,28 +71,21 @@ export default function IPhoneMockup(props: IPhoneMockupProps) {
 				// transparentNavigationBar,
 				if (isLandscape) {
 					// hideStatusBar 무시
-					// return IPhoneLegacyLandscape;
-					return <></>;
-				} else {
-					// return IPhoneLegacyPortrait;
-					return <></>;
+					return IPhoneLegacyLandscape;
 				}
+				return IPhoneLegacyPortrait;
+
 			case "notch":
 				if (isLandscape) {
-					// return IPhoneNotchLandscape;
-					return <></>;
-				} else {
-					// return IPhoneNotchPortrait;
-					return <></>;
+					return IPhoneNotchLandscape;
 				}
+				return IPhoneNotchPortrait;
 			case "island":
 			default:
 				if (isLandscape) {
 					return IPhoneIslandLandscape;
-					return <></>;
-				} else {
-					return IPhoneIslandPortrait;
 				}
+				return IPhoneIslandPortrait;
 		}
 	}, [isLandscape, screenType]);
 

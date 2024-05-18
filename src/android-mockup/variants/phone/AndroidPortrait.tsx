@@ -2,102 +2,6 @@ import { Property } from "csstype";
 import { PropsWithChildren, useMemo } from "react";
 import { IAndroidMockupVariantProps, StyleSheet } from "../../../shared-types/variants-interface";
 
-export default function AndroidPortrait(props: PropsWithChildren<IAndroidMockupVariantProps>) {
-	const {
-		screenWidth,
-		screenRounded,
-		frameColor,
-		statusbarColor,
-		navigationBar,
-		navigationBarcolor,
-		hideStatusBar,
-		hideNavigationBar,
-		transparentNavigationBar,
-	} = props;
-	const styles = useMemo(() => {
-		return getStyles(
-			screenWidth,
-			screenRounded,
-			frameColor,
-			statusbarColor,
-			navigationBarcolor,
-		);
-	}, [screenWidth, screenRounded, frameColor, statusbarColor, navigationBarcolor]);
-
-	return (
-		<div style={styles.container}>
-			{/* frame */}
-			<div style={styles.frame}>
-				{/* screen */}
-				<div style={styles.screen}>
-					{/* status bar*/}
-					{hideStatusBar === false && (
-						<div style={styles.statusbarPortrait}>
-							{/* camera - portrait */}
-							<div style={styles.cameraPortrait} />
-						</div>
-					)}
-					{/* screen content */}
-					<div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
-						{props.children}
-					</div>
-					{/* camera - fullScreen - portrait */}
-					{hideStatusBar && <div style={styles.cameraFullScreenPortrait} />}
-
-					{/* navigation bar - swipe */}
-					{hideNavigationBar === false &&
-						navigationBar === "swipe" &&
-						(transparentNavigationBar ? (
-							<div style={styles.navigationFullScreenPortraitSwipe}>
-								<div style={styles.navigationSwipeBar} />
-							</div>
-						) : (
-							<div style={styles.navigationPortraitSwipe}>
-								<div style={styles.navigationSwipeBar} />
-							</div>
-						))}
-
-					{/* navigation bar - bhr */}
-					{hideNavigationBar === false &&
-						navigationBar === "bhr" &&
-						(transparentNavigationBar ? (
-							<div style={styles.navigationPortraitBhrTransParent}>
-								<div style={styles.triangle} />
-								<div style={styles.circle} />
-								<div style={styles.square} />
-							</div>
-						) : (
-							<div style={styles.navigationPortraitBHR}>
-								<div style={styles.triangle} />
-								<div style={styles.circle} />
-								<div style={styles.square} />
-							</div>
-						))}
-
-					{/* navigation bar - rhb */}
-					{hideNavigationBar === false &&
-						navigationBar === "rhb" &&
-						(transparentNavigationBar ? (
-							<div style={styles.navigationPortraitBhrTransParent}>
-								<div style={styles.square} />
-								<div style={styles.circle} />
-								<div style={styles.triangle} />
-							</div>
-						) : (
-							<div style={styles.navigationPortraitBHR}>
-								<div style={styles.square} />
-								<div style={styles.circle} />
-								<div style={styles.triangle} />
-							</div>
-						))}
-				</div>
-			</div>
-			<div style={styles.volumePortrait} />
-			<div style={styles.powerPortrait} />
-		</div>
-	);
-}
-
 const getStyles = (
 	screenWidth: number,
 	screenRounded: boolean,
@@ -272,3 +176,95 @@ const getStyles = (
 
 	return styles;
 };
+
+export default function AndroidPortrait(props: PropsWithChildren<IAndroidMockupVariantProps>) {
+	const {
+		screenWidth,
+		screenRounded,
+		frameColor,
+		statusbarColor,
+		navigationBar,
+		navigationBarcolor,
+		hideStatusBar,
+		hideNavigationBar,
+		transparentNavigationBar,
+	} = props;
+
+	const styles = useMemo(
+		() => getStyles(screenWidth, screenRounded, frameColor, statusbarColor, navigationBarcolor),
+		[screenWidth, screenRounded, frameColor, statusbarColor, navigationBarcolor],
+	);
+
+	return (
+		<div style={styles.container}>
+			{/* frame */}
+			<div style={styles.frame}>
+				{/* screen */}
+				<div style={styles.screen}>
+					{/* status bar */}
+					{hideStatusBar === false && (
+						<div style={styles.statusbarPortrait}>
+							{/* camera - portrait */}
+							<div style={styles.cameraPortrait} />
+						</div>
+					)}
+					{/* screen content */}
+					<div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
+						{props.children}
+					</div>
+					{/* camera - fullScreen - portrait */}
+					{hideStatusBar && <div style={styles.cameraFullScreenPortrait} />}
+
+					{/* navigation bar - swipe */}
+					{hideNavigationBar === false &&
+						navigationBar === "swipe" &&
+						(transparentNavigationBar ? (
+							<div style={styles.navigationFullScreenPortraitSwipe}>
+								<div style={styles.navigationSwipeBar} />
+							</div>
+						) : (
+							<div style={styles.navigationPortraitSwipe}>
+								<div style={styles.navigationSwipeBar} />
+							</div>
+						))}
+
+					{/* navigation bar - bhr */}
+					{hideNavigationBar === false &&
+						navigationBar === "bhr" &&
+						(transparentNavigationBar ? (
+							<div style={styles.navigationPortraitBhrTransParent}>
+								<div style={styles.triangle} />
+								<div style={styles.circle} />
+								<div style={styles.square} />
+							</div>
+						) : (
+							<div style={styles.navigationPortraitBHR}>
+								<div style={styles.triangle} />
+								<div style={styles.circle} />
+								<div style={styles.square} />
+							</div>
+						))}
+
+					{/* navigation bar - rhb */}
+					{hideNavigationBar === false &&
+						navigationBar === "rhb" &&
+						(transparentNavigationBar ? (
+							<div style={styles.navigationPortraitBhrTransParent}>
+								<div style={styles.square} />
+								<div style={styles.circle} />
+								<div style={styles.triangle} />
+							</div>
+						) : (
+							<div style={styles.navigationPortraitBHR}>
+								<div style={styles.square} />
+								<div style={styles.circle} />
+								<div style={styles.triangle} />
+							</div>
+						))}
+				</div>
+			</div>
+			<div style={styles.volumePortrait} />
+			<div style={styles.powerPortrait} />
+		</div>
+	);
+}

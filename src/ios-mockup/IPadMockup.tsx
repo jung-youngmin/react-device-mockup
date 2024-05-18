@@ -1,5 +1,5 @@
-import React, { PropsWithChildren, useMemo } from "react";
-import { ColorValue, StyleProp, View, ViewStyle } from "react-native";
+import { Property } from "csstype";
+import { CSSProperties, PropsWithChildren, useMemo } from "react";
 import IPadLegacyPortrait from "./variants/tab/IPadLegacyPortrait";
 import IPadLegacyLandscape from "./variants/tab/IPadLegacyLandscape";
 import IPadModernPortrait from "./variants/tab/IPadModernPortrait";
@@ -11,11 +11,11 @@ interface IiPadMockupProps {
 	readonly screenType?: "legacy" | "modern";
 	/** default: false */
 	readonly isLandscape?: boolean;
-	readonly containerStlye?: StyleProp<ViewStyle>;
+	readonly containerStlye?: CSSProperties;
 	/** default: "#666666" */
-	readonly frameColor?: ColorValue;
+	readonly frameColor?: Property.Color;
 	/** default: "#CCCCCC" */
-	readonly statusbarColor?: ColorValue;
+	readonly statusbarColor?: Property.Color;
 	/** default: false */
 	readonly hideStatusBar?: boolean;
 	/** default: false */
@@ -26,33 +26,40 @@ interface IiPadMockupProps {
 
 export type IPadMockupProps = PropsWithChildren<IiPadMockupProps>;
 export default function IPadMockup(props: IPadMockupProps) {
-	const screenType = useMemo(() => {
-		return props.screenType === undefined ? "modern" : props.screenType;
-	}, [props.screenType]);
+	const screenType = useMemo(
+		() => (props.screenType === undefined ? "modern" : props.screenType),
+		[props.screenType],
+	);
 
-	const isLandscape = useMemo(() => {
-		return props.isLandscape === undefined ? false : props.isLandscape;
-	}, [props.isLandscape]);
+	const isLandscape = useMemo(
+		() => (props.isLandscape === undefined ? false : props.isLandscape),
+		[props.isLandscape],
+	);
 
-	const frameColor = useMemo(() => {
-		return props.frameColor === undefined ? "#666666" : props.frameColor;
-	}, [props.frameColor]);
+	const frameColor = useMemo(
+		() => (props.frameColor === undefined ? "#666666" : props.frameColor),
+		[props.frameColor],
+	);
 
-	const statusbarColor = useMemo(() => {
-		return props.statusbarColor === undefined ? "#CCCCCC" : props.statusbarColor;
-	}, [props.statusbarColor]);
+	const statusbarColor = useMemo(
+		() => (props.statusbarColor === undefined ? "#CCCCCC" : props.statusbarColor),
+		[props.statusbarColor],
+	);
 
-	const hideStatusBar = useMemo(() => {
-		return props.hideStatusBar === undefined ? false : props.hideStatusBar;
-	}, [props.hideStatusBar]);
+	const hideStatusBar = useMemo(
+		() => (props.hideStatusBar === undefined ? false : props.hideStatusBar),
+		[props.hideStatusBar],
+	);
 
-	const transparentNavigationBar = useMemo(() => {
-		return props.transparentNavBar === undefined ? false : props.transparentNavBar;
-	}, [props.transparentNavBar]);
+	const transparentNavigationBar = useMemo(
+		() => (props.transparentNavBar === undefined ? false : props.transparentNavBar),
+		[props.transparentNavBar],
+	);
 
-	const hideNavigationBar = useMemo(() => {
-		return props.hideNavBar === undefined ? false : props.hideNavBar;
-	}, [props.hideNavBar]);
+	const hideNavigationBar = useMemo(
+		() => (props.hideNavBar === undefined ? false : props.hideNavBar),
+		[props.hideNavBar],
+	);
 
 	const Mockup = useMemo(() => {
 		switch (screenType) {
@@ -62,21 +69,19 @@ export default function IPadMockup(props: IPadMockupProps) {
 				// transparentNavigationBar,
 				if (isLandscape) {
 					return IPadLegacyLandscape;
-				} else {
-					return IPadLegacyPortrait;
 				}
+				return IPadLegacyPortrait;
 			case "modern":
 			default:
 				if (isLandscape) {
 					return IPadModernLandscape;
-				} else {
-					return IPadModernPortrait;
 				}
+				return IPadModernPortrait;
 		}
 	}, [isLandscape, screenType]);
 
 	return (
-		<View style={props.containerStlye}>
+		<div style={props.containerStlye}>
 			<Mockup
 				screenWidth={props.screenWidth}
 				frameColor={frameColor}
@@ -86,6 +91,6 @@ export default function IPadMockup(props: IPadMockupProps) {
 				hideNavigationBar={hideNavigationBar}>
 				{props.children}
 			</Mockup>
-		</View>
+		</div>
 	);
 }

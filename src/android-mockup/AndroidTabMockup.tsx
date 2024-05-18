@@ -29,41 +29,50 @@ interface IAndroidTabMockupProps {
 
 export type AndroidTabMockupProps = PropsWithChildren<IAndroidTabMockupProps>;
 export default function AndroidTabMockup(props: AndroidTabMockupProps) {
-	const isLandscape = useMemo(() => {
-		return props.isLandscape === undefined ? false : props.isLandscape;
-	}, [props.isLandscape]);
+	const isLandscape = useMemo(
+		() => (props.isLandscape === undefined ? false : props.isLandscape),
+		[props.isLandscape],
+	);
 
-	const noRoundedScreen = useMemo(() => {
-		return props.noRoundedScreen === undefined ? false : props.noRoundedScreen;
-	}, [props.noRoundedScreen]);
+	const noRoundedScreen = useMemo(
+		() => (props.noRoundedScreen === undefined ? false : props.noRoundedScreen),
+		[props.noRoundedScreen],
+	);
 
-	const frameColor = useMemo(() => {
-		return props.frameColor === undefined ? "#666666" : props.frameColor;
-	}, [props.frameColor]);
+	const frameColor = useMemo(
+		() => (props.frameColor === undefined ? "#666666" : props.frameColor),
+		[props.frameColor],
+	);
 
-	const statusbarColor = useMemo(() => {
-		return props.statusbarColor === undefined ? "#CCCCCC" : props.statusbarColor;
-	}, [props.statusbarColor]);
+	const statusbarColor = useMemo(
+		() => (props.statusbarColor === undefined ? "#CCCCCC" : props.statusbarColor),
+		[props.statusbarColor],
+	);
 
-	const navigationBar = useMemo(() => {
-		return props.navBar === undefined ? "swipe" : props.navBar;
-	}, [props.navBar]);
+	const navigationBar = useMemo(
+		() => (props.navBar === undefined ? "swipe" : props.navBar),
+		[props.navBar],
+	);
 
-	const navigationBarcolor = useMemo(() => {
-		return props.navBarcolor === undefined ? "#CCCCCC" : props.navBarcolor;
-	}, [props.navBarcolor]);
+	const navigationBarcolor = useMemo(
+		() => (props.navBarcolor === undefined ? "#CCCCCC" : props.navBarcolor),
+		[props.navBarcolor],
+	);
 
-	const hideStatusBar = useMemo(() => {
-		return props.hideStatusBar === undefined ? false : props.hideStatusBar;
-	}, [props.hideStatusBar]);
+	const hideStatusBar = useMemo(
+		() => (props.hideStatusBar === undefined ? false : props.hideStatusBar),
+		[props.hideStatusBar],
+	);
 
-	const transparentNavigationBar = useMemo(() => {
-		return props.transparentNavBar === undefined ? false : props.transparentNavBar;
-	}, [props.transparentNavBar]);
+	const transparentNavigationBar = useMemo(
+		() => (props.transparentNavBar === undefined ? false : props.transparentNavBar),
+		[props.transparentNavBar],
+	);
 
-	const hideNavigationBar = useMemo(() => {
-		return props.hideNavBar === undefined ? false : props.hideNavBar;
-	}, [props.hideNavBar]);
+	const hideNavigationBar = useMemo(
+		() => (props.hideNavBar === undefined ? false : props.hideNavBar),
+		[props.hideNavBar],
+	);
 
 	return (
 		<div style={props.containerStlye}>

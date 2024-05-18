@@ -1,59 +1,12 @@
-import React, { PropsWithChildren, useMemo } from "react";
-import { ColorValue, StyleSheet, View } from "react-native";
-import { IIosMockupVariantProps } from "../variants-interface";
+import { Property } from "csstype";
+import { PropsWithChildren, useMemo } from "react";
+import { IIosMockupVariantProps, StyleSheet } from "../../../shared-types/variants-interface";
 
-export default function IPhoneNotchPortrait(props: PropsWithChildren<IIosMockupVariantProps>) {
-	const {
-		frameColor,
-		statusbarColor,
-		hideStatusBar,
-		hideNavigationBar,
-		transparentNavigationBar,
-	} = props;
-	const styles = useMemo(() => {
-		return getStyles(props.screenWidth, frameColor, statusbarColor);
-	}, [props.screenWidth, frameColor, statusbarColor]);
-
-	return (
-		<View style={styles.container}>
-			{/* frame */}
-			<View style={styles.frame}>
-				{/* screen */}
-				<View style={styles.screen}>
-					{hideStatusBar === false && (
-						<View style={styles.notchContainer}>
-							<View style={styles.notch}></View>
-						</View>
-					)}
-					{/* screen content */}
-					<View style={{ flex: 1 }}>{props.children}</View>
-					{hideNavigationBar === false && transparentNavigationBar === false && (
-						<View style={styles.swipeContainer}>
-							<View style={styles.swipeBar} />
-						</View>
-					)}
-				</View>
-				{hideStatusBar && (
-					<View pointerEvents="none" style={styles.notchContainerFullScreen}>
-						<View style={styles.notch}></View>
-					</View>
-				)}
-				{hideNavigationBar === false && transparentNavigationBar && (
-					<View pointerEvents="none" style={styles.swipeContainerFullScreen}>
-						<View style={styles.swipeBar} />
-					</View>
-				)}
-			</View>
-			<View style={styles.notchPad} />
-			<View style={styles.silenceSwitch} />
-			<View style={styles.volumeUp} />
-			<View style={styles.volumeDown} />
-			<View style={styles.powerPortrait} />
-		</View>
-	);
-}
-
-const getStyles = (screenWidth: number, frameColor: ColorValue, statusbarColor: ColorValue) => {
+const getStyles = (
+	screenWidth: number,
+	frameColor: Property.Color,
+	statusbarColor: Property.Color,
+) => {
 	const getSizeWithRatio = (size: number) => {
 		const sizeRatio = Math.floor((screenWidth * size) / 390);
 		return Math.max(sizeRatio, 1);
@@ -69,36 +22,54 @@ const getStyles = (screenWidth: number, frameColor: ColorValue, statusbarColor: 
 	const bezelRadius = getSizeWithRatio(64);
 
 	const frameButtonWidth = Math.floor(FRAME_WIDTH * 0.9);
-	const frameButtonPosition = screenWidth + FRAME_WIDTH + HALF_FRAME_WIDTH;
+	const frameButtonPosition =
+		screenWidth + FRAME_WIDTH + HALF_FRAME_WIDTH + frameButtonWidth - HALF_FRAME_WIDTH;
 
 	return StyleSheet.create({
 		container: {
+			display: "flex",
+			flexDirection: "column",
+			position: "relative",
 			width: widthAndFrame,
 			height: heightAndFrame,
-			borderRadius: bezelRadius,
-			backgroundColor: frameColor,
-			marginHorizontal: frameButtonWidth - HALF_FRAME_WIDTH,
+			// borderRadius: bezelRadius,
+			// backgroundColor: frameColor,
+			paddingRight: frameButtonWidth - HALF_FRAME_WIDTH,
+			paddingLeft: frameButtonWidth - HALF_FRAME_WIDTH,
 		},
 		frame: {
-			width: widthAndFrame,
-			height: heightAndFrame,
+			display: "flex",
+			flexDirection: "column",
+			position: "relative",
+			backgroundColor: frameColor,
+			// width: widthAndFrame,
+			// height: heightAndFrame,
 			borderRadius: bezelRadius,
+			borderStyle: "solid",
 			borderWidth: FRAME_WIDTH,
 			borderColor: frameColor,
 			overflow: "hidden",
 		},
 		screen: {
+			display: "flex",
+			flexDirection: "column",
+			position: "relative",
 			width: screenWidth,
 			height: mHeight,
 			backgroundColor: "whitesmoke",
 		},
 		notchContainerFullScreen: {
+			display: "flex",
+			flexDirection: "column",
 			position: "absolute",
 			width: "100%",
 			height: getSizeWithRatio(44),
 			alignItems: "center",
+			pointerEvents: "none",
 		},
 		notchContainer: {
+			display: "flex",
+			flexDirection: "column",
 			width: "100%",
 			height: getSizeWithRatio(44),
 			backgroundColor: statusbarColor,
@@ -112,14 +83,19 @@ const getStyles = (screenWidth: number, frameColor: ColorValue, statusbarColor: 
 			borderBottomRightRadius: getSizeWithRatio(20),
 		},
 		swipeContainerFullScreen: {
+			display: "flex",
+			flexDirection: "column",
 			position: "absolute",
 			bottom: 0,
 			width: "100%",
 			height: getSizeWithRatio(34),
 			alignItems: "center",
 			justifyContent: "flex-end",
+			pointerEvents: "none",
 		},
 		swipeContainer: {
+			display: "flex",
+			flexDirection: "column",
 			width: "100%",
 			height: getSizeWithRatio(34),
 			backgroundColor: statusbarColor,
@@ -179,3 +155,57 @@ const getStyles = (screenWidth: number, frameColor: ColorValue, statusbarColor: 
 		},
 	});
 };
+
+export default function IPhoneNotchPortrait(props: PropsWithChildren<IIosMockupVariantProps>) {
+	const {
+		frameColor,
+		statusbarColor,
+		hideStatusBar,
+		hideNavigationBar,
+		transparentNavigationBar,
+	} = props;
+	const styles = useMemo(
+		() => getStyles(props.screenWidth, frameColor, statusbarColor),
+		[props.screenWidth, frameColor, statusbarColor],
+	);
+
+	return (
+		<div style={styles.container}>
+			{/* frame */}
+			<div style={styles.frame}>
+				{/* screen */}
+				<div style={styles.screen}>
+					{hideStatusBar === false && (
+						<div style={styles.notchContainer}>
+							<div style={styles.notch} />
+						</div>
+					)}
+					{/* screen content */}
+					<div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
+						{props.children}
+					</div>
+					{hideNavigationBar === false && transparentNavigationBar === false && (
+						<div style={styles.swipeContainer}>
+							<div style={styles.swipeBar} />
+						</div>
+					)}
+				</div>
+				{hideStatusBar && (
+					<div style={styles.notchContainerFullScreen}>
+						<div style={styles.notch} />
+					</div>
+				)}
+				{hideNavigationBar === false && transparentNavigationBar && (
+					<div style={styles.swipeContainerFullScreen}>
+						<div style={styles.swipeBar} />
+					</div>
+				)}
+			</div>
+			<div style={styles.notchPad} />
+			<div style={styles.silenceSwitch} />
+			<div style={styles.volumeUp} />
+			<div style={styles.volumeDown} />
+			<div style={styles.powerPortrait} />
+		</div>
+	);
+}

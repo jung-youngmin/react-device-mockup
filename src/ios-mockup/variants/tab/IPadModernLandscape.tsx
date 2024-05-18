@@ -1,51 +1,12 @@
-import React, { PropsWithChildren, useMemo } from "react";
-import { ColorValue, StyleSheet, View } from "react-native";
-import { IIosMockupVariantProps } from "../variants-interface";
+import { Property } from "csstype";
+import { PropsWithChildren, useMemo } from "react";
+import { IIosMockupVariantProps, StyleSheet } from "../../../shared-types/variants-interface";
 
-export default function IPadModernLandscape(props: PropsWithChildren<IIosMockupVariantProps>) {
-	const {
-		frameColor,
-		statusbarColor,
-		hideStatusBar,
-		hideNavigationBar,
-		transparentNavigationBar,
-	} = props;
-	const styles = useMemo(() => {
-		return getStyles(props.screenWidth, frameColor, statusbarColor);
-	}, [props.screenWidth, frameColor, statusbarColor]);
-
-	return (
-		<View style={styles.container}>
-			{/* frame */}
-			<View style={styles.frame}>
-				{/* screen */}
-				<View style={styles.screen}>
-					{hideStatusBar === false && <View style={styles.notchContainer} />}
-					{/* screen content */}
-					<View style={{ flex: 1 }}>{props.children}</View>
-					{hideNavigationBar === false && transparentNavigationBar === false && (
-						<View style={styles.swipeContainer}>
-							<View style={styles.swipeBar} />
-						</View>
-					)}
-				</View>
-				{hideStatusBar && (
-					<View pointerEvents="none" style={styles.notchContainerFullScreen} />
-				)}
-				{hideNavigationBar === false && transparentNavigationBar && (
-					<View pointerEvents="none" style={styles.swipeContainerFullScreen}>
-						<View style={styles.swipeBar} />
-					</View>
-				)}
-			</View>
-			<View style={styles.volumeUp} />
-			<View style={styles.volumeDown} />
-			<View style={styles.power} />
-		</View>
-	);
-}
-
-const getStyles = (screenWidth: number, frameColor: ColorValue, statusbarColor: ColorValue) => {
+const getStyles = (
+	screenWidth: number,
+	frameColor: Property.Color,
+	statusbarColor: Property.Color,
+) => {
 	const getSizeWithRatio = (size: number) => {
 		const sizeRatio = Math.floor((screenWidth * size) / 1194);
 		return Math.max(sizeRatio, 1);
@@ -61,51 +22,64 @@ const getStyles = (screenWidth: number, frameColor: ColorValue, statusbarColor: 
 	const bezelRadius = getSizeWithRatio(50);
 
 	const frameButtonHeight = Math.floor(FRAME_WIDTH * 0.65);
-	const frameButtonPosition = mHeight + FRAME_WIDTH + HALF_FRAME_WIDTH;
+	const frameButtonPosition =
+		mHeight + FRAME_WIDTH + HALF_FRAME_WIDTH + frameButtonHeight - HALF_FRAME_WIDTH;
 
 	return StyleSheet.create({
 		container: {
+			display: "flex",
+			flexDirection: "column",
+			position: "relative",
 			width: widthAndFrame,
 			height: heightAndFrame,
-			borderRadius: bezelRadius,
-			backgroundColor: frameColor,
-			marginTop: frameButtonHeight - HALF_FRAME_WIDTH,
-			marginLeft: frameButtonHeight - HALF_FRAME_WIDTH,
+			paddingTop: frameButtonHeight - HALF_FRAME_WIDTH,
+			paddingLeft: frameButtonHeight - HALF_FRAME_WIDTH,
 		},
 		frame: {
-			width: widthAndFrame,
-			height: heightAndFrame,
+			display: "flex",
+			flexDirection: "column",
+			position: "relative",
+			backgroundColor: frameColor,
 			borderRadius: bezelRadius,
+			borderStyle: "solid",
 			borderWidth: FRAME_WIDTH,
 			borderColor: frameColor,
 			overflow: "hidden",
 		},
 		screen: {
+			display: "flex",
+			flexDirection: "column",
+			position: "relative",
 			width: screenWidth,
 			height: mHeight,
 			backgroundColor: "whitesmoke",
-		},
-		notchContainerFullScreen: {
-			position: "absolute",
-			width: "100%",
-			height: getSizeWithRatio(24),
-			alignItems: "center",
+			overflow: "hidden",
 		},
 		notchContainer: {
+			display: "flex",
+			flexDirection: "column",
 			width: "100%",
 			height: getSizeWithRatio(24),
 			backgroundColor: statusbarColor,
 			alignItems: "center",
 		},
 		swipeContainerFullScreen: {
+			display: "flex",
+			flexDirection: "column",
+			boxSizing: "border-box",
 			position: "absolute",
 			bottom: 0,
 			width: "100%",
 			height: getSizeWithRatio(20),
+			paddingTop: getSizeWithRatio(4),
 			alignItems: "center",
-			justifyContent: "flex-end",
+			justifyContent: "center",
+			pointerEvents: "none",
 		},
 		swipeContainer: {
+			display: "flex",
+			flexDirection: "column",
+			boxSizing: "border-box",
 			width: "100%",
 			height: getSizeWithRatio(20),
 			backgroundColor: statusbarColor,
@@ -140,7 +114,8 @@ const getStyles = (screenWidth: number, frameColor: ColorValue, statusbarColor: 
 		power: {
 			position: "absolute",
 			borderRadius: FRAME_WIDTH,
-			right: screenWidth + FRAME_WIDTH + HALF_FRAME_WIDTH,
+			right:
+				screenWidth + FRAME_WIDTH + HALF_FRAME_WIDTH + frameButtonHeight - HALF_FRAME_WIDTH,
 			bottom: mHeight - FRAME_WIDTH - HALF_FRAME_WIDTH,
 			width: frameButtonHeight,
 			height: getSizeWithRatio(60),
@@ -148,3 +123,46 @@ const getStyles = (screenWidth: number, frameColor: ColorValue, statusbarColor: 
 		},
 	});
 };
+
+export default function IPadModernLandscape(props: PropsWithChildren<IIosMockupVariantProps>) {
+	const {
+		frameColor,
+		statusbarColor,
+		hideStatusBar,
+		hideNavigationBar,
+		transparentNavigationBar,
+	} = props;
+	const styles = useMemo(
+		() => getStyles(props.screenWidth, frameColor, statusbarColor),
+		[props.screenWidth, frameColor, statusbarColor],
+	);
+
+	return (
+		<div style={styles.container}>
+			{/* frame */}
+			<div style={styles.frame}>
+				{/* screen */}
+				<div style={styles.screen}>
+					{hideStatusBar === false && <div style={styles.notchContainer} />}
+					{/* screen content */}
+					<div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
+						{props.children}
+					</div>
+					{hideNavigationBar === false && transparentNavigationBar === false && (
+						<div style={styles.swipeContainer}>
+							<div style={styles.swipeBar} />
+						</div>
+					)}
+				</div>
+				{hideNavigationBar === false && transparentNavigationBar && (
+					<div style={styles.swipeContainerFullScreen}>
+						<div style={styles.swipeBar} />
+					</div>
+				)}
+			</div>
+			<div style={styles.volumeUp} />
+			<div style={styles.volumeDown} />
+			<div style={styles.power} />
+		</div>
+	);
+}

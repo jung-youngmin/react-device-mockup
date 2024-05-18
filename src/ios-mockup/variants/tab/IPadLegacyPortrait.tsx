@@ -1,37 +1,12 @@
-import React, { PropsWithChildren, useMemo } from "react";
-import { ColorValue, StyleSheet, View } from "react-native";
-import { IIosMockupVariantProps } from "../variants-interface";
+import { Property } from "csstype";
+import { PropsWithChildren, useMemo } from "react";
+import { IIosMockupVariantProps, StyleSheet } from "../../../shared-types/variants-interface";
 
-export default function IPadLegacyPortrait(props: PropsWithChildren<IIosMockupVariantProps>) {
-	const { screenWidth, frameColor, statusbarColor, hideStatusBar } = props;
-	const styles = useMemo(() => {
-		return getStyles(screenWidth, frameColor, statusbarColor);
-	}, [screenWidth, frameColor, statusbarColor]);
-
-	return (
-		<View style={styles.container}>
-			<View style={styles.upperBezel}>
-				<View style={styles.camSpeakerCont}>
-					<View style={styles.camera}></View>
-				</View>
-			</View>
-			{/* frame */}
-			<View style={styles.frame}>
-				{/* screen */}
-				<View style={styles.screen}>
-					{hideStatusBar === false && <View style={styles.statusbar} />}
-					{/* screen content */}
-					<View style={{ flex: 1 }}>{props.children}</View>
-				</View>
-			</View>
-			<View style={styles.lowerBezel}>
-				<View style={styles.homeButoon}></View>
-			</View>
-		</View>
-	);
-}
-
-const getStyles = (screenWidth: number, frameColor: ColorValue, statusbarColor: ColorValue) => {
+const getStyles = (
+	screenWidth: number,
+	frameColor: Property.Color,
+	statusbarColor: Property.Color,
+) => {
 	const getSizeWithRatio = (size: number) => {
 		const sizeRatio = Math.floor((screenWidth * size) / 810);
 		return Math.max(sizeRatio, 1);
@@ -49,21 +24,27 @@ const getStyles = (screenWidth: number, frameColor: ColorValue, statusbarColor: 
 
 	return StyleSheet.create({
 		container: {
+			display: "flex",
+			flexDirection: "column",
+			position: "relative",
 			width: widthAndFrame,
 			height: mHeight + upperBezelHeight + lowerBezelHeight,
-			borderRadius: bezelRadius,
-			backgroundColor: frameColor,
 		},
 		frame: {
+			display: "flex",
+			flexDirection: "column",
+			alignItems: "center",
+			position: "relative",
+			boxSizing: "border-box",
 			backgroundColor: frameColor,
 			width: widthAndFrame,
 			height: mHeight,
-			borderWidth: FRAME_WIDTH,
-			borderColor: frameColor,
-			borderTopWidth: 0,
-			borderBottomWidth: 0,
+			overflow: "hidden",
 		},
 		upperBezel: {
+			display: "flex",
+			flexDirection: "column",
+			position: "relative",
 			borderTopLeftRadius: bezelRadius,
 			borderTopRightRadius: bezelRadius,
 			width: widthAndFrame,
@@ -72,6 +53,9 @@ const getStyles = (screenWidth: number, frameColor: ColorValue, statusbarColor: 
 			justifyContent: "center",
 		},
 		camSpeakerCont: {
+			display: "flex",
+			flexDirection: "column",
+			position: "relative",
 			width: "100%",
 			height: "100%",
 			alignItems: "center",
@@ -84,6 +68,8 @@ const getStyles = (screenWidth: number, frameColor: ColorValue, statusbarColor: 
 			backgroundColor: statusbarColor,
 		},
 		lowerBezel: {
+			display: "flex",
+			flexDirection: "column",
 			borderBottomLeftRadius: bezelRadius,
 			borderBottomRightRadius: bezelRadius,
 			width: widthAndFrame,
@@ -99,6 +85,9 @@ const getStyles = (screenWidth: number, frameColor: ColorValue, statusbarColor: 
 			borderRadius: getSizeWithRatio(55),
 		},
 		screen: {
+			display: "flex",
+			flexDirection: "column",
+			position: "relative",
 			width: screenWidth,
 			height: mHeight,
 			backgroundColor: "whitesmoke",
@@ -111,3 +100,35 @@ const getStyles = (screenWidth: number, frameColor: ColorValue, statusbarColor: 
 		},
 	});
 };
+
+export default function IPadLegacyPortrait(props: PropsWithChildren<IIosMockupVariantProps>) {
+	const { screenWidth, frameColor, statusbarColor, hideStatusBar } = props;
+	const styles = useMemo(
+		() => getStyles(screenWidth, frameColor, statusbarColor),
+		[screenWidth, frameColor, statusbarColor],
+	);
+
+	return (
+		<div style={styles.container}>
+			<div style={styles.upperBezel}>
+				<div style={styles.camSpeakerCont}>
+					<div style={styles.camera} />
+				</div>
+			</div>
+			{/* frame */}
+			<div style={styles.frame}>
+				{/* screen */}
+				<div style={styles.screen}>
+					{hideStatusBar === false && <div style={styles.statusbar} />}
+					{/* screen content */}
+					<div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
+						{props.children}
+					</div>
+				</div>
+			</div>
+			<div style={styles.lowerBezel}>
+				<div style={styles.homeButoon} />
+			</div>
+		</div>
+	);
+}

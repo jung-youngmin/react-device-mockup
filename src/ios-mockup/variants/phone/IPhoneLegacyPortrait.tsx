@@ -1,44 +1,12 @@
-import React, { PropsWithChildren, useMemo } from "react";
-import { ColorValue, StyleSheet, View } from "react-native";
-import { IIosMockupVariantProps } from "../variants-interface";
+import { Property } from "csstype";
+import { PropsWithChildren, useMemo } from "react";
+import { IIosMockupVariantProps, StyleSheet } from "../../../shared-types/variants-interface";
 
-export default function IPhoneLegacyPortrait(props: PropsWithChildren<IIosMockupVariantProps>) {
-	const { screenWidth, frameColor, statusbarColor, hideStatusBar } = props;
-	const styles = useMemo(() => {
-		return getStyles(screenWidth, frameColor, statusbarColor);
-	}, [screenWidth, frameColor, statusbarColor]);
-
-	return (
-		<View style={styles.container}>
-			<View style={styles.upperBezel}>
-				<View style={styles.camSpeakerCont}>
-					<View style={styles.speaker}>
-						<View style={styles.camera}></View>
-					</View>
-				</View>
-			</View>
-			{/* frame */}
-			<View style={styles.frame}>
-				{/* screen */}
-				<View style={styles.screen}>
-					{hideStatusBar === false && <View style={styles.statusbar}></View>}
-					{/* screen content */}
-					<View style={{ flex: 1 }}>{props.children}</View>
-				</View>
-			</View>
-			<View style={styles.lowerBezel}>
-				<View style={styles.homeButoon}></View>
-			</View>
-
-			<View style={styles.silenceSwitch} />
-			<View style={styles.volumeUp} />
-			<View style={styles.volumeDown} />
-			<View style={styles.powerPortrait} />
-		</View>
-	);
-}
-
-const getStyles = (screenWidth: number, frameColor: ColorValue, statusbarColor: ColorValue) => {
+const getStyles = (
+	screenWidth: number,
+	frameColor: Property.Color,
+	statusbarColor: Property.Color,
+) => {
 	const getSizeWithRatio = (size: number) => {
 		const sizeRatio = Math.floor((screenWidth * size) / 375);
 		return Math.max(sizeRatio, 1);
@@ -54,26 +22,34 @@ const getStyles = (screenWidth: number, frameColor: ColorValue, statusbarColor: 
 	const lowerBezelHeight = getSizeWithRatio(110);
 
 	const frameButtonWidth = Math.floor(FRAME_WIDTH * 0.9);
-	const frameButtonPosition = screenWidth + FRAME_WIDTH + HALF_FRAME_WIDTH;
+	const frameButtonPosition =
+		screenWidth + FRAME_WIDTH + HALF_FRAME_WIDTH + frameButtonWidth - HALF_FRAME_WIDTH;
 
 	return StyleSheet.create({
 		container: {
+			display: "flex",
+			flexDirection: "column",
+			position: "relative",
 			width: widthAndFrame,
 			height: mHeight + upperBezelHeight + lowerBezelHeight,
-			borderRadius: getSizeWithRatio(60),
-			backgroundColor: frameColor,
-			marginHorizontal: frameButtonWidth - HALF_FRAME_WIDTH,
+			paddingRight: frameButtonWidth - HALF_FRAME_WIDTH,
+			paddingLeft: frameButtonWidth - HALF_FRAME_WIDTH,
 		},
 		frame: {
+			display: "flex",
+			flexDirection: "column",
+			alignItems: "center",
+			position: "relative",
+			boxSizing: "border-box",
 			backgroundColor: frameColor,
 			width: widthAndFrame,
 			height: mHeight,
-			borderWidth: FRAME_WIDTH,
-			borderColor: frameColor,
-			borderTopWidth: 0,
-			borderBottomWidth: 0,
+			overflow: "hidden",
 		},
 		upperBezel: {
+			display: "flex",
+			flexDirection: "column",
+			position: "relative",
 			borderTopLeftRadius: getSizeWithRatio(60),
 			borderTopRightRadius: getSizeWithRatio(60),
 			width: widthAndFrame,
@@ -82,6 +58,9 @@ const getStyles = (screenWidth: number, frameColor: ColorValue, statusbarColor: 
 			justifyContent: "center",
 		},
 		camSpeakerCont: {
+			display: "flex",
+			flexDirection: "column",
+			position: "relative",
 			width: "100%",
 			height: "100%",
 			alignItems: "center",
@@ -96,12 +75,15 @@ const getStyles = (screenWidth: number, frameColor: ColorValue, statusbarColor: 
 			backgroundColor: statusbarColor,
 		},
 		speaker: {
+			position: "relative",
 			width: getSizeWithRatio(80),
 			height: getSizeWithRatio(8),
 			backgroundColor: statusbarColor,
 			borderRadius: getSizeWithRatio(10),
 		},
 		lowerBezel: {
+			display: "flex",
+			flexDirection: "column",
 			borderBottomLeftRadius: getSizeWithRatio(60),
 			borderBottomRightRadius: getSizeWithRatio(60),
 			width: widthAndFrame,
@@ -117,6 +99,9 @@ const getStyles = (screenWidth: number, frameColor: ColorValue, statusbarColor: 
 			borderRadius: getSizeWithRatio(65),
 		},
 		screen: {
+			display: "flex",
+			flexDirection: "column",
+			position: "relative",
 			width: screenWidth,
 			height: mHeight,
 			backgroundColor: "whitesmoke",
@@ -165,3 +150,42 @@ const getStyles = (screenWidth: number, frameColor: ColorValue, statusbarColor: 
 		},
 	});
 };
+
+export default function IPhoneLegacyPortrait(props: PropsWithChildren<IIosMockupVariantProps>) {
+	const { screenWidth, frameColor, statusbarColor, hideStatusBar } = props;
+	const styles = useMemo(
+		() => getStyles(screenWidth, frameColor, statusbarColor),
+		[screenWidth, frameColor, statusbarColor],
+	);
+
+	return (
+		<div style={styles.container}>
+			<div style={styles.upperBezel}>
+				<div style={styles.camSpeakerCont}>
+					<div style={styles.speaker}>
+						<div style={styles.camera} />
+					</div>
+				</div>
+			</div>
+			{/* frame */}
+			<div style={styles.frame}>
+				{/* screen */}
+				<div style={styles.screen}>
+					{hideStatusBar === false && <div style={styles.statusbar} />}
+					{/* screen content */}
+					<div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
+						{props.children}
+					</div>
+				</div>
+			</div>
+			<div style={styles.lowerBezel}>
+				<div style={styles.homeButoon} />
+			</div>
+
+			<div style={styles.silenceSwitch} />
+			<div style={styles.volumeUp} />
+			<div style={styles.volumeDown} />
+			<div style={styles.powerPortrait} />
+		</div>
+	);
+}
