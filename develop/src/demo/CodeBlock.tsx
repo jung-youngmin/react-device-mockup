@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import Highlight from "react-highlight";
 import ColorButton from "../components/ColorButton";
 import demoStyle from "./demo.module.css";
@@ -7,6 +7,8 @@ interface ICodeBlockProps {
 	readonly title: string;
 	readonly sampleCode: string;
 	readonly language?: string;
+	readonly style?: CSSProperties;
+	readonly className?: string;
 }
 
 export default function CodeBlock(props: ICodeBlockProps) {
@@ -22,9 +24,18 @@ export default function CodeBlock(props: ICodeBlockProps) {
 	}, [isCopied]);
 
 	return (
-		<div>
-			<h3 className={demoStyle.cardTitle}>{props.title}</h3>
-			<div className={demoStyle.card} style={{ backgroundColor: "#1e1e1e" }}>
+		<div
+			className={props.className}
+			style={{ display: "flex", flexDirection: "column", ...props.style }}>
+			{props.title !== "" && <h3 className={demoStyle.cardTitle}>{props.title}</h3>}
+			<div
+				className={demoStyle.card}
+				style={{
+					display: "flex",
+					flex: 1,
+					flexDirection: "column",
+					backgroundColor: "#1e1e1e",
+				}}>
 				<div className={demoStyle.flexRowWrap} style={{ alignItems: "center" }}>
 					<ColorButton
 						label={"📑 Copy "}

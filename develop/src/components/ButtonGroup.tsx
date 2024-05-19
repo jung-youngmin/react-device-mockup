@@ -7,18 +7,20 @@ type TData = { label: string; isActive: boolean; onClick: () => void };
 interface IButtonGroupProps {
 	readonly buttonData: TData[];
 	readonly title: string;
+	readonly buttonSize?: number;
 	readonly style?: CSSProperties;
 	readonly className?: string;
 }
 
 export default function ButtonGroup(props: IButtonGroupProps) {
 	const buttonGroupStyle = useMemo<CSSProperties>(() => {
+		const size = props.buttonSize === undefined ? 70 : props.buttonSize;
 		return {
 			boxSizing: "border-box",
 			justifyContent: "center",
-			width: 70,
+			width: size,
 		};
-	}, []);
+	}, [props.buttonSize]);
 
 	const lastIndex = useMemo(() => {
 		return props.buttonData.length - 1;

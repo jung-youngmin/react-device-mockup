@@ -100,13 +100,12 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 	]);
 
 	return (
-		<div className={demoStyle.flexRowWrap}>
+		<div className={demoStyle.flexRowWrap} style={{ justifyContent: "center" }}>
 			<div
 				className={demoStyle.flexBox}
 				style={{
 					display: "flex",
-					// alignItems: "center",
-					justifyContent: "center",
+					// justifyContent: "center",
 				}}>
 				{props.mode === "phone" && (
 					<IPhoneMockup
@@ -185,62 +184,62 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 								},
 							]}
 						/>
-						{props.mode === "phone" && (
-							<ButtonGroup
-								title="screenType"
-								className={demoStyle["mt8mr30"]}
-								buttonData={[
-									{
-										label: "island",
-										isActive: phoneScreenType === "island",
-										onClick: () => setPhoneScreenType("island"),
-									},
-									{
-										label: "notch",
-										isActive: phoneScreenType === "notch",
-										onClick: () => setPhoneScreenType("notch"),
-									},
-									{
-										label: "legacy",
-										isActive: phoneScreenType === "legacy",
-										onClick: () => setPhoneScreenType("legacy"),
-									},
-								]}
-							/>
-						)}
-						{props.mode === "tab" && (
-							<ButtonGroup
-								title="screenType"
-								className={demoStyle["mt8mr30"]}
-								buttonData={[
-									{
-										label: "modern",
-										isActive: padScreenType === "modern",
-										onClick: () => setPadScreenType("modern"),
-									},
-									{
-										label: "legacy",
-										isActive: padScreenType === "legacy",
-										onClick: () => setPadScreenType("legacy"),
-									},
-								]}
-							/>
-						)}
-						<div className={demoStyle.flexAlignEnd + " " + demoStyle["mt8mr30"]}>
-							<InputButton
-								label="frameColor"
-								inputType="text"
-								defaultVal={DEFAULT_FRAME_COLOR}
-								placeholder="frameColor"
-								onClickSubmit={inputVal => {
-									setFrameColor(inputVal);
-								}}
-							/>
-							<span
-								className={demoStyle.colorSample}
-								style={{ backgroundColor: frameColor }}
-							/>
-						</div>
+					</div>
+					{props.mode === "phone" && (
+						<ButtonGroup
+							title="screenType"
+							className={demoStyle["mt8mr30"]}
+							buttonData={[
+								{
+									label: "island",
+									isActive: phoneScreenType === "island",
+									onClick: () => setPhoneScreenType("island"),
+								},
+								{
+									label: "notch",
+									isActive: phoneScreenType === "notch",
+									onClick: () => setPhoneScreenType("notch"),
+								},
+								{
+									label: "legacy",
+									isActive: phoneScreenType === "legacy",
+									onClick: () => setPhoneScreenType("legacy"),
+								},
+							]}
+						/>
+					)}
+					{props.mode === "tab" && (
+						<ButtonGroup
+							title="screenType"
+							className={demoStyle["mt8mr30"]}
+							buttonData={[
+								{
+									label: "modern",
+									isActive: padScreenType === "modern",
+									onClick: () => setPadScreenType("modern"),
+								},
+								{
+									label: "legacy",
+									isActive: padScreenType === "legacy",
+									onClick: () => setPadScreenType("legacy"),
+								},
+							]}
+						/>
+					)}
+					<div className={demoStyle.flexAlignEnd + " " + demoStyle["mt8mr30"]}>
+						<InputButton
+							label="frameColor"
+							inputType="text"
+							defaultVal={DEFAULT_FRAME_COLOR}
+							placeholder="frameColor"
+							onClickSubmit={inputVal => {
+								setFrameColor(inputVal);
+							}}
+						/>
+						<span
+							className={demoStyle.colorSample}
+							style={{ backgroundColor: frameColor }}
+						/>
 					</div>
 					<div className={demoStyle.flexRowWrap}>
 						<ColorButton

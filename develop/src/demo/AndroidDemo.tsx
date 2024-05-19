@@ -114,14 +114,8 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 	]);
 
 	return (
-		<div className={demoStyle.flexRowWrap}>
-			<div
-				className={demoStyle.flexBox}
-				style={{
-					display: "flex",
-					alignItems: "center",
-					justifyContent: "center",
-				}}>
+		<div className={demoStyle.flexRowWrap} style={{ justifyContent: "center" }}>
+			<div className={demoStyle.flexBox} style={{ display: "flex" }}>
 				{props.mode === "phone" && (
 					<AndroidMockup
 						screenWidth={screenWidth}
@@ -204,21 +198,21 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 								},
 							]}
 						/>
-						<div className={demoStyle.flexAlignEnd + " " + demoStyle["mt8mr30"]}>
-							<InputButton
-								label="frameColor"
-								inputType="text"
-								defaultVal={DEFAULT_FRAME_COLOR}
-								placeholder="frameColor"
-								onClickSubmit={inputVal => {
-									setFrameColor(inputVal);
-								}}
-							/>
-							<span
-								className={demoStyle.colorSample}
-								style={{ backgroundColor: frameColor }}
-							/>
-						</div>
+					</div>
+					<div className={demoStyle.flexAlignEnd + " " + demoStyle["mt8mr30"]}>
+						<InputButton
+							label="frameColor"
+							inputType="text"
+							defaultVal={DEFAULT_FRAME_COLOR}
+							placeholder="frameColor"
+							onClickSubmit={inputVal => {
+								setFrameColor(inputVal);
+							}}
+						/>
+						<span
+							className={demoStyle.colorSample}
+							style={{ backgroundColor: frameColor }}
+						/>
 					</div>
 					<div className={demoStyle.flexRowWrap}>
 						<ColorButton

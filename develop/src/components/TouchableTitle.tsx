@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import styles from "./styles.module.css";
 
 interface ITouchableTitleProps {
@@ -7,10 +8,13 @@ interface ITouchableTitleProps {
 }
 
 export default function TouchableTitle(props: ITouchableTitleProps) {
-	// <h1>AndroidMockup 🔻🔺 </h1>
+	const icon = useMemo(() => {
+		return props.isActive ? " 🔻 " : " 🔺 ";
+	}, [props.isActive]);
+
 	return (
 		<h2 className={styles.title} onClick={props.onClick}>
-			{(props.isActive ? "🔻 " : "🔺 ") + props.title}
+			{icon + props.title + icon}
 		</h2>
 	);
 }

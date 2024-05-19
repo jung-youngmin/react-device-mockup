@@ -4,28 +4,14 @@ import cssStyles from "./App.module.css";
 import AndroidDemo from "./demo/AndroidDemo";
 import TouchableTitle from "./components/TouchableTitle";
 import IosDemo from "./demo/IosDemo";
-import CodeBlock from "./demo/CodeBlock";
+import InstallDemo from "./demo/InstallDemo";
 
 function App() {
+	const [showInstallDemo, setShowInstallDemo] = useState(true);
 	const [showAndroidDemo, setShowAndroidDemo] = useState(false);
 	const [showAndroidTabDemo, setShowAndroidTabDemo] = useState(false);
 	const [showIphoneDemo, setShowIphoneDemo] = useState(false);
 	const [showIpadDemo, setShowIpadDemo] = useState(false);
-
-	const rnImport = `import {
-  AndroidMockup,
-  AndroidTabMockup,
-  IPhoneMockup,
-  IPadMockup
-}
-from "react-native-device-mockup"`;
-	const rImport = `import {
-	AndroidMockup,
-	AndroidTabMockup,
-	IPhoneMockup,
-	IPadMockup
-  }
-  from "react-native-device-mockup"`;
 
 	return (
 		<div className={cssStyles.App}>
@@ -39,21 +25,12 @@ from "react-native-device-mockup"`;
 				</a>
 			</header> */}
 			{/* // TODO */}
-			<TouchableTitle title="Install & import" isActive onClick={() => {}} />
-			<div style={{ display: "flex", flexWrap: "wrap" }}>
-				<CodeBlock
-					title="React"
-					language="bash"
-					sampleCode="npm install react-device-mockup"
-				/>
-				<CodeBlock title="React" language="ts" sampleCode={rImport} />
-			</div>
-			<CodeBlock
-				title="React Native"
-				language="bash"
-				sampleCode="npm install react-native-device-mockup"
+			<TouchableTitle
+				title="Install & import"
+				isActive={showInstallDemo}
+				onClick={() => setShowInstallDemo(prev => !prev)}
 			/>
-			<CodeBlock title="React Native" language="ts" sampleCode={rnImport} />
+			{showInstallDemo && <InstallDemo />}
 
 			<TouchableTitle
 				title="📞 AndroidMockup"

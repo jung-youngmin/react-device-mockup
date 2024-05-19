@@ -15,6 +15,8 @@ input.myInput:focus {
 }
 
 .title {
+	margin-top: 30px;
+	text-align: center;
 	user-select: none;
 }
 .title:hover {

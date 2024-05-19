@@ -30,6 +30,7 @@ export default function InputButton(props: IInputButtonProps) {
 					value={text}
 					placeholder={props.placeholder}
 					className={styles.myInput}
+					step={10}
 					style={{
 						width: 100,
 						padding: 8,

@@ -5,6 +5,10 @@
 	box-shadow: 0px 0px 16px 0px #cfcfcf;
 }
 
+.shadow {
+	box-shadow: 0px 0px 16px 0px #cfcfcf;
+}
+
 .cardTitle {
 	color: "#444444";
 	margin: 8px;
@@ -67,7 +71,7 @@
 }
 
 .flexBox {
-	flex: 1;
+	/* flex: 1; */
 	box-sizing: border-box;
 	margin: 16px;
 	margin-top: 0px;
