@@ -1,14 +1,15 @@
 import { Property } from "csstype";
 import { CSSProperties, PropsWithChildren, useMemo } from "react";
-import AndroidPortrait from "./variants/phone/AndroidPortrait";
-import AndroidLandscape from "./variants/phone/AndroidLandscape";
+import AndroidTabPortrait from "./variants/tab/AndroidTabPortrait";
+import AndroidTabLandscape from "./variants/tab/AndroidTabLandscape";
 
-interface IAndroidMockupProps {
+interface IAndroidTabMockupProps {
 	readonly screenWidth: number;
 	/** default: false */
 	readonly noRoundedScreen?: boolean;
 	/** default: false */
 	readonly isLandscape?: boolean;
+	/** default: true */
 	readonly containerStlye?: CSSProperties;
 	/** default: "#666666" */
 	readonly frameColor?: Property.Color;
@@ -24,20 +25,18 @@ interface IAndroidMockupProps {
 	readonly transparentNavBar?: boolean;
 	/** default: false */
 	readonly hideNavBar?: boolean;
-	/** default: false. Landscape only */
-	readonly transparentCamArea?: boolean;
 }
 
-export type AndroidMockupProps = PropsWithChildren<IAndroidMockupProps>;
-export default function AndroidMockup(props: AndroidMockupProps) {
-	const noRoundedScreen = useMemo(
-		() => (props.noRoundedScreen === undefined ? false : props.noRoundedScreen),
-		[props.noRoundedScreen],
-	);
-
+export type AndroidTabMockupProps = PropsWithChildren<IAndroidTabMockupProps>;
+export default function AndroidTabMockup(props: AndroidTabMockupProps) {
 	const isLandscape = useMemo(
 		() => (props.isLandscape === undefined ? false : props.isLandscape),
 		[props.isLandscape],
+	);
+
+	const noRoundedScreen = useMemo(
+		() => (props.noRoundedScreen === undefined ? false : props.noRoundedScreen),
+		[props.noRoundedScreen],
 	);
 
 	const frameColor = useMemo(
@@ -65,11 +64,6 @@ export default function AndroidMockup(props: AndroidMockupProps) {
 		[props.hideStatusBar],
 	);
 
-	const transparentCamArea = useMemo(
-		() => (props.transparentCamArea === undefined ? false : props.transparentCamArea),
-		[props.transparentCamArea],
-	);
-
 	const transparentNavigationBar = useMemo(
 		() => (props.transparentNavBar === undefined ? false : props.transparentNavBar),
 		[props.transparentNavBar],
@@ -83,7 +77,7 @@ export default function AndroidMockup(props: AndroidMockupProps) {
 	return (
 		<div style={props.containerStlye}>
 			{isLandscape ? (
-				<AndroidLandscape
+				<AndroidTabLandscape
 					screenWidth={props.screenWidth}
 					screenRounded={!noRoundedScreen}
 					frameColor={frameColor}
@@ -91,13 +85,12 @@ export default function AndroidMockup(props: AndroidMockupProps) {
 					navigationBar={navigationBar}
 					navigationBarcolor={navigationBarcolor}
 					hideStatusBar={hideStatusBar}
-					transparentCamArea={transparentCamArea}
 					transparentNavigationBar={transparentNavigationBar}
 					hideNavigationBar={hideNavigationBar}>
 					{props.children}
-				</AndroidLandscape>
+				</AndroidTabLandscape>
 			) : (
-				<AndroidPortrait
+				<AndroidTabPortrait
 					screenWidth={props.screenWidth}
 					screenRounded={!noRoundedScreen}
 					frameColor={frameColor}
@@ -108,7 +101,7 @@ export default function AndroidMockup(props: AndroidMockupProps) {
 					transparentNavigationBar={transparentNavigationBar}
 					hideNavigationBar={hideNavigationBar}>
 					{props.children}
-				</AndroidPortrait>
+				</AndroidTabPortrait>
 			)}
 		</div>
 	);

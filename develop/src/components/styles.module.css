@@ -1,0 +1,24 @@
+.myInput::placeholder {
+	color: lightgray;
+}
+
+input.myInput:focus {
+	outline: 1px solid dodgerblue;
+}
+
+.subLabel {
+	display: flex;
+	box-sizing: border-box;
+	font-size: 14px;
+	color: slategray;
+	margin-left: 4px;
+}
+
+.title {
+	margin-top: 30px;
+	text-align: center;
+	user-select: none;
+}
+.title:hover {
+	opacity: 0.6;
+}
