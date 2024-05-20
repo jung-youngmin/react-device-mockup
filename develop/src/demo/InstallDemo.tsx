@@ -8,15 +8,15 @@ export default function InstallDemo() {
 
 	const installStr = useMemo(() => {
 		return (
-			"# using npm\n" +
-			(isReact ? "npm install react-device-mockup" : "npm install react-native-device-mockup")
+			// "# using npm\n" +
+			isReact ? "npm install react-device-mockup" : "npm install react-native-device-mockup"
 		);
 	}, [isReact]);
 
 	const yarnAddStr = useMemo(() => {
 		return (
-			"# using yarn\n" +
-			(isReact ? "yarn add react-device-mockup" : "yarn add react-native-device-mockup")
+			// "# using yarn\n" +
+			isReact ? "yarn add react-device-mockup" : "yarn add react-native-device-mockup"
 		);
 	}, [isReact]);
 
@@ -83,16 +83,16 @@ export default function InstallDemo() {
 					className={demoStyle.flexColWrap}
 					style={{ flex: 1, marginRight: 8, marginLeft: 8, boxSizing: "border-box" }}>
 					<CodeBlock
-						title="Install"
+						title="Install with npm"
 						language="bash"
 						sampleCode={installStr}
 						style={codeMaxWidth}
 					/>
 					<CodeBlock
-						title=""
+						title="or yarn"
 						language="bash"
 						sampleCode={yarnAddStr}
-						style={{ marginTop: 8, ...codeMaxWidth }}
+						style={codeMaxWidth}
 					/>
 				</div>
 				<CodeBlock
