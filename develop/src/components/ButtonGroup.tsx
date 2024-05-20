@@ -49,6 +49,7 @@ export default function ButtonGroup(props: IButtonGroupProps) {
 
 			return (
 				<ColorButton
+					key={`${item.label}_${index}`}
 					label={item.label}
 					isActive={item.isActive}
 					showIcon={false}

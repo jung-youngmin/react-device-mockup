@@ -1,12 +1,12 @@
 import { Property } from "csstype";
 import { useCallback, useMemo, useState } from "react";
-import InputButton from "../components/InputButton";
-import ColorButton from "../components/ColorButton";
-import { IPadMockup, IPhoneMockup } from "../dist";
-import demoStyle from "./demo.module.css";
-import ScreenDemo from "./ScreenDemo";
 import ButtonGroup from "../components/ButtonGroup";
+import ColorButton from "../components/ColorButton";
+import InputButton from "../components/InputButton";
+import { IPadMockup, IPhoneMockup } from "../dist";
 import CodeBlock from "./CodeBlock";
+import ScreenDemo from "./ScreenDemo";
+import demoStyle from "./demo.module.css";
 
 interface IIosDemoDemoProps {
 	readonly mode: "phone" | "tab";
@@ -298,19 +298,21 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 				)}
 
 				<h3 className={demoStyle.cardTitle}>Navigation Bar</h3>
-				<div className={demoStyle.card + " " + demoStyle.flexRowWrap}>
+				<div
+					className={demoStyle.card + " " + demoStyle.flexRowWrap}
+					style={{ paddingTop: 0 }}>
 					<ColorButton
 						label="transparentNavBar"
 						isActive={transparentNavBar}
 						showIcon
-						style={{ marginRight: 16 }}
+						className={demoStyle["mt16mr16"]}
 						onClick={() => setTransparentNavBar(prev => !prev)}
 					/>
 					<ColorButton
 						label="hideNavBar"
 						isActive={hideNavBar}
 						showIcon
-						style={{ marginRight: 16 }}
+						className={demoStyle["mt16mr16"]}
 						onClick={() => setHideNavBar(prev => !prev)}
 					/>
 				</div>

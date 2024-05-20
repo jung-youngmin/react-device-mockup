@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { CSSProperties, useMemo, useState } from "react";
 import ButtonGroup from "../components/ButtonGroup";
 import CodeBlock from "./CodeBlock";
 import demoStyle from "./demo.module.css";
@@ -37,6 +37,10 @@ export default function InstallDemo() {
 		}
 	}, [isReact]);
 
+	const codeMaxWidth = useMemo<CSSProperties>(() => {
+		return { maxWidth: "90vw" };
+	}, []);
+
 	return (
 		<div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
 			<ButtonGroup
@@ -55,16 +59,40 @@ export default function InstallDemo() {
 					},
 				]}
 			/>
+			<div className={demoStyle.cardTitle}>
+				{isReact ? (
+					<a
+						href="https://github.com/jung-youngmin/react-device-mockup"
+						target="_blank"
+						rel="noopener noreferrer"
+						className={demoStyle.repoLink}>
+						🌐 react-device-mockup
+					</a>
+				) : (
+					<a
+						href="https://github.com/jung-youngmin/react-native-device-mockup"
+						target="_blank"
+						rel="noopener noreferrer"
+						className={demoStyle.repoLink}>
+						🌐 react-native-device-mockup
+					</a>
+				)}
+			</div>
 			<div className={demoStyle.flexRowWrap}>
 				<div
 					className={demoStyle.flexColWrap}
 					style={{ flex: 1, marginRight: 8, marginLeft: 8, boxSizing: "border-box" }}>
-					<CodeBlock title="Install" language="bash" sampleCode={installStr} />
+					<CodeBlock
+						title="Install"
+						language="bash"
+						sampleCode={installStr}
+						style={codeMaxWidth}
+					/>
 					<CodeBlock
 						title=""
 						language="bash"
 						sampleCode={yarnAddStr}
-						style={{ marginTop: 8 }}
+						style={{ marginTop: 8, ...codeMaxWidth }}
 					/>
 				</div>
 				<CodeBlock
@@ -76,6 +104,7 @@ export default function InstallDemo() {
 						marginRight: 8,
 						marginLeft: 8,
 						boxSizing: "border-box",
+						...codeMaxWidth,
 					}}
 				/>
 			</div>

@@ -1,12 +1,12 @@
 import { Property } from "csstype";
 import { useCallback, useMemo, useState } from "react";
-import InputButton from "../components/InputButton";
-import ColorButton from "../components/ColorButton";
-import { AndroidMockup, AndroidTabMockup } from "../dist";
-import demoStyle from "./demo.module.css";
-import ScreenDemo from "./ScreenDemo";
 import ButtonGroup from "../components/ButtonGroup";
+import ColorButton from "../components/ColorButton";
+import InputButton from "../components/InputButton";
+import { AndroidMockup, AndroidTabMockup } from "../dist";
 import CodeBlock from "./CodeBlock";
+import ScreenDemo from "./ScreenDemo";
+import demoStyle from "./demo.module.css";
 
 interface IAndroidDemoProps {
 	readonly mode: "phone" | "tab";

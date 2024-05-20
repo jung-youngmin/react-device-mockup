@@ -1,10 +1,9 @@
 import { useState } from "react";
-import logo from "./logo.svg";
 import cssStyles from "./App.module.css";
-import AndroidDemo from "./demo/AndroidDemo";
 import TouchableTitle from "./components/TouchableTitle";
-import IosDemo from "./demo/IosDemo";
+import AndroidDemo from "./demo/AndroidDemo";
 import InstallDemo from "./demo/InstallDemo";
+import IosDemo from "./demo/IosDemo";
 
 function App() {
 	const [showInstallDemo, setShowInstallDemo] = useState(true);
@@ -15,15 +14,10 @@ function App() {
 
 	return (
 		<div className={cssStyles.App}>
-			{/* <header className="App-header">
-				<img src={logo} className="App-logo" alt="logo" />
-				<p>
-					Edit <code>src/App.tsx</code> and save to reload.
-				</p>
-				<a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-					Learn React
-				</a>
-			</header> */}
+			<header style={{ textAlign: "center" }}>
+				<h1 style={{ margin: 0 }}>Full Demo</h1>
+				<h2 style={{ margin: 0 }}>Device Mockup</h2>
+			</header>
 			{/* // TODO */}
 			<TouchableTitle
 				title="Install & import"

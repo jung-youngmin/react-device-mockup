@@ -1,5 +1,4 @@
-import React from "react";
-import { CSSProperties, useMemo } from "react";
+import React, { CSSProperties, useMemo } from "react";
 import demoStyle from "./demo.module.css";
 
 const _ScreenDemo = ({

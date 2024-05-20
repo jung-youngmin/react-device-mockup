@@ -91,3 +91,14 @@
 	margin-top: 16px;
 	margin-right: 16px;
 }
+
+.repoLink {
+	color: dodgerblue;
+	text-decoration: none;
+}
+.repoLink:visited {
+	color: dodgerblue;
+}
+.repoLink:hover {
+	color: orange;
+}
