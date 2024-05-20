@@ -1,0 +1,48 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  release:
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get semantic version
+        id: semver
+        run: echo "version=${GITHUB_REF#refs/tags/v}" >>$GITHUB_OUTPUT
+
+      - uses: actions/checkout@v4
+        with:
+          ref: v${{ steps.semver.outputs.version }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '21.7.1'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name : Install Dependencies
+        run: npm install
+
+      - name: Update package version
+        run: npm version ${{ steps.semver.outputs.version }} --no-git-tag-version
+
+      - name: Commit updated package version
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'chore: Update package version'
+          branch: main
+
+      - name: Update Git tag
+        run: |
+          git tag ${{ github.ref_name }} -f
+          git push origin ${{ github.ref_name }} -f
+
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
