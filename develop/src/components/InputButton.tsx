@@ -1,4 +1,4 @@
-import { CSSProperties, HTMLInputTypeAttribute, useEffect, useState } from "react";
+import { CSSProperties, HTMLInputTypeAttribute, useCallback, useEffect, useState } from "react";
 import ColorButton from "./ColorButton";
 import styles from "./styles.module.css";
 
@@ -13,6 +13,7 @@ interface IInputButtonProps {
 	readonly className?: string;
 }
 export default function InputButton(props: IInputButtonProps) {
+	const { onClickSubmit } = props;
 	const [text, setText] = useState(props.defaultVal);
 
 	useEffect(() => {
@@ -20,6 +21,23 @@ export default function InputButton(props: IInputButtonProps) {
 			setText(props.value);
 		}
 	}, [props.value]);
+
+	const onSubmit = useCallback(() => {
+		if (text === "") {
+			return;
+		} else {
+			onClickSubmit(text);
+		}
+	}, [text, onClickSubmit]);
+
+	const onEnterKey = useCallback(
+		(e: React.KeyboardEvent<HTMLInputElement>) => {
+			if (e.key === "Enter") {
+				onSubmit();
+			}
+		},
+		[onSubmit],
+	);
 
 	return (
 		<div className={props.className} style={props.style}>
@@ -41,9 +59,9 @@ export default function InputButton(props: IInputButtonProps) {
 						borderColor: "darkgray",
 					}}
 					onChange={e => {
-						console.log(e.target.value);
 						setText(e.target.value);
 					}}
+					onKeyDown={onEnterKey}
 				/>
 				<ColorButton
 					label={"reset"}
@@ -55,18 +73,7 @@ export default function InputButton(props: IInputButtonProps) {
 						props.onClickSubmit(props.defaultVal);
 					}}
 				/>
-				<ColorButton
-					label={"submit"}
-					isActive
-					showIcon={false}
-					onClick={() => {
-						if (text === "") {
-							return;
-						} else {
-							props.onClickSubmit(text);
-						}
-					}}
-				/>
+				<ColorButton label={"submit"} isActive showIcon={false} onClick={onSubmit} />
 			</div>
 		</div>
 	);

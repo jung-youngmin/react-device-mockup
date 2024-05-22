@@ -9,6 +9,16 @@ interface ICheckButtonProps {
 	readonly className?: string;
 }
 export default function ColorButton(props: ICheckButtonProps) {
+	/**
+	 * 1. touchstart
+	 * 2. touchmove
+	 * 3. touchend
+	 * 4. mouseover
+	 * 5. mousemove
+	 * 6. mousedown
+	 * 7. mouseup
+	 * 8. click
+	 */
 	const [hover, setHover] = useState(false);
 	const icon = useMemo(() => {
 		if (props.showIcon) {
@@ -42,6 +52,8 @@ export default function ColorButton(props: ICheckButtonProps) {
 			}}
 			onMouseOver={() => setHover(true)}
 			onMouseLeave={() => setHover(false)}
+			onTouchStart={() => setHover(true)}
+			onMouseUp={() => setHover(false)}
 			onClick={props.onClick}>
 			{icon !== null && (
 				<span

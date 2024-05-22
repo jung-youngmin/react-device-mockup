@@ -9,7 +9,7 @@ input.myInput:focus {
 .subLabel {
 	display: flex;
 	box-sizing: border-box;
-	font-size: 14px;
+	font-size: 0.9rem;
 	color: slategray;
 	margin-left: 4px;
 }
@@ -19,6 +19,9 @@ input.myInput:focus {
 	text-align: center;
 	user-select: none;
 }
-.title:hover {
-	opacity: 0.6;
+@media (hover: hover) and (pointer: fine) {
+	/* when supported */
+	.title:hover {
+		opacity: 0.6;
+	}
 }
