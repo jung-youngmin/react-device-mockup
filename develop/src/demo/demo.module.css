@@ -18,7 +18,7 @@
 .subLabel {
 	display: flex;
 	box-sizing: border-box;
-	font-size: 14px;
+	font-size: 0.9rem;
 	color: slategray;
 	margin-left: 4px;
 }
@@ -99,6 +99,19 @@
 .repoLink:visited {
 	color: dodgerblue;
 }
-.repoLink:hover {
-	color: orange;
+
+@media (hover: hover) and (pointer: fine) {
+	/* when supported */
+	.repoLink:hover {
+		color: orange;
+	}
+}
+
+.mh8 {
+	margin-left: 8px;
+	margin-right: 8px;
+}
+
+.mt8 {
+	margin-top: 8px;
 }

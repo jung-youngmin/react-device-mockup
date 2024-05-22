@@ -59,25 +59,6 @@ export default function InstallDemo() {
 					},
 				]}
 			/>
-			<div className={demoStyle.cardTitle}>
-				{isReact ? (
-					<a
-						href="https://github.com/jung-youngmin/react-device-mockup"
-						target="_blank"
-						rel="noopener noreferrer"
-						className={demoStyle.repoLink}>
-						🌐 react-device-mockup
-					</a>
-				) : (
-					<a
-						href="https://github.com/jung-youngmin/react-native-device-mockup"
-						target="_blank"
-						rel="noopener noreferrer"
-						className={demoStyle.repoLink}>
-						🌐 react-native-device-mockup
-					</a>
-				)}
-			</div>
 			<div className={demoStyle.flexRowWrap}>
 				<div
 					className={demoStyle.flexColWrap}

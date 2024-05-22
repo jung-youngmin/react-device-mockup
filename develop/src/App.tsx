@@ -4,6 +4,7 @@ import TouchableTitle from "./components/TouchableTitle";
 import AndroidDemo from "./demo/AndroidDemo";
 import InstallDemo from "./demo/InstallDemo";
 import IosDemo from "./demo/IosDemo";
+import PackageDemo from "./demo/PackageDemo";
 
 function App() {
 	const [showInstallDemo, setShowInstallDemo] = useState(true);
@@ -18,7 +19,9 @@ function App() {
 				<h1 style={{ margin: 0 }}>Full Demo</h1>
 				<h2 style={{ margin: 0 }}>Device Mockup</h2>
 			</header>
-			{/* // TODO */}
+
+			<PackageDemo />
+
 			<TouchableTitle
 				title="Install & import"
 				isActive={showInstallDemo}
