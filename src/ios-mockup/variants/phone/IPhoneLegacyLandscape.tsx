@@ -30,6 +30,7 @@ const getStyles = (
 	return StyleSheet.create({
 		container: {
 			display: "flex",
+			boxSizing: "content-box",
 			position: "relative",
 			flexDirection: "row",
 			width: screenWidth + upperBezelWidth + lowerBezelWidth,

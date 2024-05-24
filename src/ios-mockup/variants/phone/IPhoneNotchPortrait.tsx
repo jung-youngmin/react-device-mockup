@@ -29,11 +29,10 @@ const getStyles = (
 		container: {
 			display: "flex",
 			flexDirection: "column",
+			boxSizing: "content-box",
 			position: "relative",
 			width: widthAndFrame,
 			height: heightAndFrame,
-			// borderRadius: bezelRadius,
-			// backgroundColor: frameColor,
 			paddingRight: frameButtonWidth - HALF_FRAME_WIDTH,
 			paddingLeft: frameButtonWidth - HALF_FRAME_WIDTH,
 		},
@@ -42,8 +41,6 @@ const getStyles = (
 			flexDirection: "column",
 			position: "relative",
 			backgroundColor: frameColor,
-			// width: widthAndFrame,
-			// height: heightAndFrame,
 			borderRadius: bezelRadius,
 			borderStyle: "solid",
 			borderWidth: FRAME_WIDTH,
@@ -158,6 +155,7 @@ const getStyles = (
 
 export default function IPhoneNotchPortrait(props: PropsWithChildren<IIosMockupVariantProps>) {
 	const {
+		screenWidth,
 		frameColor,
 		statusbarColor,
 		hideStatusBar,
@@ -165,8 +163,8 @@ export default function IPhoneNotchPortrait(props: PropsWithChildren<IIosMockupV
 		transparentNavigationBar,
 	} = props;
 	const styles = useMemo(
-		() => getStyles(props.screenWidth, frameColor, statusbarColor),
-		[props.screenWidth, frameColor, statusbarColor],
+		() => getStyles(screenWidth, frameColor, statusbarColor),
+		[screenWidth, frameColor, statusbarColor],
 	);
 
 	return (

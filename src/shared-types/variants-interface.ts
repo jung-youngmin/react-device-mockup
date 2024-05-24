@@ -1,5 +1,5 @@
-import React from "react";
 import { Property } from "csstype";
+import React from "react";
 
 export interface IAndroidMockupVariantProps {
 	readonly screenWidth: number;
@@ -7,6 +7,8 @@ export interface IAndroidMockupVariantProps {
 	readonly screenRounded: boolean;
 	/** default: "#666666" */
 	readonly frameColor: Property.Color;
+	/** default: false */
+	readonly frameOnly: boolean;
 	/** default: "#CCCCCC" */
 	readonly statusbarColor: Property.Color;
 	/** default: "#CCCCCC" */

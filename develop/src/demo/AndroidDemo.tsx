@@ -3,8 +3,8 @@ import { useCallback, useMemo, useState } from "react";
 import ButtonGroup from "../components/ButtonGroup";
 import ColorButton from "../components/ColorButton";
 import InputButton from "../components/InputButton";
-// import { AndroidMockup, AndroidTabMockup } from "../dist";
-import { AndroidMockup, AndroidTabMockup } from "react-device-mockup";
+import { AndroidMockup, AndroidTabMockup } from "../dist";
+// import { AndroidMockup, AndroidTabMockup } from "react-device-mockup";
 import CodeBlock from "./CodeBlock";
 import ScreenDemo from "./ScreenDemo";
 import demoStyle from "./demo.module.css";
@@ -22,6 +22,7 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 	const [isLandscape, setIsLandscape] = useState(false);
 	const [hideStatusBar, setHideStatusBar] = useState(false);
 	const [frameColor, setFrameColor] = useState<Property.Color>(DEFAULT_FRAME_COLOR);
+	const [frameOnly, setFrameOnly] = useState<boolean>(false);
 	const [statusbarColor, setStatusbarColor] = useState<Property.Color>(DEFAULT_STATUS_BAR_COLOR);
 	const [navBar, setNavBar] = useState<"swipe" | "bhr" | "rhb">("swipe");
 	const [navBarcolor, setNavBarcolor] = useState<Property.Color>(DEFAULT_STATUS_BAR_COLOR);
@@ -37,6 +38,7 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 		setIsLandscape(false);
 		setHideStatusBar(false);
 		setFrameColor(DEFAULT_FRAME_COLOR);
+		setFrameOnly(false);
 		setStatusbarColor(DEFAULT_STATUS_BAR_COLOR);
 		setNavBar("swipe");
 		setNavBarcolor(DEFAULT_STATUS_BAR_COLOR);
@@ -60,6 +62,10 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 
 		if (frameColor !== DEFAULT_FRAME_COLOR) {
 			code += `\n  frameColor={"${frameColor}"}`;
+		}
+
+		if (frameOnly) {
+			code += `\n  frameOnly`;
 		}
 
 		if (statusbarColor !== DEFAULT_STATUS_BAR_COLOR) {
@@ -104,6 +110,7 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 		isLandscape,
 		noRoundedScreen,
 		frameColor,
+		frameOnly,
 		statusbarColor,
 		hideStatusBar,
 		navBar,
@@ -123,6 +130,7 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 						isLandscape={isLandscape}
 						noRoundedScreen={noRoundedScreen}
 						frameColor={frameColor}
+						frameOnly={frameOnly}
 						statusbarColor={statusbarColor}
 						hideStatusBar={hideStatusBar}
 						navBar={navBar}
@@ -141,6 +149,7 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 						isLandscape={isLandscape}
 						noRoundedScreen={noRoundedScreen}
 						frameColor={frameColor}
+						frameOnly={frameOnly}
 						statusbarColor={statusbarColor}
 						hideStatusBar={hideStatusBar}
 						navBar={navBar}
@@ -163,9 +172,7 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 					onClick={resetAll}
 				/>
 				<h3 className={demoStyle.cardTitle}>Common</h3>
-				<div
-					className={`${demoStyle.card} ${demoStyle.flexColWrap}`}
-					style={{ paddingTop: 8 }}>
+				<div className={`${demoStyle.card} ${demoStyle.flexColWrap} ${demoStyle.pt8}`}>
 					<div className={`${demoStyle.flexRowWrap} ${demoStyle.flexAlignEnd}`}>
 						<InputButton
 							className={demoStyle["mt8mr30"]}
@@ -200,21 +207,6 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 							]}
 						/>
 					</div>
-					<div className={demoStyle.flexAlignEnd + " " + demoStyle["mt8mr30"]}>
-						<InputButton
-							label="frameColor"
-							inputType="text"
-							defaultVal={DEFAULT_FRAME_COLOR}
-							placeholder="frameColor"
-							onClickSubmit={inputVal => {
-								setFrameColor(inputVal);
-							}}
-						/>
-						<span
-							className={demoStyle.colorSample}
-							style={{ backgroundColor: frameColor }}
-						/>
-					</div>
 					<div className={demoStyle.flexRowWrap}>
 						<ColorButton
 							label="isLandscape"
@@ -240,10 +232,36 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 					</div>
 				</div>
 
+				<h3 className={demoStyle.cardTitle}>Frame</h3>
+				<div
+					className={`${demoStyle.card} ${demoStyle.flexRowWrap} ${demoStyle.flexAlignEnd} ${demoStyle.pt8}`}>
+					<div className={demoStyle.flexAlignEnd + " " + demoStyle["mt8mr30"]}>
+						<InputButton
+							label="frameColor"
+							inputType="text"
+							defaultVal={DEFAULT_FRAME_COLOR}
+							placeholder="frameColor"
+							onClickSubmit={inputVal => {
+								setFrameColor(inputVal);
+							}}
+						/>
+						<span
+							className={demoStyle.colorSample}
+							style={{ backgroundColor: frameColor }}
+						/>
+					</div>
+					<ColorButton
+						label="frameOnly"
+						isActive={frameOnly}
+						showIcon
+						className={demoStyle["mt16mr16"]}
+						onClick={() => setFrameOnly(prev => !prev)}
+					/>
+				</div>
+
 				<h3 className={demoStyle.cardTitle}>Statusbar</h3>
 				<div
-					className={`${demoStyle.card} ${demoStyle.flexRowWrap} ${demoStyle.flexAlignEnd}`}
-					style={{ paddingTop: 8 }}>
+					className={`${demoStyle.card} ${demoStyle.flexRowWrap} ${demoStyle.flexAlignEnd} ${demoStyle.pt8}`}>
 					<div className={demoStyle.flexAlignEnd + " " + demoStyle["mt8mr30"]}>
 						<InputButton
 							label="statusbarColor"
@@ -269,9 +287,7 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 				</div>
 
 				<h3 className={demoStyle.cardTitle}>Navigation Bar</h3>
-				<div
-					className={`${demoStyle.card} ${demoStyle.flexColWrap}`}
-					style={{ paddingTop: 8 }}>
+				<div className={`${demoStyle.card} ${demoStyle.flexColWrap} ${demoStyle.pt8}`}>
 					<div className={`${demoStyle.flexRowWrap} ${demoStyle.flexAlignEnd}`}>
 						<ButtonGroup
 							title="navBar"

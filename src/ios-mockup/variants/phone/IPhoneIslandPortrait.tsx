@@ -28,6 +28,8 @@ const getStyles = (
 	return StyleSheet.create({
 		container: {
 			display: "flex",
+			flexDirection: "column",
+			boxSizing: "content-box",
 			position: "relative",
 			width: widthAndFrame,
 			height: heightAndFrame,
@@ -145,6 +147,7 @@ const getStyles = (
 
 export default function IPhoneIslandPortrait(props: PropsWithChildren<IIosMockupVariantProps>) {
 	const {
+		screenWidth,
 		frameColor,
 		statusbarColor,
 		hideStatusBar,
@@ -152,8 +155,8 @@ export default function IPhoneIslandPortrait(props: PropsWithChildren<IIosMockup
 		transparentNavigationBar,
 	} = props;
 	const styles = useMemo(
-		() => getStyles(props.screenWidth, frameColor, statusbarColor),
-		[props.screenWidth, frameColor, statusbarColor],
+		() => getStyles(screenWidth, frameColor, statusbarColor),
+		[screenWidth, frameColor, statusbarColor],
 	);
 
 	return (

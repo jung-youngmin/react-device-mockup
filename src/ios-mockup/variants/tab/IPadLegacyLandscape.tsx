@@ -25,12 +25,11 @@ const getStyles = (
 	return StyleSheet.create({
 		container: {
 			display: "flex",
+			boxSizing: "content-box",
 			position: "relative",
 			flexDirection: "row",
 			width: screenWidth + upperBezelWidth + lowerBezelWidth,
 			height: heightAndFrame,
-			// borderRadius: bezelRadius,
-			// backgroundColor: frameColor,
 		},
 		frame: {
 			display: "flex",
@@ -41,10 +40,6 @@ const getStyles = (
 			backgroundColor: frameColor,
 			width: screenWidth,
 			height: heightAndFrame,
-			// borderWidth: FRAME_WIDTH,
-			// borderColor: frameColor,
-			// borderLeftWidth: 0,
-			// borderRightWidth: 0,
 			overflow: "hidden",
 		},
 		upperBezel: {

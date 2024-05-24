@@ -115,3 +115,12 @@
 .mt8 {
 	margin-top: 8px;
 }
+
+.pt8 {
+	padding-top: 8px;
+}
+
+.pv8 {
+	padding-top: 8px;
+	padding-bottom: 8px;
+}

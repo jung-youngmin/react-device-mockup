@@ -29,6 +29,7 @@ const getStyles = (
 		container: {
 			display: "flex",
 			flexDirection: "column",
+			boxSizing: "content-box",
 			position: "relative",
 			width: widthAndFrame,
 			height: heightAndFrame,
@@ -126,6 +127,7 @@ const getStyles = (
 
 export default function IPadModernLandscape(props: PropsWithChildren<IIosMockupVariantProps>) {
 	const {
+		screenWidth,
 		frameColor,
 		statusbarColor,
 		hideStatusBar,
@@ -133,8 +135,8 @@ export default function IPadModernLandscape(props: PropsWithChildren<IIosMockupV
 		transparentNavigationBar,
 	} = props;
 	const styles = useMemo(
-		() => getStyles(props.screenWidth, frameColor, statusbarColor),
-		[props.screenWidth, frameColor, statusbarColor],
+		() => getStyles(screenWidth, frameColor, statusbarColor),
+		[screenWidth, frameColor, statusbarColor],
 	);
 
 	return (

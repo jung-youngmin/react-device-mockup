@@ -28,12 +28,11 @@ const getStyles = (
 	return StyleSheet.create({
 		container: {
 			display: "flex",
+			boxSizing: "content-box",
 			position: "relative",
 			flexDirection: "row",
 			width: widthAndFrame,
 			height: heightAndFrame,
-			// borderRadius: bezelRadius,
-			// backgroundColor: frameColor,
 			paddingTop: frameButtonHeight - HALF_FRAME_WIDTH,
 			paddingBottom: frameButtonHeight - HALF_FRAME_WIDTH,
 		},
@@ -43,8 +42,6 @@ const getStyles = (
 			position: "relative",
 			boxSizing: "border-box",
 			backgroundColor: frameColor,
-			// width: widthAndFrame,
-			// height: heightAndFrame,
 			borderRadius: bezelRadius,
 			borderStyle: "solid",
 			borderWidth: FRAME_WIDTH,
@@ -165,6 +162,7 @@ const getStyles = (
 
 export default function IPhoneNotchLandscape(props: PropsWithChildren<IIosMockupVariantProps>) {
 	const {
+		screenWidth,
 		frameColor,
 		statusbarColor,
 		hideStatusBar,
@@ -172,8 +170,8 @@ export default function IPhoneNotchLandscape(props: PropsWithChildren<IIosMockup
 		transparentNavigationBar,
 	} = props;
 	const styles = useMemo(
-		() => getStyles(props.screenWidth, frameColor, statusbarColor),
-		[props.screenWidth, frameColor, statusbarColor],
+		() => getStyles(screenWidth, frameColor, statusbarColor),
+		[screenWidth, frameColor, statusbarColor],
 	);
 
 	return (

@@ -26,6 +26,7 @@ const getStyles = (
 		container: {
 			display: "flex",
 			flexDirection: "column",
+			boxSizing: "content-box",
 			position: "relative",
 			width: widthAndFrame,
 			height: mHeight + upperBezelHeight + lowerBezelHeight,
