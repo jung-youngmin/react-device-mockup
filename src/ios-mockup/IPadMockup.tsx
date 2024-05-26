@@ -1,9 +1,9 @@
 import { Property } from "csstype";
 import { CSSProperties, PropsWithChildren, useMemo } from "react";
-import IPadLegacyPortrait from "./variants/tab/IPadLegacyPortrait";
 import IPadLegacyLandscape from "./variants/tab/IPadLegacyLandscape";
-import IPadModernPortrait from "./variants/tab/IPadModernPortrait";
+import IPadLegacyPortrait from "./variants/tab/IPadLegacyPortrait";
 import IPadModernLandscape from "./variants/tab/IPadModernLandscape";
+import IPadModernPortrait from "./variants/tab/IPadModernPortrait";
 
 interface IiPadMockupProps {
 	readonly screenWidth: number;
@@ -14,6 +14,8 @@ interface IiPadMockupProps {
 	readonly containerStlye?: CSSProperties;
 	/** default: "#666666" */
 	readonly frameColor?: Property.Color;
+	/** default: false */
+	readonly frameOnly?: boolean;
 	/** default: "#CCCCCC" */
 	readonly statusbarColor?: Property.Color;
 	/** default: false */

@@ -27,6 +27,8 @@ export interface IIosMockupVariantProps {
 	readonly screenWidth: number;
 	/** default: "#666666" */
 	readonly frameColor: Property.Color;
+	/** default: false */
+	readonly frameOnly: boolean;
 	/** default: "#CCCCCC" */
 	readonly statusbarColor: Property.Color;
 	/** default: false */
