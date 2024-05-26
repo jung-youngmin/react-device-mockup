@@ -355,7 +355,12 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 				{props.mode === "phone" && (
 					<div
 						className={demoStyle.subLabel}
-						style={{ display: "initial", marginLeft: 16, marginTop: 4 }}>
+						style={{
+							display: "initial",
+							marginLeft: 16,
+							marginTop: 4,
+							textAlign: "center",
+						}}>
 						⚠️ <code className={demoStyle.code}>transparentCamArea</code> only works
 						when
 						<code className={demoStyle.code}> isLandscape=true</code>

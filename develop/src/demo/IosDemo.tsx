@@ -23,6 +23,7 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 	const [isLandscape, setIsLandscape] = useState(false);
 	const [hideStatusBar, setHideStatusBar] = useState(false);
 	const [frameColor, setFrameColor] = useState<Property.Color>(DEFAULT_FRAME_COLOR);
+	const [frameOnly, setFrameOnly] = useState<boolean>(false);
 	const [statusbarColor, setStatusbarColor] = useState<Property.Color>(DEFAULT_STATUS_BAR_COLOR);
 	const [transparentNavBar, setTransparentNavBar] = useState<boolean>(false);
 	const [hideNavBar, setHideNavBar] = useState<boolean>(false);
@@ -36,6 +37,7 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 		setIsLandscape(false);
 		setHideStatusBar(false);
 		setFrameColor(DEFAULT_FRAME_COLOR);
+		setFrameOnly(false);
 		setStatusbarColor(DEFAULT_STATUS_BAR_COLOR);
 		setTransparentNavBar(false);
 		setHideNavBar(false);
@@ -60,6 +62,10 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 
 		if (frameColor !== DEFAULT_FRAME_COLOR) {
 			code += `\n  frameColor={"${frameColor}"}`;
+		}
+
+		if (frameOnly) {
+			code += `\n  frameOnly`;
 		}
 
 		if (statusbarColor !== DEFAULT_STATUS_BAR_COLOR) {
@@ -93,6 +99,7 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 		padScreenType,
 		isLandscape,
 		frameColor,
+		frameOnly,
 		statusbarColor,
 		hideStatusBar,
 		transparentNavBar,
@@ -114,6 +121,7 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 						screenType={phoneScreenType}
 						isLandscape={isLandscape}
 						frameColor={frameColor}
+						frameOnly={frameOnly}
 						statusbarColor={statusbarColor}
 						hideStatusBar={hideStatusBar}
 						transparentNavBar={transparentNavBar}
@@ -129,6 +137,7 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 						screenType={padScreenType}
 						isLandscape={isLandscape}
 						frameColor={frameColor}
+						frameOnly={frameOnly}
 						statusbarColor={statusbarColor}
 						hideStatusBar={hideStatusBar}
 						transparentNavBar={transparentNavBar}
@@ -227,21 +236,6 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 							]}
 						/>
 					)}
-					<div className={demoStyle.flexAlignEnd + " " + demoStyle["mt8mr30"]}>
-						<InputButton
-							label="frameColor"
-							inputType="text"
-							defaultVal={DEFAULT_FRAME_COLOR}
-							placeholder="frameColor"
-							onClickSubmit={inputVal => {
-								setFrameColor(inputVal);
-							}}
-						/>
-						<span
-							className={demoStyle.colorSample}
-							style={{ backgroundColor: frameColor }}
-						/>
-					</div>
 					<div className={demoStyle.flexRowWrap}>
 						<ColorButton
 							label="isLandscape"
@@ -258,6 +252,34 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 							onClick={() => setShowScreenDemo(prev => !prev)}
 						/>
 					</div>
+				</div>
+
+				<h3 className={demoStyle.cardTitle}>Frame</h3>
+				<div
+					className={`${demoStyle.card} ${demoStyle.flexRowWrap} ${demoStyle.flexAlignEnd}`}
+					style={{ paddingTop: 8 }}>
+					<div className={demoStyle.flexAlignEnd + " " + demoStyle["mt8mr30"]}>
+						<InputButton
+							label="frameColor"
+							inputType="text"
+							defaultVal={DEFAULT_FRAME_COLOR}
+							placeholder="frameColor"
+							onClickSubmit={inputVal => {
+								setFrameColor(inputVal);
+							}}
+						/>
+						<span
+							className={demoStyle.colorSample}
+							style={{ backgroundColor: frameColor }}
+						/>
+					</div>
+					<ColorButton
+						label="frameOnly"
+						isActive={frameOnly}
+						showIcon
+						className={demoStyle["mt16mr16"]}
+						onClick={() => setFrameOnly(prev => !prev)}
+					/>
 				</div>
 
 				<h3 className={demoStyle.cardTitle}>Statusbar</h3>
@@ -289,12 +311,24 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 				</div>
 				{props.mode === "phone" && phoneScreenType === "legacy" && (
 					<div
-						className={demoStyle.subLabel}
-						style={{ display: "initial", marginLeft: 16, marginTop: 4 }}>
-						⚠️ When <code className={demoStyle.code}> isLandscape=true </code> and
-						<code className={demoStyle.code}> screenType="legacy"</code>, status bar is
-						always hidden regardless of
-						<code className={demoStyle.code}> hideStatusBar</code>.
+						className={demoStyle.flexRowWrap}
+						style={{
+							marginTop: 4,
+							alignItems: "center",
+							justifyContent: "center",
+							textAlign: "center",
+						}}>
+						<div style={{ fontSize: "1.4rem" }}>⚠️</div>
+						<div className={demoStyle.flexColWrap}>
+							<div className={demoStyle.subLabel} style={{ display: "initial" }}>
+								When <code className={demoStyle.code}> isLandscape=true </code> and
+								<code className={demoStyle.code}> screenType="legacy"</code>,
+							</div>
+							<div className={demoStyle.subLabel} style={{ display: "initial" }}>
+								status bar is always hidden regardless of
+								<code className={demoStyle.code}> hideStatusBar</code>.
+							</div>
+						</div>
 					</div>
 				)}
 
@@ -319,11 +353,24 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 				</div>
 				{(phoneScreenType === "legacy" || padScreenType === "legacy") && (
 					<div
-						className={demoStyle.subLabel}
-						style={{ display: "initial", marginLeft: 16, marginTop: 4 }}>
-						⚠️ When <code className={demoStyle.code}> screenType="legacy"</code>,
-						<code className={demoStyle.code}> transparentNavBar</code> and
-						<code className={demoStyle.code}> hideNavBar</code> are always ignored
+						className={demoStyle.flexRowWrap}
+						style={{
+							marginTop: 4,
+							alignItems: "center",
+							justifyContent: "center",
+							textAlign: "center",
+						}}>
+						<div style={{ fontSize: "1.4rem" }}>⚠️</div>
+						<div className={demoStyle.flexColWrap}>
+							<div className={demoStyle.subLabel} style={{ display: "initial" }}>
+								When <code className={demoStyle.code}> screenType="legacy"</code>,
+							</div>
+							<div className={demoStyle.subLabel} style={{ display: "initial" }}>
+								<code className={demoStyle.code}> transparentNavBar</code> and
+								<code className={demoStyle.code}> hideNavBar</code> are always
+								ignored.
+							</div>
+						</div>
 					</div>
 				)}
 				{/* code */}
