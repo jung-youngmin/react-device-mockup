@@ -34,28 +34,28 @@ function App() {
 				isActive={showAndroidDemo}
 				onClick={() => setShowAndroidDemo(prev => !prev)}
 			/>
-			{showAndroidDemo && <AndroidDemo mode="phone" />}
+			<AndroidDemo mode="phone" showDemo={showAndroidDemo} />
 
 			<TouchableTitle
 				title="📺 AndroidTabMockup"
 				isActive={showAndroidTabDemo}
 				onClick={() => setShowAndroidTabDemo(prev => !prev)}
 			/>
-			{showAndroidTabDemo && <AndroidDemo mode="tab" />}
+			<AndroidDemo mode="tab" showDemo={showAndroidTabDemo} />
 
 			<TouchableTitle
 				title="📞 IPhoneMockup"
 				isActive={showIphoneDemo}
 				onClick={() => setShowIphoneDemo(prev => !prev)}
 			/>
-			{showIphoneDemo && <IosDemo mode="phone" />}
+			<IosDemo mode="phone" showDemo={showIphoneDemo} />
 
 			<TouchableTitle
 				title="📺 IPadMockup"
 				isActive={showIpadDemo}
 				onClick={() => setShowIpadDemo(prev => !prev)}
 			/>
-			{showIpadDemo && <IosDemo mode="tab" />}
+			<IosDemo mode="tab" showDemo={showIpadDemo} />
 		</div>
 	);
 }

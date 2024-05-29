@@ -11,6 +11,7 @@ import demoStyle from "./demo.module.css";
 
 interface IIosDemoDemoProps {
 	readonly mode: "phone" | "tab";
+	readonly showDemo: boolean;
 }
 export default function IosDemo(props: IIosDemoDemoProps) {
 	const DEFAULT_SCREEN_WIDTH = 200;
@@ -108,7 +109,9 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 	]);
 
 	return (
-		<div className={demoStyle.flexRowWrap} style={{ justifyContent: "center" }}>
+		<div
+			className={demoStyle.flexRowWrap}
+			style={{ justifyContent: "center", display: props.showDemo ? "flex" : "none" }}>
 			<div
 				className={demoStyle.flexBox}
 				style={{

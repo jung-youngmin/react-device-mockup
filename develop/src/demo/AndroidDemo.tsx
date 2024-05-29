@@ -11,6 +11,7 @@ import demoStyle from "./demo.module.css";
 
 interface IAndroidDemoProps {
 	readonly mode: "phone" | "tab";
+	readonly showDemo: boolean;
 }
 export default function AndroidDemo(props: IAndroidDemoProps) {
 	const DEFAULT_SCREEN_WIDTH = 200;
@@ -122,7 +123,9 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 	]);
 
 	return (
-		<div className={demoStyle.flexRowWrap} style={{ justifyContent: "center" }}>
+		<div
+			className={demoStyle.flexRowWrap}
+			style={{ justifyContent: "center", display: props.showDemo ? "flex" : "none" }}>
 			<div className={demoStyle.flexBox} style={{ display: "flex" }}>
 				{props.mode === "phone" && (
 					<AndroidMockup
