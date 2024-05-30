@@ -26,7 +26,6 @@ module.exports = {
 		"react/jsx-indent": ["error", "tab"], // jsx에서도 indent tab으로 통일
 		"react/jsx-indent-props": [1, "tab"],
 		"react/jsx-closing-bracket-location": [1, "after-props"],
-		"operator-linebreak": ["error", "after"],
 		"implicit-arrow-linebreak": 0, // => 화살표 옆에 바로 코드가 오는지
 		"no-unused-vars": 0, // typescript/no-unused-vars 사용을 위해 비활성화
 	},
