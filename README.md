@@ -113,7 +113,7 @@ You can check [demo](#demo-android)
 | statusbarColor     | X        | `ColorValue` | `"#CCCCCC"` | Color of status bar |
 | hideStatusBar      | X        | `boolean`    | `false` | Hide the status bar<br>[details](#hidestatusbar) |
 | navBar             | X        | `"swipe"`<br>`"bhr"`<br>`"rhb"` | `"swipe"` | Type of navigation bar<br>[details](#navbar) |
-| navBarcolor        | X        | `ColorValue` | `"#CCCCCC"` | Color of navigation bar |
+| navBarColor        | X        | `ColorValue` | `"#CCCCCC"` | Color of navigation bar |
 | transparentNavBar  | X        | `boolean` | `false` | Make the navigation bar transparent.<br>[details](#transparentnavbar) |
 | hideNavBar         | X        | `boolean` | `false` | Hide the navigation bar<br>[details](#hidenavbar) |
 | transparentCamArea | X        | `boolean` | `false` | *NOTE: AndroidMockup only.*<br>Make the area around the camera transparent.<br>Only works when `isLandscape=true`.<br>[details](#transparentcamarea) |
@@ -180,7 +180,7 @@ Type of navigation bar.
 
 Make the navigation bar transparent.
 
-- `false`: Navigation bar occupies its own space with `navBarcolor`. (default)
+- `false`: Navigation bar occupies its own space with `navBarColor`. (default)
 - `true`: Navigation bar no longer occupies its own area, but becomes part of the screen area.
   - **NOTE:** Swipe bar or buttons are rendered according to the type specified by `navBar` props.
 
@@ -253,7 +253,7 @@ hideNavBar={true}
 
 #### other props
 
-| noRoundedScreen | frameColor="green"<br>statusbarColor="red"<br>navBarcolor="blue" |
+| noRoundedScreen | frameColor="green"<br>statusbarColor="red"<br>navBarColor="blue" |
 | :--: | :--: |
 | ![and_noRoundedScreen](https://github.com/jung-youngmin/react-native-device-mockup/assets/166787291/9ded37e1-edff-43df-a10a-864e7dd4437c) | ![and_colors](https://github.com/jung-youngmin/react-native-device-mockup/assets/166787291/32de0f9d-f687-4d6d-8ab2-40f08b54fbfa) |
 

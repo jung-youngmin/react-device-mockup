@@ -26,7 +26,7 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 	const [frameOnly, setFrameOnly] = useState<boolean>(false);
 	const [statusbarColor, setStatusbarColor] = useState<Property.Color>(DEFAULT_STATUS_BAR_COLOR);
 	const [navBar, setNavBar] = useState<"swipe" | "bhr" | "rhb">("swipe");
-	const [navBarcolor, setNavBarcolor] = useState<Property.Color>(DEFAULT_STATUS_BAR_COLOR);
+	const [navBarColor, setNavBarColor] = useState<Property.Color>(DEFAULT_STATUS_BAR_COLOR);
 	const [transparentNavBar, setTransparentNavBar] = useState<boolean>(false);
 	const [hideNavBar, setHideNavBar] = useState<boolean>(false);
 	const [transparentCamArea, setTransparentCamArea] = useState<boolean>(false);
@@ -42,7 +42,7 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 		setFrameOnly(false);
 		setStatusbarColor(DEFAULT_STATUS_BAR_COLOR);
 		setNavBar("swipe");
-		setNavBarcolor(DEFAULT_STATUS_BAR_COLOR);
+		setNavBarColor(DEFAULT_STATUS_BAR_COLOR);
 		setTransparentNavBar(false);
 		setHideNavBar(false);
 		setTransparentCamArea(false);
@@ -81,8 +81,8 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 			code += `\n  navBar={"${navBar}"}`;
 		}
 
-		if (navBarcolor !== DEFAULT_STATUS_BAR_COLOR) {
-			code += `\n  navBarcolor={"${navBarcolor}"}`;
+		if (navBarColor !== DEFAULT_STATUS_BAR_COLOR) {
+			code += `\n  navBarColor={"${navBarColor}"}`;
 		}
 
 		if (transparentNavBar) {
@@ -115,7 +115,7 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 		statusbarColor,
 		hideStatusBar,
 		navBar,
-		navBarcolor,
+		navBarColor,
 		transparentNavBar,
 		hideNavBar,
 		transparentCamArea,
@@ -137,7 +137,7 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 						statusbarColor={statusbarColor}
 						hideStatusBar={hideStatusBar}
 						navBar={navBar}
-						navBarcolor={navBarcolor}
+						navBarColor={navBarColor}
 						transparentNavBar={transparentNavBar}
 						hideNavBar={hideNavBar}
 						transparentCamArea={transparentCamArea}>
@@ -156,7 +156,7 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 						statusbarColor={statusbarColor}
 						hideStatusBar={hideStatusBar}
 						navBar={navBar}
-						navBarcolor={navBarcolor}
+						navBarColor={navBarColor}
 						transparentNavBar={transparentNavBar}
 						hideNavBar={hideNavBar}>
 						{showScreenDemo && (
@@ -315,17 +315,17 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 						/>
 						<div className={demoStyle.flexAlignEnd + " " + demoStyle["mt8mr30"]}>
 							<InputButton
-								label="navBarcolor"
+								label="navBarColor"
 								inputType="text"
 								defaultVal={DEFAULT_STATUS_BAR_COLOR}
-								placeholder="navBarcolor"
+								placeholder="navBarColor"
 								onClickSubmit={inputVal => {
-									setNavBarcolor(inputVal);
+									setNavBarColor(inputVal);
 								}}
 							/>
 							<span
 								className={demoStyle.colorSample}
-								style={{ backgroundColor: navBarcolor }}
+								style={{ backgroundColor: navBarColor }}
 							/>
 						</div>
 					</div>

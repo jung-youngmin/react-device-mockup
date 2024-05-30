@@ -12,7 +12,7 @@ export interface IAndroidMockupVariantProps {
 	/** default: "#CCCCCC" */
 	readonly statusbarColor: Property.Color;
 	/** default: "#CCCCCC" */
-	readonly navigationBarcolor: Property.Color;
+	readonly navigationBarColor: Property.Color;
 	/** default: "swipe" */
 	readonly navigationBar: "swipe" | "bhr" | "rhb";
 	/** default: false */

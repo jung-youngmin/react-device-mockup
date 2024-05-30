@@ -21,7 +21,7 @@ interface IAndroidTabMockupProps {
 	/** default: "swipe" */
 	readonly navBar?: "swipe" | "bhr" | "rhb";
 	/** default: "#CCCCCC" */
-	readonly navBarcolor?: Property.Color;
+	readonly navBarColor?: Property.Color;
 	/** default: false */
 	readonly transparentNavBar?: boolean;
 	/** default: false */
@@ -30,86 +30,50 @@ interface IAndroidTabMockupProps {
 
 export type AndroidTabMockupProps = PropsWithChildren<IAndroidTabMockupProps>;
 export default function AndroidTabMockup(props: AndroidTabMockupProps) {
-	const isLandscape = useMemo(
-		() => (props.isLandscape === undefined ? false : props.isLandscape),
-		[props.isLandscape],
-	);
-
-	const noRoundedScreen = useMemo(
-		() => (props.noRoundedScreen === undefined ? false : props.noRoundedScreen),
-		[props.noRoundedScreen],
-	);
-
-	const frameColor = useMemo(
-		() => (props.frameColor === undefined ? "#666666" : props.frameColor),
-		[props.frameColor],
-	);
-
-	const frameOnly = useMemo(
-		() => (props.frameOnly === undefined ? false : props.frameOnly),
-		[props.frameOnly],
-	);
-
-	const statusbarColor = useMemo(
-		() => (props.statusbarColor === undefined ? "#CCCCCC" : props.statusbarColor),
-		[props.statusbarColor],
-	);
-
-	const navigationBar = useMemo(
-		() => (props.navBar === undefined ? "swipe" : props.navBar),
-		[props.navBar],
-	);
-
-	const navigationBarcolor = useMemo(
-		() => (props.navBarcolor === undefined ? "#CCCCCC" : props.navBarcolor),
-		[props.navBarcolor],
-	);
-
-	const hideStatusBar = useMemo(
-		() => (props.hideStatusBar === undefined ? false : props.hideStatusBar),
-		[props.hideStatusBar],
-	);
-
-	const transparentNavigationBar = useMemo(
-		() => (props.transparentNavBar === undefined ? false : props.transparentNavBar),
-		[props.transparentNavBar],
-	);
-
-	const hideNavigationBar = useMemo(
-		() => (props.hideNavBar === undefined ? false : props.hideNavBar),
-		[props.hideNavBar],
-	);
+	const {
+		screenWidth,
+		noRoundedScreen = false,
+		isLandscape = false,
+		frameColor = "#666666",
+		frameOnly = false,
+		statusbarColor = "#CCCCCC",
+		hideStatusBar = false,
+		navBar = "swipe",
+		navBarColor = "#CCCCCC",
+		transparentNavBar = false,
+		hideNavBar = false,
+	} = props;
 
 	return (
 		<div style={props.containerStlye}>
 			{isLandscape ? (
 				// eslint-disable-next-line no-use-before-define
 				<AndroidTabLandscape
-					screenWidth={props.screenWidth}
+					screenWidth={screenWidth}
 					screenRounded={!noRoundedScreen}
 					frameColor={frameColor}
 					frameOnly={frameOnly}
 					statusbarColor={statusbarColor}
-					navigationBar={navigationBar}
-					navigationBarcolor={navigationBarcolor}
+					navigationBar={navBar}
+					navigationBarColor={navBarColor}
 					hideStatusBar={hideStatusBar}
-					transparentNavigationBar={transparentNavigationBar}
-					hideNavigationBar={hideNavigationBar}>
+					transparentNavigationBar={transparentNavBar}
+					hideNavigationBar={hideNavBar}>
 					{props.children}
 				</AndroidTabLandscape>
 			) : (
 				// eslint-disable-next-line no-use-before-define
 				<AndroidTabPortrait
-					screenWidth={props.screenWidth}
+					screenWidth={screenWidth}
 					screenRounded={!noRoundedScreen}
 					frameColor={frameColor}
 					frameOnly={frameOnly}
 					statusbarColor={statusbarColor}
-					navigationBar={navigationBar}
-					navigationBarcolor={navigationBarcolor}
+					navigationBar={navBar}
+					navigationBarColor={navBarColor}
 					hideStatusBar={hideStatusBar}
-					transparentNavigationBar={transparentNavigationBar}
-					hideNavigationBar={hideNavigationBar}>
+					transparentNavigationBar={transparentNavBar}
+					hideNavigationBar={hideNavBar}>
 					{props.children}
 				</AndroidTabPortrait>
 			)}
@@ -125,7 +89,7 @@ const getStyles = (
 	screenRounded: boolean,
 	frameColor: Property.Color,
 	statusbarColor: Property.Color,
-	navigationBarcolor: Property.Color,
+	navigationBarColor: Property.Color,
 	frameOnly: boolean,
 ) => {
 	const FRAME_WIDTH = getSizeWithRatio(100);
@@ -200,7 +164,7 @@ const getStyles = (
 			display: "flex",
 			width: "100%",
 			height: getSizeWithRatio(60),
-			backgroundColor: navigationBarcolor,
+			backgroundColor: navigationBarColor,
 			alignItems: "center",
 			justifyContent: "center",
 		},
@@ -226,7 +190,7 @@ const getStyles = (
 			boxSizing: "border-box",
 			width: "100%",
 			height: getSizeWithRatio(80),
-			backgroundColor: navigationBarcolor,
+			backgroundColor: navigationBarColor,
 			paddingLeft: isLandscape ? (screenWidth / 3) * 2 : screenWidth / 2,
 			flexDirection: "row",
 			alignItems: "center",
@@ -319,7 +283,7 @@ function AndroidTabPortrait(props: PropsWithChildren<IAndroidMockupVariantProps>
 		frameOnly,
 		statusbarColor,
 		navigationBar,
-		navigationBarcolor,
+		navigationBarColor,
 		hideStatusBar,
 		hideNavigationBar,
 		transparentNavigationBar,
@@ -339,10 +303,10 @@ function AndroidTabPortrait(props: PropsWithChildren<IAndroidMockupVariantProps>
 			screenRounded,
 			frameColor,
 			statusbarColor,
-			navigationBarcolor,
+			navigationBarColor,
 			frameOnly,
 		);
-	}, [screenWidth, screenRounded, frameColor, statusbarColor, navigationBarcolor, frameOnly]);
+	}, [screenWidth, screenRounded, frameColor, statusbarColor, navigationBarColor, frameOnly]);
 
 	return (
 		<div style={styles.container}>
@@ -423,7 +387,7 @@ function AndroidTabLandscape(props: PropsWithChildren<IAndroidMockupVariantProps
 		frameOnly,
 		statusbarColor,
 		navigationBar,
-		navigationBarcolor,
+		navigationBarColor,
 		hideStatusBar,
 		hideNavigationBar,
 		transparentNavigationBar,
@@ -443,10 +407,10 @@ function AndroidTabLandscape(props: PropsWithChildren<IAndroidMockupVariantProps
 			screenRounded,
 			frameColor,
 			statusbarColor,
-			navigationBarcolor,
+			navigationBarColor,
 			frameOnly,
 		);
-	}, [screenWidth, screenRounded, frameColor, statusbarColor, navigationBarcolor, frameOnly]);
+	}, [screenWidth, screenRounded, frameColor, statusbarColor, navigationBarColor, frameOnly]);
 
 	return (
 		<div style={styles.container}>
