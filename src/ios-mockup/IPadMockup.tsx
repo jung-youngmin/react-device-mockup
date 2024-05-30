@@ -28,40 +28,51 @@ interface IiPadMockupProps {
 
 export type IPadMockupProps = PropsWithChildren<IiPadMockupProps>;
 export default function IPadMockup(props: IPadMockupProps) {
-	const screenType = useMemo(
-		() => (props.screenType === undefined ? "modern" : props.screenType),
-		[props.screenType],
-	);
+	const {
+		screenWidth,
+		screenType = "modern",
+		isLandscape = false,
+		frameColor = "#666666",
+		frameOnly = false,
+		statusbarColor = "#CCCCCC",
+		hideStatusBar = false,
+		transparentNavBar = false,
+		hideNavBar = false,
+	} = props;
+	// const screenType = useMemo(
+	// 	() => (props.screenType === undefined ? "modern" : props.screenType),
+	// 	[props.screenType],
+	// );
 
-	const isLandscape = useMemo(
-		() => (props.isLandscape === undefined ? false : props.isLandscape),
-		[props.isLandscape],
-	);
+	// const isLandscape = useMemo(
+	// 	() => (props.isLandscape === undefined ? false : props.isLandscape),
+	// 	[props.isLandscape],
+	// );
 
-	const frameColor = useMemo(
-		() => (props.frameColor === undefined ? "#666666" : props.frameColor),
-		[props.frameColor],
-	);
+	// const frameColor = useMemo(
+	// 	() => (props.frameColor === undefined ? "#666666" : props.frameColor),
+	// 	[props.frameColor],
+	// );
 
-	const statusbarColor = useMemo(
-		() => (props.statusbarColor === undefined ? "#CCCCCC" : props.statusbarColor),
-		[props.statusbarColor],
-	);
+	// const statusbarColor = useMemo(
+	// 	() => (props.statusbarColor === undefined ? "#CCCCCC" : props.statusbarColor),
+	// 	[props.statusbarColor],
+	// );
 
-	const hideStatusBar = useMemo(
-		() => (props.hideStatusBar === undefined ? false : props.hideStatusBar),
-		[props.hideStatusBar],
-	);
+	// const hideStatusBar = useMemo(
+	// 	() => (props.hideStatusBar === undefined ? false : props.hideStatusBar),
+	// 	[props.hideStatusBar],
+	// );
 
-	const transparentNavigationBar = useMemo(
-		() => (props.transparentNavBar === undefined ? false : props.transparentNavBar),
-		[props.transparentNavBar],
-	);
+	// const transparentNavigationBar = useMemo(
+	// 	() => (props.transparentNavBar === undefined ? false : props.transparentNavBar),
+	// 	[props.transparentNavBar],
+	// );
 
-	const hideNavigationBar = useMemo(
-		() => (props.hideNavBar === undefined ? false : props.hideNavBar),
-		[props.hideNavBar],
-	);
+	// const hideNavigationBar = useMemo(
+	// 	() => (props.hideNavBar === undefined ? false : props.hideNavBar),
+	// 	[props.hideNavBar],
+	// );
 
 	const Mockup = useMemo(() => {
 		switch (screenType) {
@@ -85,12 +96,13 @@ export default function IPadMockup(props: IPadMockupProps) {
 	return (
 		<div style={props.containerStlye}>
 			<Mockup
-				screenWidth={props.screenWidth}
+				screenWidth={screenWidth}
 				frameColor={frameColor}
+				frameOnly={frameOnly}
 				statusbarColor={statusbarColor}
 				hideStatusBar={hideStatusBar}
-				transparentNavigationBar={transparentNavigationBar}
-				hideNavigationBar={hideNavigationBar}>
+				transparentNavigationBar={transparentNavBar}
+				hideNavigationBar={hideNavBar}>
 				{props.children}
 			</Mockup>
 		</div>
