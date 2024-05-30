@@ -1,7 +1,6 @@
 import { Property } from "csstype";
 import { CSSProperties, PropsWithChildren, useMemo } from "react";
 import { IIosMockupVariantProps, StyleSheet } from "../shared-types/variants-interface";
-import IPhoneLegacyLandscape from "./variants/phone/IPhoneLegacyLandscape";
 
 interface IiPhoneMockupProps {
 	readonly screenWidth: number;
@@ -37,45 +36,6 @@ export default function IPhoneMockup(props: IPhoneMockupProps) {
 		transparentNavBar = false,
 		hideNavBar = false,
 	} = props;
-	// const screenType = useMemo(
-	// 	() => (props.screenType === undefined ? "island" : props.screenType),
-	// 	[props.screenType],
-	// );
-
-	// const isLandscape = useMemo(
-	// 	() => (props.isLandscape === undefined ? false : props.isLandscape),
-	// 	[props.isLandscape],
-	// );
-
-	// const frameColor = useMemo(
-	// 	() => (props.frameColor === undefined ? "#666666" : props.frameColor),
-	// 	[props.frameColor],
-	// );
-
-	// const frameOnly = useMemo(
-	// 	() => (props.frameOnly === undefined ? false : props.frameOnly),
-	// 	[props.frameOnly],
-	// );
-
-	// const statusbarColor = useMemo(
-	// 	() => (props.statusbarColor === undefined ? "#CCCCCC" : props.statusbarColor),
-	// 	[props.statusbarColor],
-	// );
-
-	// const hideStatusBar = useMemo(
-	// 	() => (props.hideStatusBar === undefined ? false : props.hideStatusBar),
-	// 	[props.hideStatusBar],
-	// );
-
-	// const transparentNavigationBar = useMemo(
-	// 	() => (props.transparentNavBar === undefined ? false : props.transparentNavBar),
-	// 	[props.transparentNavBar],
-	// );
-
-	// const hideNavigationBar = useMemo(
-	// 	() => (props.hideNavBar === undefined ? false : props.hideNavBar),
-	// 	[props.hideNavBar],
-	// );
 
 	const Mockup = useMemo(() => {
 		switch (screenType) {
@@ -85,6 +45,7 @@ export default function IPhoneMockup(props: IPhoneMockupProps) {
 				// transparentNavigationBar,
 				if (isLandscape) {
 					// hideStatusBar 무시
+					// eslint-disable-next-line no-use-before-define
 					return IPhoneLegacyLandscape;
 				}
 				// eslint-disable-next-line no-use-before-define
@@ -125,7 +86,7 @@ export default function IPhoneMockup(props: IPhoneMockupProps) {
 }
 
 interface IStyleParam {
-	readonly screenType: "legacy" | "notch" | "island";
+	readonly screenType: "notch" | "island";
 	readonly isLandscape: boolean;
 	readonly getSizeWithRatio: (size: number) => number;
 	readonly screenWidth: number;
@@ -192,14 +153,6 @@ const getStyles = (param: IStyleParam) => {
 			rightInset = isLandscape ? getSizeWithRatio(44) : 0;
 			bottomInset = isLandscape ? getSizeWithRatio(21) : getSizeWithRatio(34);
 			powerPosition = getSizeWithRatio(250);
-			break;
-		case "legacy":
-			topInset = isLandscape ? 0 : getSizeWithRatio(20);
-			leftInset = 0;
-			rightInset = 0;
-			bottomInset = 0;
-			// TODO:
-			powerPosition = getSizeWithRatio(280);
 			break;
 		case "island":
 		default:
@@ -703,50 +656,77 @@ const getLegacyStyles = (param: ILegacyStyleParam) => {
 	const HALF_FRAME_WIDTH = Math.floor(FRAME_WIDTH / 2);
 
 	const widthAndFrame = screenWidth + FRAME_WIDTH * 2;
+	const heightAndFrame = mHeight + FRAME_WIDTH * 2;
 
-	const upperBezelHeight = getSizeWithRatio(110);
-	const lowerBezelHeight = getSizeWithRatio(110);
+	const upperBezelSize = getSizeWithRatio(110);
+	const lowerBezelSize = getSizeWithRatio(110);
 
-	const frameButtonWidth = Math.floor(FRAME_WIDTH * 0.9);
+	const frameButtonSize = Math.floor(FRAME_WIDTH * 0.8);
 	const frameButtonPosition =
-		screenWidth + FRAME_WIDTH + HALF_FRAME_WIDTH + frameButtonWidth - HALF_FRAME_WIDTH;
+		(isLandscape ? mHeight : screenWidth) +
+		FRAME_WIDTH +
+		HALF_FRAME_WIDTH +
+		frameButtonSize -
+		HALF_FRAME_WIDTH;
+
+	const bezelRadius = getSizeWithRatio(60);
+
+	let pRight; // for Portrait
+	let pLeft; // for Portrait
+	let pTop; // for Landscape
+	let pBottom; // for Landscape
+	if (frameOnly) {
+		pRight = 0;
+		pLeft = 0;
+		pTop = 0;
+		pBottom = 0;
+	} else {
+		pRight = isLandscape ? 0 : frameButtonSize - HALF_FRAME_WIDTH;
+		pLeft = isLandscape ? 0 : frameButtonSize - HALF_FRAME_WIDTH;
+		pTop = isLandscape ? frameButtonSize - HALF_FRAME_WIDTH : 0;
+		pBottom = isLandscape ? frameButtonSize - HALF_FRAME_WIDTH : 0;
+	}
 
 	return StyleSheet.create({
 		container: {
 			display: "flex",
-			flexDirection: "column",
+			flexDirection: isLandscape ? "row" : "column",
 			boxSizing: "content-box",
 			position: "relative",
-			width: widthAndFrame,
-			height: mHeight + upperBezelHeight + lowerBezelHeight,
-			paddingRight: frameButtonWidth - HALF_FRAME_WIDTH,
-			paddingLeft: frameButtonWidth - HALF_FRAME_WIDTH,
+			width: isLandscape ? screenWidth + upperBezelSize + lowerBezelSize : widthAndFrame,
+			height: isLandscape ? heightAndFrame : mHeight + upperBezelSize + lowerBezelSize,
+			paddingRight: pRight,
+			paddingLeft: pLeft,
+			paddingTop: pTop,
+			paddingBottom: pBottom,
 		},
 		frame: {
 			display: "flex",
 			flexDirection: "column",
-			alignItems: "center",
+			alignItems: isLandscape ? "flex-start" : "center",
+			justifyContent: isLandscape ? "center" : "flex-start",
 			position: "relative",
 			boxSizing: "border-box",
 			backgroundColor: frameColor,
-			width: widthAndFrame,
-			height: mHeight,
+			width: isLandscape ? screenWidth : widthAndFrame,
+			height: isLandscape ? heightAndFrame : mHeight,
 			overflow: "hidden",
 		},
 		upperBezel: {
 			display: "flex",
 			flexDirection: "column",
 			position: "relative",
-			borderTopLeftRadius: getSizeWithRatio(60),
-			borderTopRightRadius: getSizeWithRatio(60),
-			width: widthAndFrame,
-			height: upperBezelHeight,
+			borderTopLeftRadius: bezelRadius,
+			borderTopRightRadius: isLandscape ? 0 : bezelRadius,
+			borderBottomLeftRadius: isLandscape ? bezelRadius : 0,
+			width: isLandscape ? upperBezelSize : widthAndFrame,
+			height: isLandscape ? heightAndFrame : upperBezelSize,
 			backgroundColor: frameColor,
 			justifyContent: "center",
 		},
 		camSpeakerCont: {
 			display: "flex",
-			flexDirection: "column",
+			flexDirection: isLandscape ? "row" : "column",
 			position: "relative",
 			width: "100%",
 			height: "100%",
@@ -755,7 +735,8 @@ const getLegacyStyles = (param: ILegacyStyleParam) => {
 		},
 		camera: {
 			position: "absolute",
-			left: -getSizeWithRatio(38),
+			left: isLandscape ? undefined : -getSizeWithRatio(38),
+			bottom: isLandscape ? -getSizeWithRatio(38) : 0,
 			width: getSizeWithRatio(10),
 			height: getSizeWithRatio(10),
 			borderRadius: getSizeWithRatio(10),
@@ -763,18 +744,19 @@ const getLegacyStyles = (param: ILegacyStyleParam) => {
 		},
 		speaker: {
 			position: "relative",
-			width: getSizeWithRatio(80),
-			height: getSizeWithRatio(8),
+			width: isLandscape ? getSizeWithRatio(10) : getSizeWithRatio(80),
+			height: isLandscape ? getSizeWithRatio(80) : getSizeWithRatio(10),
 			backgroundColor: statusbarColor,
 			borderRadius: getSizeWithRatio(10),
 		},
 		lowerBezel: {
 			display: "flex",
-			flexDirection: "column",
-			borderBottomLeftRadius: getSizeWithRatio(60),
+			flexDirection: isLandscape ? "row" : "column",
+			borderTopRightRadius: isLandscape ? bezelRadius : 0,
+			borderBottomLeftRadius: isLandscape ? 0 : getSizeWithRatio(60),
 			borderBottomRightRadius: getSizeWithRatio(60),
-			width: widthAndFrame,
-			height: lowerBezelHeight,
+			width: isLandscape ? lowerBezelSize : widthAndFrame,
+			height: isLandscape ? heightAndFrame : lowerBezelSize,
 			backgroundColor: frameColor,
 			alignItems: "center",
 			justifyContent: "center",
@@ -787,7 +769,7 @@ const getLegacyStyles = (param: ILegacyStyleParam) => {
 		},
 		screen: {
 			display: "flex",
-			flexDirection: "column",
+			flexDirection: isLandscape ? "row" : "column",
 			position: "relative",
 			width: screenWidth,
 			height: mHeight,
@@ -802,44 +784,48 @@ const getLegacyStyles = (param: ILegacyStyleParam) => {
 		silenceSwitch: {
 			position: "absolute",
 			borderRadius: FRAME_WIDTH,
-			top: getSizeWithRatio(115),
-			right: frameButtonPosition,
-			width: frameButtonWidth,
-			height: getSizeWithRatio(36),
+			top: isLandscape ? frameButtonPosition : getSizeWithRatio(115),
+			left: isLandscape ? getSizeWithRatio(115) : undefined,
+			right: isLandscape ? undefined : frameButtonPosition,
+			width: isLandscape ? getSizeWithRatio(36) : frameButtonSize,
+			height: isLandscape ? frameButtonSize : getSizeWithRatio(36),
 			backgroundColor: frameColor,
 		},
 		volumeUp: {
 			position: "absolute",
 			borderRadius: FRAME_WIDTH,
-			top: getSizeWithRatio(185),
+			top: isLandscape ? frameButtonPosition : getSizeWithRatio(185),
+			left: isLandscape ? getSizeWithRatio(185) : undefined,
 			right: frameButtonPosition,
-			width: frameButtonWidth,
-			height: getSizeWithRatio(70),
+			width: isLandscape ? getSizeWithRatio(70) : frameButtonSize,
+			height: isLandscape ? frameButtonSize : getSizeWithRatio(70),
 			backgroundColor: frameColor,
 		},
 		volumeDown: {
 			position: "absolute",
 			borderRadius: FRAME_WIDTH,
-			top: getSizeWithRatio(270),
-			right: frameButtonPosition,
-			width: frameButtonWidth,
-			height: getSizeWithRatio(70),
+			top: isLandscape ? frameButtonPosition : getSizeWithRatio(270),
+			left: isLandscape ? getSizeWithRatio(270) : undefined,
+			right: isLandscape ? undefined : frameButtonPosition,
+			width: isLandscape ? getSizeWithRatio(70) : frameButtonSize,
+			height: isLandscape ? frameButtonSize : getSizeWithRatio(70),
 			backgroundColor: frameColor,
 		},
-		powerPortrait: {
+		power: {
 			position: "absolute",
 			borderRadius: FRAME_WIDTH,
-			top: getSizeWithRatio(190),
-			left: frameButtonPosition,
-			width: frameButtonWidth,
-			height: getSizeWithRatio(64),
+			top: isLandscape ? undefined : getSizeWithRatio(190),
+			left: isLandscape ? getSizeWithRatio(190) : frameButtonPosition,
+			bottom: isLandscape ? frameButtonPosition : undefined,
+			width: isLandscape ? getSizeWithRatio(64) : frameButtonSize,
+			height: isLandscape ? frameButtonSize : getSizeWithRatio(64),
 			backgroundColor: frameColor,
 		},
 	});
 };
 
 function IPhoneLegacyPortrait(props: PropsWithChildren<IIosMockupVariantProps>) {
-	const { screenWidth, frameColor, statusbarColor, hideStatusBar } = props;
+	const { screenWidth, frameColor, frameOnly, statusbarColor, hideStatusBar } = props;
 	const styles = useMemo(() => {
 		const getSizeWithRatio = (size: number) => {
 			const sizeRatio = Math.floor((screenWidth * size) / 375);
@@ -854,9 +840,9 @@ function IPhoneLegacyPortrait(props: PropsWithChildren<IIosMockupVariantProps>) 
 			mHeight,
 			frameColor,
 			statusbarColor,
-			frameOnly: false,
+			frameOnly,
 		});
-	}, [screenWidth, frameColor, statusbarColor]);
+	}, [screenWidth, frameColor, statusbarColor, frameOnly]);
 
 	return (
 		<div style={styles.container}>
@@ -881,11 +867,68 @@ function IPhoneLegacyPortrait(props: PropsWithChildren<IIosMockupVariantProps>) 
 			<div style={styles.lowerBezel}>
 				<div style={styles.homeButoon} />
 			</div>
+			{!frameOnly && (
+				<>
+					<div style={styles.silenceSwitch} />
+					<div style={styles.volumeUp} />
+					<div style={styles.volumeDown} />
+					<div style={styles.power} />
+				</>
+			)}
+		</div>
+	);
+}
 
-			<div style={styles.silenceSwitch} />
-			<div style={styles.volumeUp} />
-			<div style={styles.volumeDown} />
-			<div style={styles.powerPortrait} />
+function IPhoneLegacyLandscape(props: PropsWithChildren<IIosMockupVariantProps>) {
+	const { screenWidth, frameColor, frameOnly, statusbarColor } = props;
+	const styles = useMemo(() => {
+		const getSizeWithRatio = (size: number) => {
+			const sizeRatio = Math.floor((screenWidth * size) / 667);
+			return Math.max(sizeRatio, 1);
+		};
+		const mHeight = Math.floor((screenWidth / 16) * 9);
+
+		return getLegacyStyles({
+			isLandscape: true,
+			getSizeWithRatio,
+			screenWidth,
+			mHeight,
+			frameColor,
+			statusbarColor,
+			frameOnly,
+		});
+	}, [screenWidth, frameColor, frameOnly, statusbarColor]);
+
+	return (
+		<div style={styles.container}>
+			<div style={styles.upperBezel}>
+				<div style={styles.camSpeakerCont}>
+					<div style={styles.speaker}>
+						<div style={styles.camera} />
+					</div>
+				</div>
+			</div>
+			{/* frame */}
+			<div style={styles.frame}>
+				{/* screen */}
+				<div style={styles.screen}>
+					{/* screen content */}
+					<div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
+						{props.children}
+					</div>
+				</div>
+			</div>
+			<div style={styles.lowerBezel}>
+				<div style={styles.homeButoon} />
+			</div>
+			{!frameOnly && (
+				<>
+					<div style={styles.silenceSwitch} />
+					<div style={styles.volumeUp} />
+					<div style={styles.volumeDown} />
+					<div style={styles.power} />
+				</>
+			)}
 		</div>
 	);
 }
