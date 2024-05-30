@@ -33,15 +33,32 @@ const getPackageInfo = (apiResult: IPackageInfoResp) => {
 	return packageInfo;
 };
 
+const ERROR_INFO: IPackageInfo = {
+	packageName: "🙁 something went wrong",
+	latestVer: "-",
+	versionDate: "-",
+	license: "-",
+	githubLink: "-",
+};
 const fetchReactPackage = () => {
+	const host =
+		process.env.NODE_ENV === "production"
+			? "https://registry.npmjs.org/react-device-mockup"
+			: "/react-device-mockup";
 	let reactInfo: IPackageInfo | undefined;
-	const suspender = fetch("/react-device-mockup").then(response => {
-		if (response.ok) {
-			response.json().then((res: IPackageInfoResp) => {
-				reactInfo = getPackageInfo(res);
-			});
-		}
-	});
+	const suspender = fetch(host)
+		.then(response => {
+			if (response.ok) {
+				response.json().then((res: IPackageInfoResp) => {
+					reactInfo = getPackageInfo(res);
+				});
+			} else {
+				reactInfo = ERROR_INFO;
+			}
+		})
+		.catch(() => {
+			reactInfo = ERROR_INFO;
+		});
 
 	return {
 		read: () => {
@@ -55,22 +72,24 @@ const fetchReactPackage = () => {
 };
 
 const fetchRnPackage = () => {
+	const host =
+		process.env.NODE_ENV === "production"
+			? "https://registry.npmjs.org/react-native-device-mockup"
+			: "/react-native-device-mockup";
 	let reactInfo: IPackageInfo | undefined;
-	const suspender = fetch("/react-native-device-mockup").then(response => {
-		if (response.ok) {
-			response.json().then((res: IPackageInfoResp) => {
-				reactInfo = getPackageInfo(res);
-			});
-		} else {
-			reactInfo = {
-				packageName: "🙁 something went wrong",
-				latestVer: "-",
-				versionDate: "-",
-				license: "-",
-				githubLink: "-",
-			};
-		}
-	});
+	const suspender = fetch(host)
+		.then(response => {
+			if (response.ok) {
+				response.json().then((res: IPackageInfoResp) => {
+					reactInfo = getPackageInfo(res);
+				});
+			} else {
+				reactInfo = ERROR_INFO;
+			}
+		})
+		.catch(() => {
+			reactInfo = ERROR_INFO;
+		});
 
 	return {
 		read: () => {

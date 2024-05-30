@@ -1,5 +1,5 @@
-import React from "react";
 import { Property } from "csstype";
+import React from "react";
 
 export interface IAndroidMockupVariantProps {
 	readonly screenWidth: number;
@@ -7,10 +7,12 @@ export interface IAndroidMockupVariantProps {
 	readonly screenRounded: boolean;
 	/** default: "#666666" */
 	readonly frameColor: Property.Color;
+	/** default: false */
+	readonly frameOnly: boolean;
 	/** default: "#CCCCCC" */
 	readonly statusbarColor: Property.Color;
 	/** default: "#CCCCCC" */
-	readonly navigationBarcolor: Property.Color;
+	readonly navigationBarColor: Property.Color;
 	/** default: "swipe" */
 	readonly navigationBar: "swipe" | "bhr" | "rhb";
 	/** default: false */
@@ -25,6 +27,8 @@ export interface IIosMockupVariantProps {
 	readonly screenWidth: number;
 	/** default: "#666666" */
 	readonly frameColor: Property.Color;
+	/** default: false */
+	readonly frameOnly: boolean;
 	/** default: "#CCCCCC" */
 	readonly statusbarColor: Property.Color;
 	/** default: false */

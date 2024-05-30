@@ -1,0 +1,9 @@
+{
+	"MD033": {
+		"allowed_elements": ["br"]
+	},
+	"MD013": {
+		"line_length": 100,
+		"tables": false
+	}
+}

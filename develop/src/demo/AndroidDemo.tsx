@@ -3,14 +3,15 @@ import { useCallback, useMemo, useState } from "react";
 import ButtonGroup from "../components/ButtonGroup";
 import ColorButton from "../components/ColorButton";
 import InputButton from "../components/InputButton";
-// import { AndroidMockup, AndroidTabMockup } from "../dist";
-import { AndroidMockup, AndroidTabMockup } from "react-device-mockup";
+import { AndroidMockup, AndroidTabMockup } from "../dist";
+// import { AndroidMockup, AndroidTabMockup } from "react-device-mockup";
 import CodeBlock from "./CodeBlock";
 import ScreenDemo from "./ScreenDemo";
 import demoStyle from "./demo.module.css";
 
 interface IAndroidDemoProps {
 	readonly mode: "phone" | "tab";
+	readonly showDemo: boolean;
 }
 export default function AndroidDemo(props: IAndroidDemoProps) {
 	const DEFAULT_SCREEN_WIDTH = 200;
@@ -22,9 +23,10 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 	const [isLandscape, setIsLandscape] = useState(false);
 	const [hideStatusBar, setHideStatusBar] = useState(false);
 	const [frameColor, setFrameColor] = useState<Property.Color>(DEFAULT_FRAME_COLOR);
+	const [frameOnly, setFrameOnly] = useState<boolean>(false);
 	const [statusbarColor, setStatusbarColor] = useState<Property.Color>(DEFAULT_STATUS_BAR_COLOR);
 	const [navBar, setNavBar] = useState<"swipe" | "bhr" | "rhb">("swipe");
-	const [navBarcolor, setNavBarcolor] = useState<Property.Color>(DEFAULT_STATUS_BAR_COLOR);
+	const [navBarColor, setNavBarColor] = useState<Property.Color>(DEFAULT_STATUS_BAR_COLOR);
 	const [transparentNavBar, setTransparentNavBar] = useState<boolean>(false);
 	const [hideNavBar, setHideNavBar] = useState<boolean>(false);
 	const [transparentCamArea, setTransparentCamArea] = useState<boolean>(false);
@@ -37,9 +39,10 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 		setIsLandscape(false);
 		setHideStatusBar(false);
 		setFrameColor(DEFAULT_FRAME_COLOR);
+		setFrameOnly(false);
 		setStatusbarColor(DEFAULT_STATUS_BAR_COLOR);
 		setNavBar("swipe");
-		setNavBarcolor(DEFAULT_STATUS_BAR_COLOR);
+		setNavBarColor(DEFAULT_STATUS_BAR_COLOR);
 		setTransparentNavBar(false);
 		setHideNavBar(false);
 		setTransparentCamArea(false);
@@ -62,6 +65,10 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 			code += `\n  frameColor={"${frameColor}"}`;
 		}
 
+		if (frameOnly) {
+			code += `\n  frameOnly`;
+		}
+
 		if (statusbarColor !== DEFAULT_STATUS_BAR_COLOR) {
 			code += `\n  statusbarColor={"${statusbarColor}"}`;
 		}
@@ -74,8 +81,8 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 			code += `\n  navBar={"${navBar}"}`;
 		}
 
-		if (navBarcolor !== DEFAULT_STATUS_BAR_COLOR) {
-			code += `\n  navBarcolor={"${navBarcolor}"}`;
+		if (navBarColor !== DEFAULT_STATUS_BAR_COLOR) {
+			code += `\n  navBarColor={"${navBarColor}"}`;
 		}
 
 		if (transparentNavBar) {
@@ -104,10 +111,11 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 		isLandscape,
 		noRoundedScreen,
 		frameColor,
+		frameOnly,
 		statusbarColor,
 		hideStatusBar,
 		navBar,
-		navBarcolor,
+		navBarColor,
 		transparentNavBar,
 		hideNavBar,
 		transparentCamArea,
@@ -115,7 +123,9 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 	]);
 
 	return (
-		<div className={demoStyle.flexRowWrap} style={{ justifyContent: "center" }}>
+		<div
+			className={demoStyle.flexRowWrap}
+			style={{ justifyContent: "center", display: props.showDemo ? "flex" : "none" }}>
 			<div className={demoStyle.flexBox} style={{ display: "flex" }}>
 				{props.mode === "phone" && (
 					<AndroidMockup
@@ -123,10 +133,11 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 						isLandscape={isLandscape}
 						noRoundedScreen={noRoundedScreen}
 						frameColor={frameColor}
+						frameOnly={frameOnly}
 						statusbarColor={statusbarColor}
 						hideStatusBar={hideStatusBar}
 						navBar={navBar}
-						navBarcolor={navBarcolor}
+						navBarColor={navBarColor}
 						transparentNavBar={transparentNavBar}
 						hideNavBar={hideNavBar}
 						transparentCamArea={transparentCamArea}>
@@ -141,10 +152,11 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 						isLandscape={isLandscape}
 						noRoundedScreen={noRoundedScreen}
 						frameColor={frameColor}
+						frameOnly={frameOnly}
 						statusbarColor={statusbarColor}
 						hideStatusBar={hideStatusBar}
 						navBar={navBar}
-						navBarcolor={navBarcolor}
+						navBarColor={navBarColor}
 						transparentNavBar={transparentNavBar}
 						hideNavBar={hideNavBar}>
 						{showScreenDemo && (
@@ -163,9 +175,7 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 					onClick={resetAll}
 				/>
 				<h3 className={demoStyle.cardTitle}>Common</h3>
-				<div
-					className={`${demoStyle.card} ${demoStyle.flexColWrap}`}
-					style={{ paddingTop: 8 }}>
+				<div className={`${demoStyle.card} ${demoStyle.flexColWrap} ${demoStyle.pt8}`}>
 					<div className={`${demoStyle.flexRowWrap} ${demoStyle.flexAlignEnd}`}>
 						<InputButton
 							className={demoStyle["mt8mr30"]}
@@ -200,21 +210,6 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 							]}
 						/>
 					</div>
-					<div className={demoStyle.flexAlignEnd + " " + demoStyle["mt8mr30"]}>
-						<InputButton
-							label="frameColor"
-							inputType="text"
-							defaultVal={DEFAULT_FRAME_COLOR}
-							placeholder="frameColor"
-							onClickSubmit={inputVal => {
-								setFrameColor(inputVal);
-							}}
-						/>
-						<span
-							className={demoStyle.colorSample}
-							style={{ backgroundColor: frameColor }}
-						/>
-					</div>
 					<div className={demoStyle.flexRowWrap}>
 						<ColorButton
 							label="isLandscape"
@@ -240,10 +235,36 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 					</div>
 				</div>
 
+				<h3 className={demoStyle.cardTitle}>Frame</h3>
+				<div
+					className={`${demoStyle.card} ${demoStyle.flexRowWrap} ${demoStyle.flexAlignEnd} ${demoStyle.pt8}`}>
+					<div className={demoStyle.flexAlignEnd + " " + demoStyle["mt8mr30"]}>
+						<InputButton
+							label="frameColor"
+							inputType="text"
+							defaultVal={DEFAULT_FRAME_COLOR}
+							placeholder="frameColor"
+							onClickSubmit={inputVal => {
+								setFrameColor(inputVal);
+							}}
+						/>
+						<span
+							className={demoStyle.colorSample}
+							style={{ backgroundColor: frameColor }}
+						/>
+					</div>
+					<ColorButton
+						label="frameOnly"
+						isActive={frameOnly}
+						showIcon
+						className={demoStyle["mt16mr16"]}
+						onClick={() => setFrameOnly(prev => !prev)}
+					/>
+				</div>
+
 				<h3 className={demoStyle.cardTitle}>Statusbar</h3>
 				<div
-					className={`${demoStyle.card} ${demoStyle.flexRowWrap} ${demoStyle.flexAlignEnd}`}
-					style={{ paddingTop: 8 }}>
+					className={`${demoStyle.card} ${demoStyle.flexRowWrap} ${demoStyle.flexAlignEnd} ${demoStyle.pt8}`}>
 					<div className={demoStyle.flexAlignEnd + " " + demoStyle["mt8mr30"]}>
 						<InputButton
 							label="statusbarColor"
@@ -269,9 +290,7 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 				</div>
 
 				<h3 className={demoStyle.cardTitle}>Navigation Bar</h3>
-				<div
-					className={`${demoStyle.card} ${demoStyle.flexColWrap}`}
-					style={{ paddingTop: 8 }}>
+				<div className={`${demoStyle.card} ${demoStyle.flexColWrap} ${demoStyle.pt8}`}>
 					<div className={`${demoStyle.flexRowWrap} ${demoStyle.flexAlignEnd}`}>
 						<ButtonGroup
 							title="navBar"
@@ -296,17 +315,17 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 						/>
 						<div className={demoStyle.flexAlignEnd + " " + demoStyle["mt8mr30"]}>
 							<InputButton
-								label="navBarcolor"
+								label="navBarColor"
 								inputType="text"
 								defaultVal={DEFAULT_STATUS_BAR_COLOR}
-								placeholder="navBarcolor"
+								placeholder="navBarColor"
 								onClickSubmit={inputVal => {
-									setNavBarcolor(inputVal);
+									setNavBarColor(inputVal);
 								}}
 							/>
 							<span
 								className={demoStyle.colorSample}
-								style={{ backgroundColor: navBarcolor }}
+								style={{ backgroundColor: navBarColor }}
 							/>
 						</div>
 					</div>
@@ -339,7 +358,12 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 				{props.mode === "phone" && (
 					<div
 						className={demoStyle.subLabel}
-						style={{ display: "initial", marginLeft: 16, marginTop: 4 }}>
+						style={{
+							display: "initial",
+							marginLeft: 16,
+							marginTop: 4,
+							textAlign: "center",
+						}}>
 						⚠️ <code className={demoStyle.code}>transparentCamArea</code> only works
 						when
 						<code className={demoStyle.code}> isLandscape=true</code>
