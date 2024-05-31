@@ -113,22 +113,23 @@ return (
 
 You can check [demo](#demo-android)
 
-| prop               | Required | Type | Default | Description |
-| ------------------ | :------: |----- | ------- | ----------- |
-| screenWidth        | O        | `number` | | Width of mockup screen<br> [details](#screenwidth) |
-| noRoundedScreen    | X        | `boolean` | `false` | Do not use rounded corners. |
-| isLandscape        | X        | `boolean` | `false` | portrait or landscape<br>`false` means portrait |
-| containerStlye     | X        | `ViewStyle` | | Styles for mockup container |
-| frameColor         | X        | `ColorValue` | `"#666666"` | Color of Frame |
-| frameOnly          | X        | `boolean` | `false` | Only the frame is shown.<br>Power button and volume buttons are hidden |
-| statusbarColor     | X        | `ColorValue` | `"#CCCCCC"` | Color of status bar |
-| hideStatusBar      | X        | `boolean`    | `false` | Hide the status bar<br>[details](#hidestatusbar) |
+| prop               | Required | Type             | Default     | Description |
+| ------------------ | :------: | ---------------- | ----------- | ----------- |
+| screenWidth        | O        | `number`         |             | Width of mockup screen<br> [details](#screenwidth) |
+| noRoundedScreen    | X        | `boolean`        | `false`     | No use rounded screen corners. |
+| isLandscape        | X        | `boolean`        | `false`     | portrait or landscape<br>`false` means portrait |
+| className          | X        | `string`         |             | class name for mockup container |
+| containerStlye     | X        | `CSSProperties`  |             | Styles for mockup container |
+| frameColor         | X        | `Property.Color` | `"#666666"` | Color of Frame |
+| frameOnly          | X        | `boolean`        | `false`     | Only the frame is shown.<br>Power button and volume buttons are hidden |
+| statusbarColor     | X        | `Property.Color` | `"#CCCCCC"` | Color of status bar |
+| hideStatusBar      | X        | `boolean`        | `false`     | Hide the status bar<br>[details](#hidestatusbar) |
 | navBar             | X        | `"swipe"`<br>`"bhr"`<br>`"rhb"` | `"swipe"` | Type of navigation bar<br>[details](#navbar) |
-| navBarColor        | X        | `ColorValue` | `"#CCCCCC"` | Color of navigation bar |
-| transparentNavBar  | X        | `boolean` | `false` | Make the navigation bar transparent.<br>[details](#transparentnavbar) |
-| hideNavBar         | X        | `boolean` | `false` | Hide the navigation bar<br>[details](#hidenavbar) |
-| transparentCamArea | X        | `boolean` | `false` | *NOTE: AndroidMockup only.*<br>Make the area around the camera transparent.<br>Only works when `isLandscape=true`.<br>[details](#transparentcamarea) |
-| children           | X        | `ReactNode` |  | Components to be rendered on the mockup screen |
+| navBarColor        | X        | `Property.Color` | `"#CCCCCC"` | Color of navigation bar |
+| transparentNavBar  | X        | `boolean`        | `false`     | Make the navigation bar transparent.<br>[details](#transparentnavbar) |
+| hideNavBar         | X        | `boolean`        | `false`     | Hide the navigation bar<br>[details](#hidenavbar) |
+| transparentCamArea | X        | `boolean`        | `false`     | *NOTE: AndroidMockup only.*<br>Make the area around the camera transparent.<br>Only works when `isLandscape=true`.<br>[details](#transparentcamarea) |
+| children           | X        | `ReactNode`      |             | Components to be rendered on the mockup screen |
 
 <br>
 
@@ -136,20 +137,21 @@ You can check [demo](#demo-android)
 
 You can check [demo](#demo-ios)
 
-| prop  | Required | Type | Default | Description |
-| ----- | :------: |----- | ------- | ----------- |
-| screenWidth | O | `number` | | Width of mockup screen<br> [details](#screenwidth) |
-| screenType | X | `"legacy"`<br>`"notch"`<br>`"island"` | `"island"` | *for IPhoneMokcup*<br>`"legacy"`: Classic iphone such as iPhone SE3<br>`"notch"`: Notched iPhone such as iPhone 14<br>`"island"`: Dynamic island iPhone such as iPhone 15 Pro |
-| screenType | X | `"legacy"`<br>`"modern"` | `"modern"` | *for IPadMockup*<br>`"legacy"`: Classic iPad such as iPad 9th<br>`"modern"`: Modern iPad such as iPad Pro 13' |
-| isLandscape | X | `boolean` | `false` | portrait or landscape<br>`false` means portrait |
-| containerStlye | X | `ViewStyle` | | Styles for mockup container |
-| frameColor | X | `ColorValue` | `"#666666"` | Color of Frame |
-| frameOnly          | X        | `boolean` | `false` | Only the frame is shown.<br>Power button and volume buttons are hidden |
-| statusbarColor | X | `ColorValue` | `"#CCCCCC"` | Color of status bar |
-| hideStatusBar | X | `boolean` | `false` | Hide the status bar<br>[details](#hidestatusbar) |
-| transparentNavBar | X | `boolean` | `false` | Make the navigation bar transparent.<br>[details](#transparentnavbar) |
-| hideNavBar | X | `boolean` | `false` | Hide the navigation bar<br>[details](#hidenavbar) |
-| children | X | `ReactNode` |  | Components to be rendered on the mockup screen |
+| prop              | Required | Type             | Default     | Description |
+| ----------------- | :------: | ---------------- | ----------- | ----------- |
+| screenWidth       | O        | `number`         |             | Width of mockup screen<br> [details](#screenwidth) |
+| screenType        | X        | `"legacy"`<br>`"notch"`<br>`"island"` | `"island"` | *for IPhoneMokcup*<br>`"legacy"`: Classic iphone such as iPhone SE3<br>`"notch"`: Notched iPhone such as iPhone 14<br>`"island"`: Dynamic island iPhone such as iPhone 15 Pro |
+| screenType        | X        | `"legacy"`<br>`"modern"` | `"modern"` | *for IPadMockup*<br>`"legacy"`: Classic iPad such as iPad 9th<br>`"modern"`: Modern iPad such as iPad Pro 13-inch |
+| isLandscape       | X        | `boolean`        | `false`     | portrait or landscape<br>`false` means portrait |
+| className         | X        | `string`         |             | class name for mockup container |
+| containerStlye    | X        | `CSSProperties`  |             | Styles for mockup container |
+| frameColor        | X        | `Property.Color` | `"#666666"` | Color of Frame |
+| frameOnly         | X        | `boolean`        | `false`     | Only the frame is shown.<br>Power button and volume buttons are hidden |
+| statusbarColor    | X        | `Property.Color` | `"#CCCCCC"` | Color of status bar |
+| hideStatusBar     | X        | `boolean`        | `false`     | Hide the status bar<br>[details](#hidestatusbar) |
+| transparentNavBar | X        | `boolean`        | `false`     | Make the navigation bar transparent.<br>[details](#transparentnavbar) |
+| hideNavBar        | X        | `boolean`        | `false`     | Hide the navigation bar<br>[details](#hidenavbar) |
+| children          | X        | `ReactNode`      |             | Components to be rendered on the mockup screen |
 
 #### screenWidth
 
