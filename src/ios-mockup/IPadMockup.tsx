@@ -22,6 +22,7 @@ interface IiPadMockupProps {
 	 * @description portrait or landscape. `false` means portrait
 	 */
 	readonly isLandscape?: boolean;
+	readonly className?: string;
 	/** Styles for mockup container */
 	readonly containerStlye?: CSSProperties;
 	/**
@@ -98,7 +99,7 @@ export default function IPadMockup(props: IPadMockupProps) {
 	}, [isLandscape, screenType]);
 
 	return (
-		<div style={props.containerStlye}>
+		<div className={props.className} style={props.containerStlye}>
 			<Mockup
 				screenWidth={screenWidth}
 				frameColor={frameColor}

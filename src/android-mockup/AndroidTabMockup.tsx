@@ -19,6 +19,7 @@ interface IAndroidTabMockupProps {
 	 * @description portrait or landscape. `false` means portrait
 	 */
 	readonly isLandscape?: boolean;
+	readonly className?: string;
 	/** Styles for mockup container */
 	readonly containerStlye?: CSSProperties;
 	/**
@@ -91,7 +92,7 @@ export default function AndroidTabMockup(props: AndroidTabMockupProps) {
 	} = props;
 
 	return (
-		<div style={props.containerStlye}>
+		<div className={props.className} style={props.containerStlye}>
 			{isLandscape ? (
 				// eslint-disable-next-line no-use-before-define
 				<AndroidTabLandscape
