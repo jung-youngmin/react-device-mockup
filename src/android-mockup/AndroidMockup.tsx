@@ -133,7 +133,6 @@ const getStyles = (
 		frame: {
 			display: "flex",
 			flexDirection: "column",
-			backgroundColor: frameColor,
 			borderRadius: screenRounded ? getSizeWithRatio(140) : getSizeWithRatio(30),
 			borderStyle: "solid",
 			borderWidth: FRAME_WIDTH,
@@ -147,7 +146,7 @@ const getStyles = (
 			position: "relative",
 			width: screenWidth,
 			height: mHeight,
-			backgroundColor: "whitesmoke",
+			backgroundColor: "transparent",
 			overflow: "hidden",
 		},
 		statusbar: {
