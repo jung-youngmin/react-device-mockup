@@ -1,5 +1,16 @@
 # react-device-mockup
 
+![Static Badge](https://img.shields.io/badge/React-blue?style=for-the-badge&logo=react)
+![Static Badge](https://img.shields.io/badge/demo-react--device--mockup-blue?style=for-the-badge&logo=createreactapp&link=https%3A%2F%2Fjung-youngmin.github.io%2Freact-device-mockup-demo%2F)
+
+![GitHub Tag](https://img.shields.io/github/v/tag/jung-youngmin/react-device-mockup?include_prereleases&style=for-the-badge&logo=github&link=https%3A%2F%2Fgithub.com%2Fjung-youngmin%2Freact-device-mockup)
+![NPM Version](https://img.shields.io/npm/v/react-device-mockup?style=for-the-badge&logo=npm&link=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Freact-device-mockup)
+![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/react-device-mockup?style=for-the-badge&logo=npm&link=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Freact-device-mockup)
+
+![Static Badge](https://img.shields.io/badge/repo-Github-black?style=for-the-badge&logo=github&link=https%3A%2F%2Fgithub.com%2Fjung-youngmin%2Freact-device-mockup)
+![GitHub top language](https://img.shields.io/github/languages/top/jung-youngmin/react-device-mockup?style=for-the-badge&logo=Typescript)
+![GitHub License](https://img.shields.io/github/license/jung-youngmin/react-device-mockup?style=for-the-badge&logo=github&link=https%3A%2F%2Fgithub.com%2Fjung-youngmin%2Freact-device-mockup)
+
 You can check out the
 [🌐 full-demo-here](https://jung-youngmin.github.io/react-device-mockup-demo/)  
 Package for **React Native** is [🌐 here](https://github.com/jung-youngmin/react-native-device-mockup)
