@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import { Property } from "csstype";
 import { CSSProperties, PropsWithChildren, useMemo } from "react";
 import { IIosMockupVariantProps, StyleSheet } from "../shared-types/variants-interface";
@@ -44,18 +45,14 @@ export default function IPadMockup(props: IPadMockupProps) {
 				// hideNavigationBar,
 				// transparentNavigationBar,
 				if (isLandscape) {
-					// eslint-disable-next-line no-use-before-define
 					return IPadLegacyLandscape;
 				}
-				// eslint-disable-next-line no-use-before-define
 				return IPadLegacyPortrait;
 			case "modern":
 			default:
 				if (isLandscape) {
-					// eslint-disable-next-line no-use-before-define
 					return IPadModernLandscape;
 				}
-				// eslint-disable-next-line no-use-before-define
 				return IPadModernPortrait;
 		}
 	}, [isLandscape, screenType]);
@@ -120,9 +117,9 @@ const getStyles = (param: IStyleParam) => {
 		pLeft = 0;
 		pTop = 0;
 	} else {
-		pTop = frameButtonSize - HALF_FRAME_WIDTH;
-		pRight = isLandscape ? 0 : frameButtonSize - HALF_FRAME_WIDTH;
-		pLeft = isLandscape ? frameButtonSize - HALF_FRAME_WIDTH : 0;
+		pTop = frameButtonSize - Math.floor(HALF_FRAME_WIDTH / 1.5);
+		pRight = isLandscape ? 0 : frameButtonSize - Math.floor(HALF_FRAME_WIDTH / 1.5);
+		pLeft = isLandscape ? frameButtonSize - Math.floor(HALF_FRAME_WIDTH / 1.5) : 0;
 	}
 
 	return StyleSheet.create({
@@ -141,7 +138,6 @@ const getStyles = (param: IStyleParam) => {
 			display: "flex",
 			flexDirection: "column",
 			position: "relative",
-			backgroundColor: frameColor,
 			borderRadius: bezelRadius,
 			borderStyle: "solid",
 			borderWidth: FRAME_WIDTH,
@@ -154,7 +150,7 @@ const getStyles = (param: IStyleParam) => {
 			position: "relative",
 			width: screenWidth,
 			height: mHeight,
-			backgroundColor: "whitesmoke",
+			backgroundColor: "transparent",
 			overflow: "hidden",
 		},
 		notchContainer: {
@@ -397,7 +393,11 @@ const getLegacyStyles = (param: ILegacyStyleParam) => {
 			justifyContent: isLandscape ? "center" : "flex-start",
 			position: "relative",
 			boxSizing: "border-box",
-			backgroundColor: frameColor,
+			borderLeftWidth: FRAME_WIDTH,
+			borderLeftStyle: "solid",
+			borderRightWidth: FRAME_WIDTH,
+			borderRightStyle: "solid",
+			borderColor: frameColor,
 			width: isLandscape ? screenWidth : widthAndFrame,
 			height: isLandscape ? heightAndFrame : mHeight,
 			overflow: "hidden",
@@ -453,7 +453,7 @@ const getLegacyStyles = (param: ILegacyStyleParam) => {
 			position: "relative",
 			width: screenWidth,
 			height: mHeight,
-			backgroundColor: "whitesmoke",
+			backgroundColor: "transparent",
 			overflow: "hidden",
 		},
 		statusbar: {

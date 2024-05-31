@@ -1,5 +1,5 @@
 import { Property } from "csstype";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import ButtonGroup from "../components/ButtonGroup";
 import ColorButton from "../components/ColorButton";
 import InputButton from "../components/InputButton";
@@ -12,6 +12,7 @@ import demoStyle from "./demo.module.css";
 interface IAndroidDemoProps {
 	readonly mode: "phone" | "tab";
 	readonly showDemo: boolean;
+	readonly onPressPng: (ref: React.RefObject<HTMLDivElement>) => void;
 }
 export default function AndroidDemo(props: IAndroidDemoProps) {
 	const DEFAULT_SCREEN_WIDTH = 200;
@@ -122,58 +123,85 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 		showScreenDemo,
 	]);
 
+	const ref = useRef<HTMLDivElement>(null);
+
 	return (
 		<div
 			className={demoStyle.flexRowWrap}
 			style={{ justifyContent: "center", display: props.showDemo ? "flex" : "none" }}>
-			<div className={demoStyle.flexBox} style={{ display: "flex" }}>
-				{props.mode === "phone" && (
-					<AndroidMockup
-						screenWidth={screenWidth}
-						isLandscape={isLandscape}
-						noRoundedScreen={noRoundedScreen}
-						frameColor={frameColor}
-						frameOnly={frameOnly}
-						statusbarColor={statusbarColor}
-						hideStatusBar={hideStatusBar}
-						navBar={navBar}
-						navBarColor={navBarColor}
-						transparentNavBar={transparentNavBar}
-						hideNavBar={hideNavBar}
-						transparentCamArea={transparentCamArea}>
-						{showScreenDemo && (
-							<ScreenDemo screenWidth={screenWidth} isLandscape={isLandscape} />
-						)}
-					</AndroidMockup>
-				)}
-				{props.mode === "tab" && (
-					<AndroidTabMockup
-						screenWidth={screenWidth}
-						isLandscape={isLandscape}
-						noRoundedScreen={noRoundedScreen}
-						frameColor={frameColor}
-						frameOnly={frameOnly}
-						statusbarColor={statusbarColor}
-						hideStatusBar={hideStatusBar}
-						navBar={navBar}
-						navBarColor={navBarColor}
-						transparentNavBar={transparentNavBar}
-						hideNavBar={hideNavBar}>
-						{showScreenDemo && (
-							<ScreenDemo screenWidth={screenWidth} isLandscape={isLandscape} />
-						)}
-					</AndroidTabMockup>
-				)}
+			<div
+				className={demoStyle.flexBox}
+				style={{ display: "flex", alignItems: "flex-start" }}>
+				<div ref={ref}>
+					{props.mode === "phone" && (
+						<AndroidMockup
+							screenWidth={screenWidth}
+							isLandscape={isLandscape}
+							noRoundedScreen={noRoundedScreen}
+							frameColor={frameColor}
+							frameOnly={frameOnly}
+							statusbarColor={statusbarColor}
+							hideStatusBar={hideStatusBar}
+							navBar={navBar}
+							navBarColor={navBarColor}
+							transparentNavBar={transparentNavBar}
+							hideNavBar={hideNavBar}
+							transparentCamArea={transparentCamArea}>
+							{showScreenDemo && (
+								<ScreenDemo screenWidth={screenWidth} isLandscape={isLandscape} />
+							)}
+						</AndroidMockup>
+					)}
+					{props.mode === "tab" && (
+						<AndroidTabMockup
+							screenWidth={screenWidth}
+							isLandscape={isLandscape}
+							noRoundedScreen={noRoundedScreen}
+							frameColor={frameColor}
+							frameOnly={frameOnly}
+							statusbarColor={statusbarColor}
+							hideStatusBar={hideStatusBar}
+							navBar={navBar}
+							navBarColor={navBarColor}
+							transparentNavBar={transparentNavBar}
+							hideNavBar={hideNavBar}>
+							{showScreenDemo && (
+								<ScreenDemo screenWidth={screenWidth} isLandscape={isLandscape} />
+							)}
+						</AndroidTabMockup>
+					)}
+				</div>
 			</div>
 			{/* control panel */}
 			<div className={`${demoStyle.flexColWrap} ${demoStyle.flexBox}`}>
-				<ColorButton
-					label="Reset All"
-					isActive={false}
-					showIcon={false}
-					style={{ paddingTop: 8, paddingBottom: 8 }}
-					onClick={resetAll}
-				/>
+				<div className={demoStyle.flexRowWrap}>
+					<ColorButton
+						label="Reset All"
+						isActive={false}
+						showIcon={false}
+						style={{
+							flex: 1,
+							paddingTop: 8,
+							paddingBottom: 8,
+							justifyContent: "center",
+							marginRight: 8,
+						}}
+						onClick={resetAll}
+					/>
+					<ColorButton
+						label="Download Png"
+						isActive
+						showIcon={false}
+						style={{
+							flex: 1,
+							paddingTop: 8,
+							paddingBottom: 8,
+							justifyContent: "center",
+							marginLeft: 8,
+						}}
+						onClick={() => props.onPressPng(ref)}
+					/>
+				</div>
 				<h3 className={demoStyle.cardTitle}>Common</h3>
 				<div className={`${demoStyle.card} ${demoStyle.flexColWrap} ${demoStyle.pt8}`}>
 					<div className={`${demoStyle.flexRowWrap} ${demoStyle.flexAlignEnd}`}>
