@@ -21,18 +21,6 @@ interface IPackageInfo {
 	readonly githubLink: string;
 }
 
-const getPackageInfo = (apiResult: IPackageInfoResp) => {
-	const { name, time, license, homepage, "dist-tags": distTags } = apiResult;
-	const packageInfo: IPackageInfo = {
-		packageName: "✅ " + name,
-		latestVer: distTags.latest,
-		versionDate: time.modified,
-		license,
-		githubLink: homepage,
-	};
-	return packageInfo;
-};
-
 const ERROR_INFO: IPackageInfo = {
 	packageName: "🙁 something went wrong",
 	latestVer: "-",
@@ -40,6 +28,23 @@ const ERROR_INFO: IPackageInfo = {
 	license: "-",
 	githubLink: "-",
 };
+
+const getPackageInfo = (apiResult: IPackageInfoResp) => {
+	try {
+		const { name, time, license, homepage, "dist-tags": distTags } = apiResult;
+		const packageInfo: IPackageInfo = {
+			packageName: "✅ " + name,
+			latestVer: distTags.latest,
+			versionDate: time.modified,
+			license,
+			githubLink: homepage,
+		};
+		return packageInfo;
+	} catch {
+		return ERROR_INFO;
+	}
+};
+
 const fetchReactPackage = () => {
 	const host =
 		process.env.NODE_ENV === "production"
