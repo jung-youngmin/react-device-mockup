@@ -1,10 +1,11 @@
 import { Property } from "csstype";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { CSSProperties, useCallback, useMemo, useRef, useState } from "react";
 import ButtonGroup from "../components/ButtonGroup";
 import ColorButton from "../components/ColorButton";
 import InputButton from "../components/InputButton";
 import { IPadMockup, IPhoneMockup } from "../dist";
 // import { IPadMockup, IPhoneMockup } from "react-device-mockup";
+import MyImgCard from "../components/MyImgCard";
 import CodeBlock from "./CodeBlock";
 import ScreenDemo from "./ScreenDemo";
 import demoStyle from "./demo.module.css";
@@ -31,6 +32,10 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 	const [hideNavBar, setHideNavBar] = useState<boolean>(false);
 
 	const [showScreenDemo, setShowScreenDemo] = useState<boolean>(false);
+	const [imgDemo, setImgDemo] = useState<string | ArrayBuffer | null>(null);
+	const [imgDemoResizeMode, setImgDemoResizeMode] = useState<
+		"fill" | "contain" | "cover" | "none" | "scale-down"
+	>("fill");
 
 	const resetAll = useCallback(() => {
 		setScreenWidth(DEFAULT_SCREEN_WIDTH);
@@ -44,6 +49,8 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 		setTransparentNavBar(false);
 		setHideNavBar(false);
 		setShowScreenDemo(false);
+		setImgDemo(null);
+		setImgDemoResizeMode("fill");
 	}, []);
 
 	const samplecode = useMemo(() => {
@@ -111,6 +118,71 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 
 	const ref = useRef<HTMLDivElement>(null);
 
+	const onChangeImg = useCallback((img: string | ArrayBuffer | null) => {
+		setImgDemo(img);
+	}, []);
+
+	const onChangeResizeMode = useCallback(
+		(resizeMode: "fill" | "contain" | "cover" | "none" | "scale-down") => {
+			setImgDemoResizeMode(resizeMode);
+		},
+		[],
+	);
+
+	const [imgPosition, setImgPosition] = useState<CSSProperties>({});
+	const onPressArrow = useCallback((direction: "up" | "bottom" | "left" | "right" | "reset") => {
+		switch (direction) {
+			case "up":
+				setImgPosition(prev => {
+					if (prev.top === undefined) {
+						prev.top = -1;
+					} else {
+						prev.top = Number(prev.top) - 1;
+					}
+					return { ...prev };
+				});
+				break;
+			case "bottom":
+				setImgPosition(prev => {
+					if (prev.top === undefined) {
+						prev.top = 1;
+					} else {
+						prev.top = Number(prev.top) + 1;
+					}
+					return { ...prev };
+				});
+				break;
+			case "left":
+				setImgPosition(prev => {
+					if (prev.left === undefined) {
+						prev.left = -1;
+					} else {
+						prev.left = Number(prev.left) - 1;
+					}
+					return { ...prev };
+				});
+				break;
+			case "right":
+				setImgPosition(prev => {
+					if (prev.left === undefined) {
+						prev.left = 1;
+					} else {
+						prev.left = Number(prev.left) + 1;
+					}
+					return { ...prev };
+				});
+				break;
+			case "reset":
+				setImgPosition({
+					top: 0,
+					bottom: 0,
+					left: 0,
+					right: 0,
+				});
+				break;
+		}
+	}, []);
+
 	return (
 		<div
 			className={demoStyle.flexRowWrap}
@@ -130,8 +202,20 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 							hideStatusBar={hideStatusBar}
 							transparentNavBar={transparentNavBar}
 							hideNavBar={hideNavBar}>
-							{showScreenDemo && (
+							{imgDemo === null && showScreenDemo && (
 								<ScreenDemo screenWidth={screenWidth} isLandscape={isLandscape} />
+							)}{" "}
+							{imgDemo !== null && (
+								<img
+									src={imgDemo.toString()}
+									alt="your img demo"
+									style={{
+										position: "relative",
+										width: screenWidth,
+										objectFit: imgDemoResizeMode,
+										...imgPosition,
+									}}
+								/>
 							)}
 						</IPhoneMockup>
 					)}
@@ -146,8 +230,20 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 							hideStatusBar={hideStatusBar}
 							transparentNavBar={transparentNavBar}
 							hideNavBar={hideNavBar}>
-							{showScreenDemo && (
+							{imgDemo === null && showScreenDemo && (
 								<ScreenDemo screenWidth={screenWidth} isLandscape={isLandscape} />
+							)}
+							{imgDemo !== null && (
+								<img
+									src={imgDemo.toString()}
+									alt="your img demo"
+									style={{
+										position: "relative",
+										width: screenWidth,
+										objectFit: imgDemoResizeMode,
+										...imgPosition,
+									}}
+								/>
 							)}
 						</IPadMockup>
 					)}
@@ -279,7 +375,11 @@ export default function IosDemo(props: IIosDemoDemoProps) {
 						/>
 					</div>
 				</div>
-
+				<MyImgCard
+					onChangeImg={onChangeImg}
+					onChangeResizeMode={onChangeResizeMode}
+					onPressArrow={onPressArrow}
+				/>
 				<h3 className={demoStyle.cardTitle}>Frame</h3>
 				<div
 					className={`${demoStyle.card} ${demoStyle.flexRowWrap} ${demoStyle.flexAlignEnd}`}

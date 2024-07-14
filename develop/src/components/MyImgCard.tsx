@@ -1,14 +1,16 @@
-import { useCallback, useEffect, useState } from "react";
+import { CSSProperties, useCallback, useEffect, useRef, useState } from "react";
 import demoStyle from "../demo/demo.module.css";
 import ButtonGroup from "./ButtonGroup";
 import ColorButton from "./ColorButton";
 
 export interface IMyImgCardProps {
-	readonly uploadRef: React.RefObject<HTMLInputElement>;
+	// readonly uploadRef: React.RefObject<HTMLInputElement>;
+	// readonly imgRef: React.RefObject<HTMLImageElement>;
 	readonly onChangeImg: (img: string | ArrayBuffer | null) => void;
 	readonly onChangeResizeMode: (
 		resizeMode: "fill" | "contain" | "cover" | "none" | "scale-down",
 	) => void;
+	readonly onPressArrow: (direction: "up" | "bottom" | "left" | "right" | "reset") => void;
 }
 
 export default function MyImgCard(props: IMyImgCardProps) {
@@ -17,22 +19,34 @@ export default function MyImgCard(props: IMyImgCardProps) {
 		"fill" | "contain" | "cover" | "none" | "scale-down"
 	>("fill");
 
+	const uploadRef = useRef<HTMLInputElement>(null);
+
 	const saveImgFile = useCallback(() => {
-		if (props.uploadRef.current === null || props.uploadRef.current.files === null) {
+		if (uploadRef.current === null || uploadRef.current.files === null) {
 			return;
 		}
 
-		const file = props.uploadRef.current.files[0];
+		const file = uploadRef.current.files[0];
+		if (file === undefined) {
+			return;
+		}
+
 		const reader = new FileReader();
 		reader.readAsDataURL(file);
 		reader.onloadend = () => {
 			onChangeImg(reader.result);
 		};
-	}, [onChangeImg, props.uploadRef]);
+	}, [onChangeImg]);
 
 	useEffect(() => {
 		onChangeResizeMode(resizeMode);
 	}, [onChangeResizeMode, resizeMode]);
+
+	const arrowStyle: CSSProperties = {
+		width: 40,
+		height: 40,
+		justifyContent: "center",
+	};
 
 	return (
 		<div>
@@ -50,9 +64,9 @@ export default function MyImgCard(props: IMyImgCardProps) {
 				Your Photos only works in your local browser, ⚠️ It is{" "}
 				<strong>not transmitted or stored</strong> anywhere.
 			</div>
-			<div className={`${demoStyle.card} ${demoStyle.flexColWrap} ${demoStyle.pt8}`}>
+			<div className={`${demoStyle.card} ${demoStyle.flexColWrap}`}>
 				<input
-					ref={props.uploadRef}
+					ref={uploadRef}
 					style={{ display: "none" }}
 					type="file"
 					accept="image/*"
@@ -68,7 +82,7 @@ export default function MyImgCard(props: IMyImgCardProps) {
 						justifyContent: "center",
 					}}
 					onClick={() => {
-						props.uploadRef.current?.click();
+						uploadRef.current?.click();
 					}}
 				/>
 				<ButtonGroup
@@ -104,6 +118,66 @@ export default function MyImgCard(props: IMyImgCardProps) {
 						},
 					]}
 				/>
+				<div
+					style={{
+						width: 150,
+						height: 150,
+						backgroundColor: "#FCFCFC",
+						borderRadius: 30,
+						marginTop: 16,
+						display: "flex",
+						flexDirection: "column",
+						alignItems: "center",
+						justifyContent: "center",
+					}}>
+					<ColorButton
+						label="⬆️"
+						isActive={false}
+						showIcon={false}
+						style={arrowStyle}
+						onClick={() => props.onPressArrow("up")}
+					/>
+					<div
+						style={{
+							display: "flex",
+							flexDirection: "row",
+							marginTop: 8,
+							marginBottom: 8,
+						}}>
+						<ColorButton
+							label="⬅️"
+							isActive={false}
+							showIcon={false}
+							style={arrowStyle}
+							onClick={() => props.onPressArrow("left")}
+						/>
+						<ColorButton
+							label="🔵"
+							isActive={false}
+							showIcon={false}
+							style={{ ...arrowStyle, marginLeft: 8, marginRight: 8 }}
+							onClick={() => props.onPressArrow("reset")}
+						/>
+						<ColorButton
+							label="➡️"
+							isActive={false}
+							showIcon={false}
+							style={arrowStyle}
+							onClick={() => props.onPressArrow("right")}
+						/>
+					</div>
+					<ColorButton
+						label="⬇️"
+						isActive={false}
+						showIcon={false}
+						style={{
+							width: 40,
+							height: 40,
+							justifyContent: "center",
+						}}
+						onClick={() => props.onPressArrow("bottom")}
+					/>
+				</div>
 			</div>
 		</div>
 	);
