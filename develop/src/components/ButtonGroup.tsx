@@ -7,6 +7,7 @@ type TData = { label: string; isActive: boolean; onClick: () => void };
 interface IButtonGroupProps {
 	readonly buttonData: TData[];
 	readonly title: string;
+	readonly allowButtonWrap?: boolean;
 	readonly buttonSize?: number;
 	readonly style?: CSSProperties;
 	readonly className?: string;
@@ -67,7 +68,14 @@ export default function ButtonGroup(props: IButtonGroupProps) {
 	return (
 		<div className={props.className} style={{ ...props.style }}>
 			<div className={styles.subLabel}>{props.title}</div>
-			<div style={{ display: "flex" }}>{props.buttonData.map(renderButtons)}</div>
+			<div
+				style={{
+					display: "flex",
+					flexDirection: "row",
+					flexWrap: props.allowButtonWrap ? "wrap" : "nowrap",
+				}}>
+				{props.buttonData.map(renderButtons)}
+			</div>
 		</div>
 	);
 }

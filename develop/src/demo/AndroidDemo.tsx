@@ -5,6 +5,7 @@ import ColorButton from "../components/ColorButton";
 import InputButton from "../components/InputButton";
 import { AndroidMockup, AndroidTabMockup } from "../dist";
 // import { AndroidMockup, AndroidTabMockup } from "react-device-mockup";
+import MyImgCard from "../components/MyImgCard";
 import CodeBlock from "./CodeBlock";
 import ScreenDemo from "./ScreenDemo";
 import demoStyle from "./demo.module.css";
@@ -33,6 +34,10 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 	const [transparentCamArea, setTransparentCamArea] = useState<boolean>(false);
 
 	const [showScreenDemo, setShowScreenDemo] = useState<boolean>(false);
+	const [imgDemo, setImgDemo] = useState<string | ArrayBuffer | null>(null);
+	const [imgDemoResizeMode, setImgDemoResizeMode] = useState<
+		"fill" | "contain" | "cover" | "none" | "scale-down"
+	>("fill");
 
 	const resetAll = useCallback(() => {
 		setScreenWidth(DEFAULT_SCREEN_WIDTH);
@@ -48,6 +53,11 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 		setHideNavBar(false);
 		setTransparentCamArea(false);
 		setShowScreenDemo(false);
+		setImgDemo(null);
+
+		if (uploadRef.current !== null) {
+			uploadRef.current.value = "";
+		}
 	}, []);
 
 	const samplecode = useMemo(() => {
@@ -124,6 +134,18 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 	]);
 
 	const ref = useRef<HTMLDivElement>(null);
+	const uploadRef = useRef<HTMLInputElement>(null);
+
+	const onChangeImg = useCallback((img: string | ArrayBuffer | null) => {
+		setImgDemo(img);
+	}, []);
+
+	const onChangeResizeMode = useCallback(
+		(resizeMode: "fill" | "contain" | "cover" | "none" | "scale-down") => {
+			setImgDemoResizeMode(resizeMode);
+		},
+		[],
+	);
 
 	return (
 		<div
@@ -147,8 +169,18 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 							transparentNavBar={transparentNavBar}
 							hideNavBar={hideNavBar}
 							transparentCamArea={transparentCamArea}>
-							{showScreenDemo && (
+							{imgDemo === null && showScreenDemo && (
 								<ScreenDemo screenWidth={screenWidth} isLandscape={isLandscape} />
+							)}
+							{imgDemo !== null && (
+								<img
+									src={imgDemo.toString()}
+									alt="your img demo"
+									style={{
+										width: screenWidth,
+										objectFit: imgDemoResizeMode,
+									}}
+								/>
 							)}
 						</AndroidMockup>
 					)}
@@ -262,7 +294,11 @@ export default function AndroidDemo(props: IAndroidDemoProps) {
 						/>
 					</div>
 				</div>
-
+				<MyImgCard
+					uploadRef={uploadRef}
+					onChangeImg={onChangeImg}
+					onChangeResizeMode={onChangeResizeMode}
+				/>
 				<h3 className={demoStyle.cardTitle}>Frame</h3>
 				<div
 					className={`${demoStyle.card} ${demoStyle.flexRowWrap} ${demoStyle.flexAlignEnd} ${demoStyle.pt8}`}>
